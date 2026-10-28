@@ -1,0 +1,325 @@
+[
+    {
+        "name": "VRS_GR_RTCM3",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "IMAX_GREC_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "IMAX_GR_RTCM3",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "IMAX_GRE_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VRS_GRE_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VRS_GREC_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VRS_G_RTCM3",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "IMAX_G_RTCM3",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "NEAREST_G_RTCM3",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "NEAREST_GR_RTCM3",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "NEAREST_GRE_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL",
+        "country": "L",
+        "latitude": 49.66,
+        "longitude": 6.13,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "NEAREST_GREC_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "L",
+        "latitude": 49.66,
+        "longitude": 6.13,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "DGNSS_IMAX_RTCM2",
+        "format": "RTCM 2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "L",
+        "latitude": 49.66,
+        "longitude": 6.13,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "DGPS_IMAX_RTCM2",
+        "format": "RTCM 2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "L",
+        "latitude": 49.66,
+        "longitude": 6.13,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VRS_GR_CMR",
+        "format": "CMR",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VRS_GR_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "IMAX_GR_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "L",
+        "latitude": 50.13,
+        "longitude": 6.01,
+        "height": 1.0,
+        "network": "SPSLux",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "stream.spslux.lu",
+        "server_port": 5005,
+        "registration_address": "https://www.spslux.lu/SBC/spider-business-center",
+        "username": "register",
+        "password": "register"
+    }
+]

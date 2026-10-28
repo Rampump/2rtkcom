@@ -1,0 +1,3650 @@
+[
+    {
+        "name": "AZTP_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 33.45,
+        "longitude": -111.94,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "MAC_RTCM3",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 36.91,
+        "longitude": -111.46,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "IMAX_RTCM2",
+        "format": "RTCM 2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 36.91,
+        "longitude": -111.46,
+        "height": 1.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZ36_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 32.48,
+        "longitude": -111.21,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FERN_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 35.34,
+        "longitude": -112.45,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P015_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 34.26,
+        "longitude": -110.01,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "GCES_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 36.05,
+        "longitude": -112.13,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "IMAX_RTCM3",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 34.61,
+        "longitude": -112.46,
+        "height": 1.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VRS_RTCM3",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 34.61,
+        "longitude": -112.46,
+        "height": 1.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZST_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 33.17,
+        "longitude": -111.64,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VRS_CMR+",
+        "format": "CMR+",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 34.61,
+        "longitude": -112.46,
+        "height": 1.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZVA_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 31.95,
+        "longitude": -110.77,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZAM_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 31.73,
+        "longitude": -110.07,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBR_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 32.26,
+        "longitude": -110.8,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZAM_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 31.73,
+        "longitude": -111.07,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBR_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.26,
+        "longitude": -110.8,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZST_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.17,
+        "longitude": -111.64,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZVA_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 31.95,
+        "longitude": -110.77,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "KGMN_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 35.23,
+        "longitude": -114.0,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "KGMN_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 35.23,
+        "longitude": -114.0,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBH_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 35.11,
+        "longitude": -114.6,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBH_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 35.11,
+        "longitude": -114.6,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFL_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 35.18,
+        "longitude": -111.66,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFL_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 35.18,
+        "longitude": -111.66,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZRV_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 34.13,
+        "longitude": -109.28,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZRV_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 34.13,
+        "longitude": -109.28,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZPG_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 36.91,
+        "longitude": -111.46,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZPG_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 36.91,
+        "longitude": -111.46,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM3_NEAR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 36.91,
+        "longitude": -111.46,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFM_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 34.85,
+        "longitude": -114.6,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFM_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 34.85,
+        "longitude": -114.6,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZ36_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.48,
+        "longitude": -111.21,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZLQ_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 33.6,
+        "longitude": -113.63,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZLQ_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.6,
+        "longitude": -113.63,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZTP_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.45,
+        "longitude": -111.94,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FRED_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 36.99,
+        "longitude": -112.5,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PIMA_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.23,
+        "longitude": -111.02,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PIMA_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 32.23,
+        "longitude": -111.02,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P001_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 31.95,
+        "longitude": -112.8,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P003_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 32.72,
+        "longitude": -114.0,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P008_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 36.14,
+        "longitude": -111.13,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P011_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 36.15,
+        "longitude": -109.52,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P014_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 31.97,
+        "longitude": -111.1,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P796_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 32.5,
+        "longitude": -114.76,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "MSM5_NEAR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.34,
+        "longitude": -112.1,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P010_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 34.67,
+        "longitude": -113.73,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZTP_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.45,
+        "longitude": -111.94,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZST_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.17,
+        "longitude": -111.64,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZ36_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.48,
+        "longitude": -111.21,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZAM_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 31.73,
+        "longitude": -110.07,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBH_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 35.11,
+        "longitude": -114.6,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBR_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.26,
+        "longitude": -110.8,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFL_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 35.18,
+        "longitude": -111.66,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFM_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.85,
+        "longitude": -114.6,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZPG_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 36.91,
+        "longitude": -111.46,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "KGMN_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 35.23,
+        "longitude": -114.0,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZVA_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 31.95,
+        "longitude": -110.77,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZRV_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.13,
+        "longitude": -109.28,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PIMA_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.23,
+        "longitude": -111.02,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "GNPS_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 34.31,
+        "longitude": -114.19,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P004_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 34.78,
+        "longitude": -112.15,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PEFO_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 35.07,
+        "longitude": -109.78,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "SAGU_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 32.18,
+        "longitude": -110.74,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGC_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.96,
+        "longitude": -109.21,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGC_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 32.96,
+        "longitude": -109.21,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGC_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.96,
+        "longitude": -109.21,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZLQ_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.6,
+        "longitude": -113.63,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PEFO_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 35.07,
+        "longitude": -109.78,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "SAGU_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.18,
+        "longitude": -110.74,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZCS_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.66,
+        "longitude": -111.89,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZCS_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 33.66,
+        "longitude": -111.89,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZCS_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.66,
+        "longitude": -111.89,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VRS_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.61,
+        "longitude": -112.46,
+        "height": 1.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "IMAX_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.61,
+        "longitude": -112.46,
+        "height": 1.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZSF_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.8,
+        "longitude": -109.71,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZSF_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.8,
+        "longitude": -109.71,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZSF_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 32.8,
+        "longitude": -109.71,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGB_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.4,
+        "longitude": -110.77,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGB_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 33.4,
+        "longitude": -110.77,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGB_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.4,
+        "longitude": -110.77,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZUP_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.48,
+        "longitude": -111.62,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZUP_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 33.48,
+        "longitude": -111.62,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZUP_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.48,
+        "longitude": -111.62,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VRS_MSM4",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.61,
+        "longitude": -112.46,
+        "height": 1.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZYC_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 34.88,
+        "longitude": -114.15,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZYC_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.88,
+        "longitude": -114.15,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZYC_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 34.88,
+        "longitude": -114.15,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGV_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 35.25,
+        "longitude": -114.25,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGV_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 35.25,
+        "longitude": -114.25,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGV_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 35.25,
+        "longitude": -114.25,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZDS_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 35.53,
+        "longitude": -114.36,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZDS_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 35.53,
+        "longitude": -114.36,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZDS_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 35.53,
+        "longitude": -114.36,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "GCES_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 36.05,
+        "longitude": -112.13,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "GCES_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 36.05,
+        "longitude": -112.13,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZCS_RTCM31C",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 33.66,
+        "longitude": -111.89,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM3C_NEAR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 36.91,
+        "longitude": -111.46,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZYA_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.69,
+        "longitude": -114.6,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZYA_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 32.69,
+        "longitude": -114.6,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZYA_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.69,
+        "longitude": -114.6,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZYH_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.61,
+        "longitude": -112.46,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZYH_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 34.61,
+        "longitude": -112.46,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZYH_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 34.61,
+        "longitude": -112.46,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZSV_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.26,
+        "longitude": -111.24,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZSV_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 34.26,
+        "longitude": -111.24,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZSV_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 34.26,
+        "longitude": -111.24,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZLH_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.51,
+        "longitude": -114.35,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZLH_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 34.51,
+        "longitude": -114.35,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZLH_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 34.51,
+        "longitude": -114.35,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZP0_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.8,
+        "longitude": -112.08,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZP0_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.8,
+        "longitude": -112.08,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZP0_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 33.8,
+        "longitude": -112.08,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P001_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 31.95,
+        "longitude": -112.8,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P003_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.72,
+        "longitude": -114.0,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P004_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.78,
+        "longitude": -112.15,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P008_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 36.14,
+        "longitude": -111.13,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P010_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.67,
+        "longitude": -113.73,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P011_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 36.15,
+        "longitude": -109.52,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P014_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 31.97,
+        "longitude": -111.1,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P015_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.26,
+        "longitude": -110.01,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P796_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.5,
+        "longitude": -114.76,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FERN_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 35.34,
+        "longitude": -112.45,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FRED_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 36.99,
+        "longitude": -112.5,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "GNPS_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.31,
+        "longitude": -114.19,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "MOCA_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.65,
+        "longitude": -111.75,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "MOCA_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 34.65,
+        "longitude": -111.75,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGD_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.96,
+        "longitude": -112.7,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGD_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 32.96,
+        "longitude": -112.7,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZGD_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.96,
+        "longitude": -112.7,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBF_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.43,
+        "longitude": -112.64,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBF_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.43,
+        "longitude": -112.64,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBF_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 33.43,
+        "longitude": -112.64,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZMS_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.88,
+        "longitude": -112.04,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZMS_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.88,
+        "longitude": -112.04,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZMS_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 32.88,
+        "longitude": -112.04,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZP2_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.4,
+        "longitude": -112.25,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZP2_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.4,
+        "longitude": -112.25,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZP2_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 33.4,
+        "longitude": -112.25,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZCR_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.85,
+        "longitude": -111.83,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZCR_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.85,
+        "longitude": -111.83,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZCR_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 33.85,
+        "longitude": -111.83,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZWD_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.96,
+        "longitude": -112.72,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZWD_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 33.96,
+        "longitude": -112.72,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZWD_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.96,
+        "longitude": -112.72,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZP3_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.6,
+        "longitude": -112.07,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZP3_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.6,
+        "longitude": -112.07,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZP3_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 33.6,
+        "longitude": -112.07,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZTW_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 33.7,
+        "longitude": -112.33,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZTW_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 33.7,
+        "longitude": -112.33,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZTW_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 33.7,
+        "longitude": -112.33,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZAZ_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.76,
+        "longitude": -111.65,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZAZ_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.76,
+        "longitude": -111.65,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZAZ_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 32.76,
+        "longitude": -111.65,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBZ_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 31.39,
+        "longitude": -109.93,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBZ_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 31.39,
+        "longitude": -109.93,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZBZ_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 31.39,
+        "longitude": -109.93,
+        "height": 0.0,
+        "network": "AZHMP CORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZDA_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 31.46,
+        "longitude": -109.6,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZDA_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 31.46,
+        "longitude": -109.6,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZDA_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 31.46,
+        "longitude": -109.6,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZOR_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.62,
+        "longitude": -110.81,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZOR_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.62,
+        "longitude": -110.81,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZOR_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 32.62,
+        "longitude": -110.81,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZPL_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 31.49,
+        "longitude": -110.87,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZPL_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 31.49,
+        "longitude": -110.87,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZPL_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 31.49,
+        "longitude": -110.87,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZSN_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 31.9,
+        "longitude": -110.21,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZSN_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 31.9,
+        "longitude": -110.21,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZSN_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 31.9,
+        "longitude": -110.21,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZWI_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 32.25,
+        "longitude": -109.88,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZWI_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 32.25,
+        "longitude": -109.88,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZWI_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 32.25,
+        "longitude": -109.88,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "IMAX_MSM4",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.61,
+        "longitude": -112.46,
+        "height": 1.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZCJ_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.33,
+        "longitude": -112.12,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZCJ_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 34.33,
+        "longitude": -112.12,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZCJ_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 34.33,
+        "longitude": -112.12,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZLP_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 36.95,
+        "longitude": -111.5,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZLP_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 36.95,
+        "longitude": -111.5,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZLP_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 36.95,
+        "longitude": -111.5,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZWP_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 34.71,
+        "longitude": -113.62,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZWP_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 34.71,
+        "longitude": -113.62,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZWP_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 34.71,
+        "longitude": -113.62,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P006_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 36.15,
+        "longitude": -114.46,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "P006_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 36.15,
+        "longitude": -114.46,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFC_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 35.3,
+        "longitude": -111.52,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFC_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 35.3,
+        "longitude": -111.52,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFC_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 35.3,
+        "longitude": -111.52,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFR_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 35.19,
+        "longitude": -113.36,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFR_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 35.19,
+        "longitude": -113.36,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZFR_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 35.19,
+        "longitude": -113.36,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZTX_MSM5",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 35.49,
+        "longitude": -113.56,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZTX_RAW",
+        "format": "RAW",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+SBAS+BDS+QZSS",
+        "country": "",
+        "latitude": 35.49,
+        "longitude": -113.56,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AZTX_RTCM31",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLO",
+        "country": "",
+        "latitude": 35.49,
+        "longitude": -113.56,
+        "height": 0.0,
+        "network": "AZCORS",
+        "ntrip_version": "Leica GPS Spider",
+        "server_host": "159.87.113.135",
+        "server_port": 8080,
+        "registration_address": "https://azcors.azwater.gov/sbc",
+        "username": "register",
+        "password": "register"
+    }
+]

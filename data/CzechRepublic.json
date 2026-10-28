@@ -1,0 +1,686 @@
+[
+    {
+        "name": "RTK3-MSM",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "CZ",
+        "latitude": 49.5,
+        "longitude": 15.5,
+        "height": 1.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "iMAX3C-MSM",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "CZ",
+        "latitude": 49.5,
+        "longitude": 15.5,
+        "height": 1.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VirtualRS3C-MSM",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "CZ",
+        "latitude": 49.5,
+        "longitude": 15.5,
+        "height": 1.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "MAX3C-MSM",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "CZ",
+        "latitude": 49.5,
+        "longitude": 15.5,
+        "height": 1.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "TUBO3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.21,
+        "longitude": 16.59,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CBUD3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 48.97,
+        "longitude": 14.48,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CDOM3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.45,
+        "longitude": 12.92,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CFRM3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.68,
+        "longitude": 18.35,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CHOD3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 48.85,
+        "longitude": 17.13,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CJES3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 50.23,
+        "longitude": 17.21,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CJIH3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.39,
+        "longitude": 15.59,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CJHR3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.15,
+        "longitude": 15.01,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CKVA3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 50.23,
+        "longitude": 12.84,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CKRO3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.3,
+        "longitude": 17.4,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CLIB3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 50.77,
+        "longitude": 15.06,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CLIT3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 50.54,
+        "longitude": 14.14,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CMBO3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 50.41,
+        "longitude": 14.91,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VSBO3-MSM",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL",
+        "country": "CZ",
+        "latitude": 49.83,
+        "longitude": 18.16,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CPAR3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 50.04,
+        "longitude": 15.78,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "GOPE3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "CZ",
+        "latitude": 49.91,
+        "longitude": 14.79,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PLZE3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "CZ",
+        "latitude": 49.73,
+        "longitude": 13.35,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "POL13-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "CZ",
+        "latitude": 50.35,
+        "longitude": 16.32,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CPRA3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.01,
+        "longitude": 14.0,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CPRG3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 50.13,
+        "longitude": 14.46,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CPRI3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.69,
+        "longitude": 14.0,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CRAK3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 50.1,
+        "longitude": 13.73,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CSUM3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.96,
+        "longitude": 16.98,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CSVI3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.76,
+        "longitude": 16.47,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CTAB3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.41,
+        "longitude": 14.68,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CTRU3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 50.56,
+        "longitude": 15.91,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CVSE3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.34,
+        "longitude": 17.99,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CZNO3-MSM",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 48.86,
+        "longitude": 16.04,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "COLM3-MSM",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS+QZSS",
+        "country": "CZ",
+        "latitude": 49.59,
+        "longitude": 17.28,
+        "height": 0.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "MAX3C-MSM_GEC",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GAL+BDS",
+        "country": "CZ",
+        "latitude": 49.5,
+        "longitude": 15.5,
+        "height": 1.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTK3-MSM_GEC",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GAL+BDS",
+        "country": "CZ",
+        "latitude": 49.5,
+        "longitude": 15.5,
+        "height": 1.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "VirtualRS3C-MSM_GEC",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GAL+BDS",
+        "country": "CZ",
+        "latitude": 49.5,
+        "longitude": 15.5,
+        "height": 1.0,
+        "network": "CZEPOS",
+        "ntrip_version": "CZEPOS",
+        "server_host": "czeposr.cuzk.gov.cz",
+        "server_port": 2101,
+        "registration_address": "https://czepos.cuzk.gov.cz/_registraceInfo.aspx",
+        "username": "register",
+        "password": "register"
+    }
+]

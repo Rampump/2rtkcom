@@ -1,0 +1,129 @@
+[
+    {
+        "name": "vrsRTCM3_1",
+        "format": "RTCM 3.1",
+        "rtcm_types": [
+            "Obs(1)",
+            "Info(10)",
+            "PrsInfo(11)"
+        ],
+        "systems": "GPS+GLONASS",
+        "country": "USA",
+        "latitude": 0.0,
+        "longitude": 0.0,
+        "height": 1.0,
+        "network": "WVRTN",
+        "ntrip_version": "Trimble Pivot 4 Platform",
+        "server_host": "34.228.171.115",
+        "server_port": 2101,
+        "registration_address": "https://wvrtn.cors.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "vrsCMRx",
+        "format": "CMRx",
+        "rtcm_types": [
+            "Obs(1)",
+            "Info(10)",
+            "PrsInfo(11)"
+        ],
+        "systems": "GPS+GLONASS",
+        "country": "USA",
+        "latitude": 0.0,
+        "longitude": 0.0,
+        "height": 1.0,
+        "network": "WVRTN",
+        "ntrip_version": "Trimble Pivot Platform",
+        "server_host": "34.228.171.115",
+        "server_port": 2101,
+        "registration_address": "https://wvrtn.cors.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "vrsCMRplus",
+        "format": "CMR+",
+        "rtcm_types": [
+            "Obs(1)",
+            "Info(10)",
+            "PrsInfo(11)"
+        ],
+        "systems": "GPS+GLONASS",
+        "country": "USA",
+        "latitude": 0.0,
+        "longitude": 0.0,
+        "height": 1.0,
+        "network": "WVRTN",
+        "ntrip_version": "Trimble Pivot Platform",
+        "server_host": "34.228.171.115",
+        "server_port": 2101,
+        "registration_address": "https://wvrtn.cors.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "vrsRTCM3_2",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            "1(1)",
+            "3(10)",
+            "18(1)",
+            "19(1)"
+        ],
+        "systems": "GPS+GLONASS",
+        "country": "USA",
+        "latitude": 0.0,
+        "longitude": 0.0,
+        "height": 1.0,
+        "network": "WVRTN",
+        "ntrip_version": "Trimble Pivot Platform",
+        "server_host": "34.228.171.115",
+        "server_port": 2101,
+        "registration_address": "https://wvrtn.cors.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "rtxCMRx",
+        "format": "CMRx",
+        "rtcm_types": [
+            "Obs(1)",
+            "Info(10)",
+            "PrsInfo(11)"
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "USA",
+        "latitude": 0.0,
+        "longitude": 0.0,
+        "height": 1.0,
+        "network": "WVRTN",
+        "ntrip_version": "Trimble Pivot Platform",
+        "server_host": "34.228.171.115",
+        "server_port": 2101,
+        "registration_address": "https://wvrtn.cors.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "rtxRTCM3_4_MSM",
+        "format": "RTCM 3.4",
+        "rtcm_types": [
+            "1004(1)",
+            "1005/1007(5)",
+            "PBS(10)"
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "USA",
+        "latitude": 0.0,
+        "longitude": 0.0,
+        "height": 1.0,
+        "network": "WVRTN",
+        "ntrip_version": "Trimble Pivot Platform",
+        "server_host": "34.228.171.115",
+        "server_port": 2101,
+        "registration_address": "https://wvrtn.cors.us/",
+        "username": "register",
+        "password": "register"
+    }
+]

@@ -1,0 +1,33 @@
+# ===== Python 生成物 =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# ===== 敏感配置（含 caster 账号密码，严禁上传）=====
+ntrip_servers.ini
+
+# ===== 采集运行时产物 =====
+data/meta.json
+data/*.txt
+
+# ===== 系统文件 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== 本地构建产物（VitePress 首页）=====
+site/node_modules/
+site/.vitepress/dist/
+site/.vitepress/cache/
+
+# ===== 日志 =====
+*.log
+
+# ===== 编辑器/IDE =====
+.vscode/
+.idea/
+
+# ===== WorkBuddy 工作日志（本地专用，不进公开仓库）=====
+.workbuddy/

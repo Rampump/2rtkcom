@@ -1,0 +1,287 @@
+[
+    {
+        "name": "RTCM3_MAX",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM3_IMAX",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM3_NEAR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS & GLONASS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM2_IMAX",
+        "format": "RTCM 2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM2_NEAR",
+        "format": "RTCM 2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CMR_NEAR",
+        "format": "CMR",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CMRP_NEAR",
+        "format": "CMR+",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CMRP_IMAX",
+        "format": "CMR+",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CMR_IMAX",
+        "format": "CMR",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM2_DGPS",
+        "format": "RTCM 2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM2_DGPS_NEAR",
+        "format": "RTCM 2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM3MSM_IMAX",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM3MSM_NEAR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO+GAL+BDS",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM2_DGPS_GG",
+        "format": "RTCM 2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RTCM2_DGPS_NEAR_GG",
+        "format": "RTCM 2",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 42.27,
+        "longitude": -71.05,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "macorsrtk.massdot.state.ma.us",
+        "server_port": 10000,
+        "registration_address": "https://macors.massdot.state.ma.us/",
+        "username": "register",
+        "password": "register"
+    }
+]

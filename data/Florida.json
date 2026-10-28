@@ -1,0 +1,1921 @@
+[
+    {
+        "name": "FLAA",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.17,
+        "longitude": -80.83,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLAI",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.45,
+        "longitude": -82.69,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RCDA",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.22,
+        "longitude": -81.87,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AVON",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.6,
+        "longitude": -81.53,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "BRTW",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.95,
+        "longitude": -81.78,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "BOCA",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.38,
+        "longitude": -80.11,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLBR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.44,
+        "longitude": -82.65,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "BKVL",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.47,
+        "longitude": -82.45,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLCC",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.09,
+        "longitude": -81.27,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLCK",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.13,
+        "longitude": -83.03,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PEDR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.76,
+        "longitude": -81.33,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLDC",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.37,
+        "longitude": -82.19,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FTLD",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.12,
+        "longitude": -80.34,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "DLND",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.06,
+        "longitude": -81.26,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLD6",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 25.78,
+        "longitude": -80.38,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLD7",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.97,
+        "longitude": -82.36,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "DUNN",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.06,
+        "longitude": -82.37,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLEM",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.29,
+        "longitude": -82.73,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLEU",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.85,
+        "longitude": -81.68,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLFL",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 25.14,
+        "longitude": -80.92,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLFR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.59,
+        "longitude": -80.4,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLFD",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.6,
+        "longitude": -80.82,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "LAUD",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.2,
+        "longitude": -80.17,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLFM",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.59,
+        "longitude": -81.86,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "GNVL",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.69,
+        "longitude": -82.28,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLGR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.78,
+        "longitude": -82.16,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLHC",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.73,
+        "longitude": -80.9,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLHO",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.06,
+        "longitude": -80.13,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "HOME",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 25.5,
+        "longitude": -80.55,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLHS",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.8,
+        "longitude": -82.58,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLIM",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.46,
+        "longitude": -81.44,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLIB",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.88,
+        "longitude": -82.84,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLIT",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.03,
+        "longitude": -80.48,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLKW",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 24.55,
+        "longitude": -81.75,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLKS",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.3,
+        "longitude": -81.44,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "LBLL",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.75,
+        "longitude": -81.45,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLLP",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.31,
+        "longitude": -81.36,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "GSPS",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.48,
+        "longitude": -82.35,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLMK",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 24.73,
+        "longitude": -81.05,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLMB",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 25.78,
+        "longitude": -80.14,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLNP",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.15,
+        "longitude": -81.78,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLND",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 25.97,
+        "longitude": -80.17,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "OCLA",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.18,
+        "longitude": -82.1,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "MTNT",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 25.87,
+        "longitude": -80.91,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "OKCB",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.27,
+        "longitude": -80.86,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "ORL1",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.43,
+        "longitude": -81.38,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "ORMD",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.3,
+        "longitude": -81.11,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLBN",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.59,
+        "longitude": -81.29,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLPK",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 24.96,
+        "longitude": -80.57,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PNTA",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.92,
+        "longitude": -81.99,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "RMND",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 25.61,
+        "longitude": -80.38,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "SNFD",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.78,
+        "longitude": -81.25,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLSI",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.47,
+        "longitude": -82.16,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLSC",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.22,
+        "longitude": -82.4,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLSN",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.33,
+        "longitude": -82.44,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLSS",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.99,
+        "longitude": -82.37,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "SBST",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.81,
+        "longitude": -80.49,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "STPT",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.77,
+        "longitude": -82.63,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "STEW",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.19,
+        "longitude": -80.22,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLST",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.11,
+        "longitude": -81.83,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "TTVL",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.51,
+        "longitude": -80.8,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLVR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.25,
+        "longitude": -80.74,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "WACH",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 27.51,
+        "longitude": -81.88,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PBCH",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 26.85,
+        "longitude": -80.22,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLWD",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.82,
+        "longitude": -82.18,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "ZEFR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 28.23,
+        "longitude": -82.16,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AL90",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.69,
+        "longitude": -88.03,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "AL92",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.92,
+        "longitude": -87.78,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "ALAN",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 31.31,
+        "longitude": -86.48,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "ALDO",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 31.24,
+        "longitude": -85.44,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "ALFO",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.42,
+        "longitude": -87.68,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "ALNB",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 31.38,
+        "longitude": -85.92,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "BART",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.05,
+        "longitude": -81.61,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "CRST",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.73,
+        "longitude": -86.51,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "DSTN",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.39,
+        "longitude": -86.46,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FL23",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.74,
+        "longitude": -81.95,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FL75",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.61,
+        "longitude": -83.15,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLBF",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.96,
+        "longitude": -82.91,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLBY",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.84,
+        "longitude": -85.61,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLCB",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.84,
+        "longitude": -84.7,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLFB",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.67,
+        "longitude": -81.47,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLJA",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.93,
+        "longitude": -87.16,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLJL",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.58,
+        "longitude": -84.27,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLJO",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.81,
+        "longitude": -85.29,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLMD",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.37,
+        "longitude": -83.28,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLMM",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.27,
+        "longitude": -82.13,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLMR",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.78,
+        "longitude": -85.29,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLPD",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.71,
+        "longitude": -85.93,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "FLPY",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.09,
+        "longitude": -83.57,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "GAME",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 31.18,
+        "longitude": -83.79,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "GATE",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.83,
+        "longitude": -83.98,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "KREG",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.34,
+        "longitude": -81.52,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "LKCY",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.19,
+        "longitude": -82.58,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PCLA",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.47,
+        "longitude": -87.19,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PLTK",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.66,
+        "longitude": -81.69,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "PNMA",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.21,
+        "longitude": -85.67,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "SJDP",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.12,
+        "longitude": -81.4,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "SNED",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.64,
+        "longitude": -84.99,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "TALH",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 30.4,
+        "longitude": -84.36,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "XCTY",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.63,
+        "longitude": -83.11,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    },
+    {
+        "name": "INGS",
+        "format": "RTCM 3",
+        "rtcm_types": [
+            ""
+        ],
+        "systems": "GPS+GLO",
+        "country": "",
+        "latitude": 29.02,
+        "longitude": -82.62,
+        "height": 0.0,
+        "network": "",
+        "ntrip_version": "Leica GNSS Spider",
+        "server_host": "ntrip.myfloridagps.com",
+        "server_port": 10000,
+        "registration_address": "https://www.myfloridagps.com/sbc",
+        "username": "register",
+        "password": "register"
+    }
+]

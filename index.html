@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2RTK GNSS Stations Viewer</title>
+  <!-- 添加Cesium官方CDN -->
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.107/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.107/Build/Cesium/Cesium.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/satellite.js@3.0.0/dist/satellite.min.js"></script>
+  <style>
+    /* 原有样式保持不变 */
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    #cesiumContainer {
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    .data-source-buttons {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 8px;
+      border-radius: 8px;
+      max-width: 150px;
+    }
+
+    .function-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 8px;
+      border-radius: 8px;
+      max-width: 90%;
+    }
+
+    .data-source-buttons button,
+    .function-controls button {
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: 1px solid #ccc;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      border-radius: 4px;
+      min-width: 100px;
+    }
+
+    .data-source-buttons button.active,
+    .function-controls button.active {
+      border: 2px solid #00ff00;
+      color: #00ff00;
+    }
+
+    .bottom-mask {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 30px;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 998;
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-size: 72px;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .update-info {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-size: 12px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      line-height: 1.5;
+      max-width: 260px;
+      text-align: right;
+    }
+
+    .update-info .ok { color: #00ff00; }
+    .update-info .fail { color: #ff5555; }
+
+    
+    @media (max-width: 768px) {
+      .data-source-buttons {
+        position: absolute;
+        top: 80px;
+        left: 10px;
+        right: auto;
+        bottom: auto;
+        transform: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        max-width: 80%;
+        padding: 6px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 6px;
+        z-index: 999;
+      }
+
+      .function-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 10px;
+        right: auto;
+        top: auto;
+        transform: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        max-width: 80%;
+        padding: 6px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 6px;
+        z-index: 999;
+      }
+
+      .data-source-buttons button,
+      .function-controls button {
+        font-size: 13px;
+        padding: 6px 8px;
+        min-width: auto;
+        box-sizing: border-box;
+      }
+
+      .logo {
+        font-size: 8vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <div class="logo">2RTK</div>
+  <div class="update-info" id="updateInfo">数据加载中...</div>
+
+  <div class="data-source-buttons">
+    <button id="loadRtkButton">2RTK</button>
+    <button id="loadCrtkButton">CRTK</button>
+    <button id="loadRtk2goButton">RTK2</button>
+    <button id="loadIgsButton">IGS Network</button>
+    <!-- World按钮将在这里动态添加 -->
+  </div>
+
+  <div class="function-controls">
+    <button id="toggleButton">Pause Rotation</button>
+    <button id="toggleSatelliteLabels">Show Satellite Labels</button>
+    <button id="toggleStationLabels">Hide Station Labels</button>
+    <button id="toggleCoverage">Hide Coverage Areas</button>
+  </div>
+
+  <div class="bottom-mask"></div>
+  <script>
+    // 初始化Cesium视图
+    // 设置Cesium Ion的access token
+    Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2ZDhiODc5MC1kMjUyLTRjZjMtYmJkNy05ZGU0YWY5ZDFlNDEiLCJpZCI6MzY4MTg2LCJpYXQiOjE3NjUzMjczNTV9.llZsvGVy2iFSfybTmjvME9gU-niXjDyvMn6o7NHkhvM";
+
+    // 创建Viewer实例
+    const viewer = new Cesium.Viewer('cesiumContainer', {
+      timeline: false,
+      animation: false,
+      shouldAnimate: true,
+      baseLayerPicker: true,
+      geocoder: true,
+      homeButton: false,
+      sceneModePicker: true,
+      navigationHelpButton: false,
+      selectionIndicator: true,
+      infoBox: true,
+      // 添加基础影像图层
+      imageryProvider: new Cesium.IonImageryProvider({ assetId: 2 })
+    });
+
+    // 卫星按国家分类配置（保持不变）
+    const countrySatellites = {
+      'China': {
+        color: Cesium.Color.RED,
+        match: name => /(BEIDOU|IGSO-\d+|M\d+[A-Z]*$|G\d+[A-Z]*$|IGSO-\d+S?|COMPASS)/i.test(name)
+      },
+      'Russia': {
+        color: Cesium.Color.SKYBLUE,
+        match: name => /(COSMOS(?:[-\s]\d+)|LUCH(?:[-\s]\d+)?|GLONASS|PARUS)/i.test(name)
+      },
+      'India': {
+        color: Cesium.Color.ORANGE,
+        match: name => /(IRNSS-\d+|NVS-\d+|GSAT-\d+)/i.test(name)
+      },
+      'Japan': {
+        color: Cesium.Color.WHITE,
+        match: name => /(QZS-\d+|MICHIBIKI)/i.test(name)
+      },
+      'EU': {
+        color: Cesium.Color.YELLOW,
+        match: name => /(GALILEO|SES-\d+|ASTRA|EUTELSAT)/i.test(name)
+      },
+      'USA': {
+        color: Cesium.Color.DARKBLUE,
+        match: name => /(GPS|NAVSTAR|BIIR-\d+|BIIRM-\d+|BIIF-\d+|BIII-\d+)/i.test(name)
+      },
+      'UK': {
+        color: Cesium.Color.MAGENTA,
+        match: name => /(INMARSAT|GALAXY)/i.test(name)
+      }
+    };
+
+    // 卫星图标配置（保持不变）
+    const satelliteIcons = {
+      'China': './images/cn.png',
+      'Russia': './images/ru.png',
+      'India': './images/in.png',
+      'Japan': './images/jp.png',
+      'EU': './images/eu.png',
+      'USA': './images/us.png',
+      'UK': './images/uk.png',
+      'Other': './images/2rtk.png'
+    };
+
+    // 状态变量（保持不变）
+    const tleTimestamp = new Date();
+    let rotationEnabled = true;
+    let satelliteLabelsVisible = false;
+    let stationLabelsVisible = false;
+    let coverageVisible = true;
+
+    /**
+     * 坐标验证函数（保持不变）
+     * @param {number} lon - 经度
+     * @param {number} lat - 纬度
+     * @param {number} height - 高度（可选）
+     * @returns {boolean} 坐标是否有效
+     */
+    function isValidCoordinate(lon, lat, height) {
+      if (typeof lon !== 'number' || typeof lat !== 'number' || isNaN(lon) || isNaN(lat)) {
+        console.warn('无效的经纬度（非数字）:', { lon, lat });
+        return false;
+      }
+      if (lon < -180 || lon > 180) {
+        console.warn('经度超出范围（[-180, 180]）:', lon);
+        return false;
+      }
+      if (lat < -90 || lat > 90) {
+        console.warn('纬度超出范围（[-90, 90]）:', lat);
+        return false;
+      }
+      if (height !== undefined && height !== null) {
+        if (typeof height !== 'number' || isNaN(height)) {
+          console.warn('无效的高度（非数字）:', height);
+          return false;
+        }
+        if (height < -12000 || height > 42000000) {
+          console.warn('高度超出合理范围（-12000 ~ 42000000米）:', height);
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // 设置按钮激活状态（保持不变）
+    function setActiveButton(activeId) {
+      document.querySelectorAll('button').forEach(btn => {
+        btn.classList.toggle('active', btn.id === activeId);
+      });
+    }
+
+    // 旋转控制（保持不变）
+    document.getElementById('toggleButton').addEventListener('click', () => {
+      rotationEnabled = !rotationEnabled;
+      document.getElementById('toggleButton').textContent = rotationEnabled ? 'Pause Rotation' : 'Resume Rotation';
+    });
+
+    // 卫星标签显示控制（保持不变）
+    document.getElementById('toggleSatelliteLabels').addEventListener('click', () => {
+      satelliteLabelsVisible = !satelliteLabelsVisible;
+      viewer.entities.values.forEach(entity => {
+        if (entity.isSatellite && entity.label) {
+          entity.label.show = satelliteLabelsVisible;
+        }
+      });
+      document.getElementById('toggleSatelliteLabels').textContent = satelliteLabelsVisible ? 'Hide Satellite Labels' : 'Show Satellite Labels';
+    });
+
+    // 站点标签显示控制（保持不变）
+    document.getElementById('toggleStationLabels').addEventListener('click', () => {
+      stationLabelsVisible = !stationLabelsVisible;
+      viewer.entities.values.forEach(entity => {
+        if (entity.stationType && entity.label) {
+          entity.label.show = stationLabelsVisible;
+        }
+      });
+      document.getElementById('toggleStationLabels').textContent = stationLabelsVisible ? 'Hide Station Labels' : 'Show Station Labels';
+    });
+
+    // 覆盖区域显示控制（保持不变）
+    document.getElementById('toggleCoverage').addEventListener('click', () => {
+      coverageVisible = !coverageVisible;
+      viewer.entities.values.forEach(entity => {
+        if (entity.ellipse && entity.stationType && entity.parentId) {
+          entity.show = coverageVisible;
+        }
+      });
+      document.getElementById('toggleCoverage').textContent = coverageVisible ? 'Hide Coverage Areas' : 'Show Coverage Areas';
+    });
+
+    // 判断卫星所属国家（保持不变）
+    function getSatelliteCountry(name) {
+      for (const [country, data] of Object.entries(countrySatellites)) {
+        if (data.match && data.match(name)) {
+          return country;
+        }
+      }
+      return 'Other';
+    }
+
+    // 加载GNSS卫星数据
+    fetch('https://celestrak.org/NORAD/elements/gp.php?GROUP=gnss&FORMAT=tle')
+      .then(res => res.text())
+      .then(tleText => {
+        const lines = tleText.trim().split('\n');
+        for (let i = 0; i < lines.length; i += 3) {
+          const name = lines[i].trim();
+          const tle1 = lines[i + 1]?.trim();
+          const tle2 = lines[i + 2]?.trim();
+          
+          if (!name || !tle1 || !tle2) continue;
+
+          try {
+            const satrec = satellite.twoline2satrec(tle1, tle2);
+            const jsDate = new Date();
+            const posVel = satellite.propagate(satrec, jsDate);
+            const gmst = satellite.gstime(jsDate);
+
+            if (!posVel.position) {
+              console.warn(`卫星${name}无法计算位置，跳过`);
+              continue;
+            }
+
+            const geo = satellite.eciToGeodetic(posVel.position, gmst);
+            const lon = Cesium.Math.toDegrees(geo.longitude);
+            const lat = Cesium.Math.toDegrees(geo.latitude);
+            const alt = geo.height * 1000;
+
+            if (!isValidCoordinate(lon, lat, alt)) {
+              console.warn(`卫星${name}坐标无效，跳过`);
+              continue;
+            }
+
+            const country = getSatelliteCountry(name);
+            const icon = satelliteIcons[country] || satelliteIcons['Other'];
+            const color = countrySatellites[country]?.color || Cesium.Color.GRAY;
+
+            const positionCartesian = Cesium.Cartesian3.fromDegrees(lon, lat, alt);
+
+            const entity = viewer.entities.add({
+              id: "sat_" + name,
+              name: name,
+              position: positionCartesian,
+              billboard: {
+                image: icon,
+                width: 28,
+                height: 28,
+                verticalOrigin: Cesium.VerticalOrigin.CENTER,
+                scaleByDistance: new Cesium.NearFarScalar(500000, 1.2, 40000000, 0.35),
+              },
+              label: {
+                text: name,
+                font: '12px sans-serif',
+                fillColor: color,
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                outlineWidth: 2,
+                verticalOrigin: Cesium.VerticalOrigin.TOP,
+                pixelOffset: new Cesium.Cartesian2(0, 20),
+                show: satelliteLabelsVisible
+              },
+              properties: {
+                norad: satrec.satnum,
+                tleDate: tleTimestamp.toISOString(),
+                country: country
+              }
+            });
+            entity.isSatellite = true;
+            entity.satrec = satrec;
+          } catch (e) {
+            console.error(`处理卫星${name}时出错:`, e);
+            continue;
+          }
+        }
+      })
+      .catch(err => {
+        console.error('卫星数据 fetch 失败:', err);
+      });
+
+    // 移除所有站点实体（保持不变）
+    function removeAllStations() {
+      const toRemove = viewer.entities.values.filter(e => e.stationType);
+      toRemove.forEach(e => viewer.entities.remove(e));
+    }
+
+    /**
+     * 添加RTK站点实体（保持不变）
+     * @param {Array} baseStations - 站点数据数组
+     * @param {Cesium.Color} color - 站点颜色
+     * @param {string} stationType - 站点类型（isRtk/isCrtk/isRtk2go/isIgs/isWorld）
+     */
+    function addRtkEntities(baseStations, color, stationType) {
+      baseStations.forEach(station => {
+        const hasRequiredFields = station.name && station.longitude !== undefined && station.latitude !== undefined;
+
+        if (!hasRequiredFields) {
+          console.warn(`站点${station.name || station.id || '未知'}缺少必要字段，跳过`);
+          return;
+        }
+
+        const lon = parseFloat(station.longitude);
+        const lat = parseFloat(station.latitude);
+        const height = station.height !== undefined ? parseFloat(station.height) : 0;
+
+        if (!isValidCoordinate(lon, lat, height)) {
+          console.warn(`站点${station.name}坐标无效，跳过`);
+          return;
+        }
+
+        let description = '';
+        if (['isRtk', 'isRtk2go', 'isCrtk', 'isCustom', 'isWorld'].includes(stationType)) {
+          description = `
+            <table>
+              <tr><td><b>Name</b></td><td>${station.name}</td></tr>
+              <tr><td><b>Format</b></td><td>${station.format || 'N/A'}</td></tr>
+              <tr><td><b>RTCM Type</b></td><td>${
+               Array.isArray(station.rtcm_types) 
+                 ? station.rtcm_types.filter(Boolean).join(', ') || 'N/A' 
+                 : 'N/A'
+              }</td></tr>
+              <tr><td><b>Systems</b></td><td>${station.systems || 'N/A'}</td></tr>
+              <tr><td><b>Country</b></td><td>${station.country || 'N/A'}</td></tr>
+              <tr><td><b>Latitude</b></td><td>${station.latitude}</td></tr>
+              <tr><td><b>Longitude</b></td><td>${station.longitude}</td></tr>
+              <tr><td><b>Height</b></td><td>${station.height || 'N/A'}</td></tr>
+              <tr><td><b>Network</b></td><td>${station.network || 'N/A'}</td></tr>
+              <tr><td><b>NTRIP Version</b></td><td>${station.ntrip_version || 'N/A'}</td></tr>
+              <tr><td><b>Caster Host</b></td><td>${station.server_host || 'N/A'}</td></tr>
+              <tr><td><b>Caster Port</b></td><td>${station.server_port || 'N/A'}</td></tr>
+              <tr><td><b>Address</b></td><td>${station.registration_address || 'N/A'}</td></tr>
+            </table>
+          `;
+        } else if (stationType === 'isIgs') {
+          description = `
+            <table>
+              <tr><td><b>ID</b></td><td>${station.id}</td></tr>
+              <tr><td><b>Receiver</b></td><td>${station.receiver}</td></tr>
+              <tr><td><b>Antenna</b></td><td>${station.antenna}</td></tr>
+              <tr><td><b>Latitude</b></td><td>${station.latitude}</td></tr>
+              <tr><td><b>Longitude</b></td><td>${station.longitude}</td></tr>
+              <tr><td><b>Height</b></td><td>${station.height}</td></tr>
+              <tr><td><b>Systems</b></td><td>${station.systems}</td></tr>
+              <tr><td><b>Install Date</b></td><td>${station.receiverInstallDate}</td></tr>
+            </table>
+          `;
+        }
+
+        const entity = viewer.entities.add({
+          id: `${stationType}_${station.name}`,
+          position: Cesium.Cartesian3.fromDegrees(lon, lat, height),
+          point: { pixelSize: 5, color },
+          label: {
+            text: station.name,
+            font: '10px sans-serif',
+            fillColor: color,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            outlineWidth: 2,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            pixelOffset: new Cesium.Cartesian2(0, -12),
+            show: stationLabelsVisible
+          },
+          description,
+          stationType
+        });
+
+        if (stationType !== 'isIgs') {
+          [10000, 20000, 50000].forEach((radius, i) => {
+            const colors = [Cesium.Color.GREEN, Cesium.Color.BLUE, Cesium.Color.ORANGE];
+            viewer.entities.add({
+              id: `${stationType}_${station.name}_circle_${i}`,
+              position: Cesium.Cartesian3.fromDegrees(lon, lat),
+              ellipse: {
+                semiMinorAxis: radius,
+                semiMajorAxis: radius,
+                height: 0,
+                material: colors[i].withAlpha(0.1),
+                outline: true,
+                outlineColor: colors[i]
+              },
+              description,
+              stationType,
+              parentId: `${stationType}_${station.name}`,
+              show: coverageVisible
+            });
+          });
+        }
+      });
+      viewer.zoomTo(viewer.entities);
+    }
+
+    // 点击事件处理（保持不变）
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    handler.setInputAction(movement => {
+      const picked = viewer.scene.pick(movement.position);
+      if (Cesium.defined(picked)) {
+        if (picked.id?.isSatellite) {
+          const entity = picked.id;
+          const now = new Date();
+          const posVel = satellite.propagate(entity.satrec, now);
+          const gmst = satellite.gstime(now);
+          if (posVel.position) {
+            const geo = satellite.eciToGeodetic(posVel.position, gmst);
+            const altitude = geo.height;
+            const inclination = entity.satrec.inclo;
+            const plane = entity.satrec.nodeo;
+            const tleAgeDays = ((now - new Date(entity.properties.tleDate)) / (1000 * 60 * 60 * 24)).toFixed(1);
+
+            entity.description = `
+              <table>
+                <tr><td><b>Satellite Name</b></td><td>${entity.name}</td></tr>
+                <tr><td><b>NORAD ID</b></td><td>${entity.properties.norad}</td></tr>
+                <tr><td><b>Country</b></td><td>${entity.properties.country}</td></tr>
+                <tr><td><b>Altitude</b></td><td>${altitude.toFixed(1)} km</td></tr>
+                <tr><td><b>Orbital Plane</b></td><td>${Cesium.Math.toDegrees(plane).toFixed(2)}°</td></tr>
+                <tr><td><b>Inclination</b></td><td>${Cesium.Math.toDegrees(inclination).toFixed(2)}°</td></tr>
+                <tr><td><b>TLE Age</b></td><td>${tleAgeDays} days</td></tr>
+              </table>
+            `;
+            viewer.selectedEntity = entity;
+          }
+        } else if (picked.id?.stationType) {
+          viewer.selectedEntity = picked.id;
+        }
+      }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+    // 加载2RTK站点数据（自建 caster 2rtk.com 的数据源）
+    document.getElementById('loadRtkButton').addEventListener('click', () => {
+      setActiveButton('loadRtkButton');
+      removeAllStations();
+      fetch('./data/2rtk.json')
+        .then(res => {
+          if (!res.ok) throw new Error(`数据文件不存在（HTTP ${res.status}）`);
+          return res.json();
+        })
+        .then(data => addRtkEntities(data, Cesium.Color.CYAN, 'isRtk'))
+        .catch(err => {
+          console.error('加载 2RTK 数据失败:', err);
+          const infoEl = document.getElementById('updateInfo');
+          infoEl.innerHTML = '<div class="fail">2RTK 数据源尚未配置</div><div style="font-size:10px;color:#aaa;">请在 ntrip_servers.ini 中添加 2rtk.com 的 caster 配置并运行采集</div>';
+        });
+    });
+
+    // 加载RTK2GO站点数据（保持不变）
+    document.getElementById('loadRtk2goButton').addEventListener('click', () => {
+      setActiveButton('loadRtk2goButton');
+      removeAllStations();
+      fetch('./data/rtk2go.json')
+        .then(res => res.json())
+        .then(data => addRtkEntities(data, Cesium.Color.ORANGE, 'isRtk2go'));
+    });
+
+    // 加载IGS Network站点数据（保持不变）
+    document.getElementById('loadIgsButton').addEventListener('click', () => {
+      setActiveButton('loadIgsButton');
+      removeAllStations();
+      fetch('./data/IGSNetwork.json')
+        .then(res => res.json())
+        .then(data => {
+          const stations = Object.keys(data).map(id => ({
+            id: id,
+            name: id,
+            longitude: parseFloat(data[id].Longitude),
+            latitude: parseFloat(data[id].Latitude),
+            height: parseFloat(data[id].Height || 0),
+            systems: data[id].Receiver?.SatelliteSystem || 'N/A',
+            receiver: data[id].Receiver?.Name || 'N/A',
+            receiverSerial: data[id].Receiver?.SerialNumber || 'N/A',
+            receiverVersion: data[id].Receiver?.FirmwareVersion || 'N/A',
+            receiverInstallDate: data[id].Receiver?.DateInstalled || 'N/A',
+            antenna: data[id].Antenna?.Name || 'N/A',
+            x: data[id].X || 'N/A',
+            y: data[id].Y || 'N/A',
+            z: data[id].Z || 'N/A'
+          }));
+          addRtkEntities(stations, Cesium.Color.LIME, 'isIgs');
+        });
+    });
+
+    // 加载CRTK站点数据（保持不变）
+    document.getElementById('loadCrtkButton').addEventListener('click', () => {
+      setActiveButton('loadCrtkButton');
+      removeAllStations();
+      fetch('./data/France.json')
+        .then(res => res.json())
+        .then(data => addRtkEntities(data, Cesium.Color.MAGENTA, 'isCrtk'));
+    });
+
+    // 1. 定义需要排除的文件
+    const excludeFiles = ['2rtk.json', 'France.json', 'rtk2go.json', 'IGSNetwork.json'];
+    
+    // 2. 存储所有自定义数据源的数据
+    let allCustomDataSources = [];
+
+    // 3. 动态加载自定义数据源并生成World按钮
+    async function loadCustomDataSources() {
+      const buttonsContainer = document.querySelector('.data-source-buttons');
+      
+      // 创建World按钮
+      const worldButton = document.createElement('button');
+      worldButton.id = 'loadWorldButton';
+      worldButton.textContent = 'World';
+      worldButton.className = 'custom-data-btn';
+      buttonsContainer.appendChild(worldButton);
+
+      // 为World按钮添加点击事件
+      worldButton.addEventListener('click', async () => {
+        setActiveButton('loadWorldButton');
+        removeAllStations();
+        
+        try {
+          // 如果还没有加载数据，则加载所有自定义数据源
+          if (allCustomDataSources.length === 0) {
+            const res = await fetch('./data/files.json');
+            if (!res.ok) throw new Error('无法获取文件列表，请检查data/files.json是否存在');
+            
+            const allFiles = await res.json();
+            const customFiles = allFiles.filter(file => 
+              file.endsWith('.json') && !excludeFiles.includes(file)
+            );
+
+            // 并行加载所有自定义数据源文件
+            const loadPromises = customFiles.map(async file => {
+              try {
+                const dataRes = await fetch(`./data/${file}`);
+                if (!dataRes.ok) throw new Error(`加载${file}失败`);
+                return await dataRes.json();
+              } catch (err) {
+                console.error(`加载${file}时出错:`, err);
+                return [];
+              }
+            });
+
+            // 等待所有加载完成
+            const results = await Promise.all(loadPromises);
+            
+            // 合并所有数据
+            allCustomDataSources = results.flat();
+          }
+          
+          // 添加所有站点
+          addRtkEntities(allCustomDataSources, Cesium.Color.YELLOW, 'isWorld');
+        } catch (err) {
+          console.error('加载World数据源失败:', err);
+        }
+      });
+    }
+
+    // 4. 页面加载时执行动态加载函数
+    loadCustomDataSources();
+
+    // 视图自动旋转（保持不变）
+    viewer.clock.onTick.addEventListener(() => {
+      if (rotationEnabled) {
+        viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, -Cesium.Math.toRadians(0.02));
+      }
+    });
+
+    // 初始化加载2RTK数据（保持不变）
+    document.getElementById('loadRtk2goButton').click();
+    document.getElementById('toggleSatelliteLabels').textContent = 'Show Satellite Labels';
+    document.getElementById('toggleStationLabels').textContent = 'Show Station Labels';
+    document.getElementById('toggleCoverage').textContent = 'Hide Coverage Areas';
+
+    // 读取采集元数据，显示数据更新时间与各数据源状态
+    function loadMetaInfo() {
+      const infoEl = document.getElementById('updateInfo');
+      fetch('./data/meta.json')
+        .then(res => {
+          if (!res.ok) throw new Error('meta.json 不存在');
+          return res.json();
+        })
+        .then(meta => {
+          const okCount = meta.sources.filter(s => s.ok).length;
+          const total = meta.sources.length;
+          const timeStr = meta.last_update ? meta.last_update.replace('T', ' ').slice(0, 19) : '未知';
+          infoEl.innerHTML = `
+            <div>数据更新：${timeStr}</div>
+            <div><span class="ok">成功 ${okCount}</span> / <span class="${okCount < total ? 'fail' : 'ok'}">失败 ${total - okCount}</span> 个数据源</div>
+            <div style="font-size:10px;color:#aaa;">每 6 小时自动更新</div>
+          `;
+        })
+        .catch(() => {
+          infoEl.innerHTML = '<div>数据更新时间未知</div>';
+        });
+    }
+    loadMetaInfo();
+  </script>
+</body>
+</html>

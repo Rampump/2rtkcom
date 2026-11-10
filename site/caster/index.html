@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>NTRIP Caster 搭建教程：2RTK NTRIP Caster 安装、挂载点与账号配置 | 2RTK</title>
-  <meta name="description" content="用开源项目 2RTK NTRIP Caster 搭自己的 NTRIP Caster：一键脚本 / Docker / 源码三种装法、管理员与用户账号、挂载点与自动 STR 修正、基站推流、流动站拉流、无损升级与排错。" />
-  <meta name="keywords" content="NTRIP Caster搭建,2RTK NTRIP Caster,NTRIPcaster,挂载点,源表,STR,RTCM分发,2101,5757,自建Caster,Docker部署" />
+  <title>自建 RTK CORS / NTRIP Caster 教程：2RTK NTRIP Caster 安装、挂载点与账号配置 | 2RTK</title>
+  <meta name="description" content="自建 RTK CORS 与 NTRIP Caster 的完整教程：用开源项目 2RTK NTRIP Caster 最快最简单部署自己的 RTK 站点链路，一键脚本 / Docker / 源码三种装法、云服务器安全组放行 2101/5757、管理员与用户账号、挂载点与自动 STR、基站推流、流动站拉流、无损升级与排错。" />
+  <meta name="keywords" content="自建RTK,自建CORS,自建RTK基站,自建RTK CORS,自建NTRIP Caster,RTK站点链路,NTRIP Caster搭建,2RTK NTRIP Caster,NTRIPcaster,挂载点,源表,STR,RTCM分发,2101,5757,Docker部署,私有CORS,局域网CORS" />
   <meta name="author" content="2RTK" />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
   <meta name="theme-color" content="#080b10" />
@@ -13,8 +13,8 @@
 
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="2RTK" />
-  <meta property="og:title" content="NTRIP Caster 搭建教程：2RTK NTRIP Caster 安装与配置" />
-  <meta property="og:description" content="一键脚本 · Docker · 源码三种装法 · 账号与挂载点 · 自动 STR · 推流拉流 · 无损升级。" />
+  <meta property="og:title" content="自建 RTK CORS / NTRIP Caster 教程：2RTK NTRIP Caster 安装与配置" />
+  <meta property="og:description" content="最快最简单部署自己的 RTK 站点链路：一键脚本 · Docker · 源码三种装法 · 云服务器放行 2101/5757 · 账号与挂载点 · 自动 STR · 推流拉流 · 无损升级。" />
   <meta property="og:url" content="__SITE_ORIGIN__/caster/" />
   <meta property="og:image" content="__SITE_ORIGIN__/images/2rtk.png" />
   <meta property="og:locale" content="zh_CN" />
@@ -122,51 +122,19 @@
         </div>
       </div>
 
-      <p>和另外几个常见方案放在一起比：</p>
-      <div class="table-wrap">
-        <table class="cmp">
-          <colgroup><col class="n1" /><col class="n2" /><col class="n3" /><col class="n4" /><col class="n5" /></colgroup>
-          <thead>
-            <tr><th>方案</th><th>实现</th><th>管理方式</th><th>部署</th><th>适合</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>2RTK NTRIP Caster</strong></td>
-              <td>Python</td>
-              <td>Web 界面，SQLite</td>
-              <td>脚本 / Docker / 源码</td>
-              <td>想要图形界面、不想碰配置文件</td>
-            </tr>
-            <tr>
-              <td>BKG NtripCaster</td>
-              <td>C</td>
-              <td>手改 <code>ntripcaster.conf</code> + <code>sourcetable.dat</code></td>
-              <td>编译安装</td>
-              <td>老牌稳定，愿意手写配置</td>
-            </tr>
-            <tr>
-              <td>SNIP</td>
-              <td>闭源商用</td>
-              <td>Windows 图形界面</td>
-              <td>安装包</td>
-              <td>Windows 服务器、要厂商支持</td>
-            </tr>
-            <tr>
-              <td>CentipedeRTK</td>
-              <td>Python</td>
-              <td>Web（绑定其社区网络）</td>
-              <td>Docker</td>
-              <td>加入其社区共享网络</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <p>
+        一句话：<strong>2RTK NTRIP Caster 让你用最快、最简单的方式，部署一套完全属于你自己的 RTK 站点链路</strong>——
+        自己的 RTK 基站、自己的 RTK CORS、自己的 NTRIP Caster，数据和账号都在你手里。
+        下面这一页只讲这一件事的完整流程。
+      </p>
       <div class="note">
-        <p>各家授权、免费额度会随版本变，选之前以官方说明为准。这一页只讲 2RTK NTRIP Caster 的完整流程。</p>
+        <p>不管你是在找「自建 RTK 基站」「自建 CORS / RTK CORS」「自建 RTK 网络」「自建 NTRIP Caster」，
+        还是想给自己的 RTK 设备搭一个私有的差分服务端，流程都是同一条，照着做一遍就够。</p>
       </div>
 
       <h2 id="prepare">先准备一台服务器</h2>
-      <p>最低配置要求不高，但<strong>系统版本有一条硬红线</strong>：</p>
+      <p>最低配置要求不高，但<strong>系统版本有一条硬红线</strong>。<strong>推荐直接使用云服务器</strong>——
+      公网 IP、带宽和安全组都是现成的，不用自己折腾内网穿透：</p>
       <div class="table-wrap compact">
         <table>
           <thead><tr><th>项目</th><th>要求</th><th>说明</th></tr></thead>
@@ -207,6 +175,18 @@
       </div>
 
       <h2 id="install">三种装法，挑一种</h2>
+
+      <div class="danger">
+        <p><b>安装前先做这一步：回到云厂商后台，把 <code>2101</code> 和 <code>5757</code> 两个端口放行。</b></p>
+        <p>在控制台找到这台服务器的<strong>安全组</strong>（也叫防火墙、防火墙规则），添加入方向规则：</p>
+        <ul>
+          <li><code>2101/tcp</code> — NTRIP 服务端口。基站往这里推流、流动站从这里拉流，不放行整条链路都连不上。</li>
+          <li><code>5757/tcp</code> — Web 管理端口。不放行浏览器打不开后台。</li>
+          <li><code>80/443</code> — 可选。要用域名访问后台时再加。</li>
+        </ul>
+        <p>系统自带的 UFW/firewalld 脚本会帮你放行，但<b>云厂商的安全组在脚本管不到的地方，必须你在控制台手动开</b>。
+        这一步漏掉，后面装得再顺也会一直连不上。</p>
+      </div>
 
       <h3>方式 A：一键脚本（推荐）</h3>
       <p>Debian 11+ / Ubuntu 22.04+ 上跑，脚本会自动装依赖、建目录、配 systemd、开防火墙、加 Nginx 反代。</p>

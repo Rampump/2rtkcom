@@ -282,6 +282,12 @@ curl -s http://localhost:5757/health  <span class="cmt"># 期望 {"status":"ok",
       </div>
       <p><code>/health</code> 不需要登录、也不查数据库，Docker 健康检查和监控探活都用它，接 Uptime Kuma 之类的直接填这个地址。</p>
 
+      <div class="tip">
+        <p><b>本文截图都取自英文界面。</b>控制台内置中英双语，右上角 <b>中文 / EN</b> 一键切换，选项记在浏览器本地（<code>localStorage</code>），换页不掉。
+        下面所有截图都是 <b>EN</b> 模式，方便你对着全局用户的界面比对；切回「中文」功能完全一样，只是文案不同。
+        记住对应关系就够用：Overview = 总览，Mount Points = 挂载点，Users = 用户，Live Data = 实时数据，Settings = 设置。</p>
+      </div>
+
       <h2 id="login">第 1 步：登录</h2>
       <p>
         装完打开 <code>http://服务器IP:5757</code>，落在管理员登录页。默认账号 <code>admin</code> / <code>admin123</code>，
@@ -384,7 +390,7 @@ curl -s http://localhost:5757/health  <span class="cmt"># 期望 {"status":"ok",
         <figcaption>用户列表。状态只有在线 / 离线两种；「连接时间」是该用户本次接入的时刻，没连过显示 <code>-</code></figcaption>
       </figure>
       <figure class="fig narrow">
-        <img src="/images/caster/08-user-add.png" alt="添加用户弹窗，填写用户名 base02user 和密码" loading="lazy" decoding="async" />
+        <img src="/images/caster/08-user-add.png" alt="添加用户弹窗 Add User，填写用户名 rover01 和密码" loading="lazy" decoding="async" />
         <figcaption>添加用户只有两个字段，没有邮箱、没有配额，越简单越不出错</figcaption>
       </figure>
       <p>命名规则卡得比较死，输错了会直接弹红条告诉你哪一条不满足：</p>
@@ -429,7 +435,7 @@ curl -s http://localhost:5757/health  <span class="cmt"># 期望 {"status":"ok",
       <h3>添加挂载点</h3>
       <p>右上角「添加挂载点」，三个字段：</p>
       <figure class="fig narrow">
-        <img src="/images/caster/05-mount-add.png" alt="添加挂载点弹窗：挂载点名称 BASE02、密码、绑定用户下拉选择 test" loading="lazy" decoding="async" />
+        <img src="/images/caster/05-mount-add.png" alt="添加挂载点弹窗 Add Mount Point：挂载点名称 MYBASE01、密码、绑定用户下拉选择 test" loading="lazy" decoding="async" />
         <figcaption>名称是给客户端填的，密码是 NTRIP 1.0 的凭据；绑定用户下拉里列的就是第 4 步建好的账号</figcaption>
       </figure>
       <dl class="kv">

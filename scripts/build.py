@@ -1,9 +1,17 @@
 """Cloudflare Pages 构建脚本。
 
 职责：
-1. 由环境变量 CESIUM_ION_TOKEN 生成 dist/config.js（token 不进代码库）
+1. 由环境变量生成 dist/config.js（Ion / 天地图 token 不进代码库）
 2. 扫描 data/*.json 生成 data/files.json（避免手工维护遗漏）
-3. 组装 dist/ 产物目录（index.html、images/、data/）
+3. 替换 index.html 中的 __SITE_ORIGIN__ / __BUILD_ID__ 占位符
+4. 生成 robots.txt 与 sitemap.xml（SEO）
+5. 组装 dist/ 产物目录（index.html、images/、data/）
+
+环境变量（均为可选）：
+    CESIUM_ION_TOKEN   Cesium Ion 访问令牌
+    TIANDITU_TOKEN     天地图「浏览器端」Key
+    SITE_ORIGIN        地图站域名，默认 https://map.2rtk.com
+    HOME_ORIGIN        首页站域名（教程/2RTK Server/Caster 页面），默认 https://2rtk.com
 
 用法：
     python scripts/build.py                 # 完整构建到 dist/
@@ -21,6 +29,21 @@ DIST_DIR = os.path.join(ROOT, 'dist')
 
 # files.json 不收录的自身元数据文件
 EXCLUDED = {'files.json', 'meta.json'}
+
+DEFAULT_SITE_ORIGIN = 'https://map.2rtk.com'
+DEFAULT_HOME_ORIGIN = 'https://2rtk.com'
+
+
+def get_site_origin():
+    """地图站根地址，去掉末尾斜杠"""
+    origin = os.environ.get('SITE_ORIGIN', '').strip() or DEFAULT_SITE_ORIGIN
+    return origin.rstrip('/')
+
+
+def get_home_origin():
+    """首页站根地址（教程 / 2RTK Server / Caster 页面所在域名）"""
+    origin = os.environ.get('HOME_ORIGIN', '').strip() or DEFAULT_HOME_ORIGIN
+    return origin.rstrip('/')
 
 
 def collect_json_files():
@@ -58,16 +81,27 @@ def write_files_json():
 def write_config_js(dist_dir):
     ion_token = os.environ.get('CESIUM_ION_TOKEN', '').strip()
     tdt_token = os.environ.get('TIANDITU_TOKEN', '').strip()
+    origin = get_site_origin()
+    home = get_home_origin()
+
     if ion_token:
-        print("[ok] 已从 CESIUM_ION_TOKEN 注入 Ion Token")
-    elif tdt_token:
-        print("[ok] 未设置 Ion Token，已注入 TIANDITU_TOKEN 作为底图")
-    else:
-        print("[warn] 未设置任何底图凭证（CESIUM_ION_TOKEN / TIANDITU_TOKEN），前端仅显示站点与卫星")
+        print("[ok] 已注入 CESIUM_ION_TOKEN")
+    if tdt_token:
+        print("[ok] 已注入 TIANDITU_TOKEN")
+    if not ion_token and not tdt_token:
+        print("[info] 未配置 Ion / 天地图凭证，将使用公共图源（Esri / CARTO / OSM）")
+    print(f"[info] 地图站: {origin} | 首页站: {home}")
+
+    payload = {
+        'cesiumIonToken': ion_token,
+        'tiandituToken': tdt_token,
+        'siteOrigin': origin,
+        'homeOrigin': home,
+    }
     content = (
         '/* 由 scripts/build.py 生成，请勿手工编辑或提交 */\n'
         'window.__2RTK_CONFIG = '
-        + json.dumps({'cesiumIonToken': ion_token, 'tiandituToken': tdt_token}, ensure_ascii=False)
+        + json.dumps(payload, ensure_ascii=False)
         + ';\n'
     )
     with open(os.path.join(dist_dir, 'config.js'), 'w', encoding='utf-8') as f:
@@ -75,6 +109,41 @@ def write_config_js(dist_dir):
     # 同步一份到根目录，便于本地直接 python -m http.server 预览（已在 .gitignore 中排除）
     with open(os.path.join(ROOT, 'config.js'), 'w', encoding='utf-8') as f:
         f.write(content)
+
+
+def write_seo_files(dist_dir):
+    """生成 robots.txt 与 sitemap.xml。
+
+    注意：sitemap 只能收录本域（地图站）的 URL。首页 2rtk.com 与教程页
+    属于另一个域名，需在首页站单独提供 sitemap。
+    """
+    origin = get_site_origin()
+
+    robots = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "\n"
+        f"Sitemap: {origin}/sitemap.xml\n"
+    )
+    with open(os.path.join(dist_dir, 'robots.txt'), 'w', encoding='utf-8') as f:
+        f.write(robots)
+
+    today = datetime.now().strftime('%Y-%m-%d')
+    sitemap = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        '  <url>\n'
+        f'    <loc>{origin}/</loc>\n'
+        f'    <lastmod>{today}</lastmod>\n'
+        '    <changefreq>daily</changefreq>\n'
+        '    <priority>1.0</priority>\n'
+        '  </url>\n'
+        '</urlset>\n'
+    )
+    with open(os.path.join(dist_dir, 'sitemap.xml'), 'w', encoding='utf-8') as f:
+        f.write(sitemap)
+
+    print("[ok] 已生成 robots.txt 与 sitemap.xml")
 
 
 def ensure_optional_data():
@@ -95,13 +164,23 @@ def build():
     # 增量覆盖而非整目录删除，避免触发文件保护策略
     os.makedirs(DIST_DIR, exist_ok=True)
 
-    # 站点主体：替换构建版本号，避免 config.js 被浏览器长期缓存
+    # 站点主体：替换站点域名占位符与构建版本号
     build_id = datetime.now().strftime('%Y%m%d%H%M%S')
+    origin = get_site_origin()
+    home = get_home_origin()
     with open(os.path.join(ROOT, 'index.html'), 'r', encoding='utf-8') as f:
         html = f.read()
+    html = html.replace('__SITE_ORIGIN__', origin)
+    html = html.replace('__HOME_ORIGIN__', home)
     html = html.replace('__BUILD_ID__', build_id)
     with open(os.path.join(DIST_DIR, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(html)
+
+    # 兜底：源码里若残留占位符，说明有遗漏，直接报错避免线上出现脏字符串
+    leftover = [p for p in ('__SITE_ORIGIN__', '__HOME_ORIGIN__', '__BUILD_ID__') if p in html]
+    if leftover:
+        raise SystemExit(f"[fail] index.html 中仍有未替换的占位符: {leftover}")
+
     # 图片资源
     src_images = os.path.join(ROOT, 'images')
     if os.path.isdir(src_images):
@@ -114,6 +193,7 @@ def build():
             shutil.copy2(os.path.join(DATA_DIR, name), os.path.join(dst_data, name))
 
     write_config_js(DIST_DIR)
+    write_seo_files(DIST_DIR)
     print(f"[ok] 构建完成 -> {DIST_DIR}")
 
 

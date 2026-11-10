@@ -270,8 +270,8 @@ python3 -m pip install -r requirements.txt
 
 python3 main.py</pre>
       </div>
-      <p>Web 面板在 <code>http://服务器IP:5757</code>，默认账号 <code>admin</code> / <code>admin123</code>。
-      首次启动会自动生成 <code>data/.secret_key</code>，不用手动填。</p>
+      <p>Web 面板在 <code>http://服务器IP:5757</code>；首次启动会自动生成 <code>data/.secret_key</code>，不用手动填。
+      登录、改密码的事在下面第 1 步和第 3 步。</p>
 
       <h3>装完先验三下</h3>
       <div class="code-block">
@@ -282,20 +282,73 @@ curl -s http://localhost:5757/health  <span class="cmt"># 期望 {"status":"ok",
       </div>
       <p><code>/health</code> 不需要登录、也不查数据库，Docker 健康检查和监控探活都用它，接 Uptime Kuma 之类的直接填这个地址。</p>
 
-      <figure class="fig">
-        <div class="fig-ph"><b>截图待补</b><span>装完打开 :5757 的首页看板</span></div>
-        <figcaption>首页能看到运行时长、CPU / 内存占用、连接数、挂载点在线状态，下面是实时系统日志</figcaption>
+      <h2 id="login">第 1 步：登录</h2>
+      <p>
+        装完打开 <code>http://服务器IP:5757</code>，落在管理员登录页。默认账号 <code>admin</code> / <code>admin123</code>，
+        登录框底下那行灰字就是告诉你这件事的——所以第一件事永远是改密码，见第 3 步。
+        账号或密码不对，标题下方会顶出一条红条「用户名或密码错误」；密码框只显示圆点，不会回显。
+      </p>
+      <figure class="fig narrow">
+        <img src="/images/caster/01-login.png" alt="2RTK NTRIP Caster 管理员登录页，底部提示默认账号 admin / admin123" loading="lazy" decoding="async" />
+        <figcaption>登录页。右上角 <b>中文 / EN</b> 可切换界面语言，左下角是打赏入口</figcaption>
       </figure>
+      <div class="tip">
+        <p><b>连错会被锁。</b>同一 IP + 用户名连续失败 5 次锁 300 秒（<code>[security]</code> 段可调）。
+        被锁时别反复点登录，等 5 分钟，或者直接上服务器本地改。
+        忘记管理员密码只能改库或重置配置，所以第 3 步别跳过。</p>
+      </div>
 
-      <h2 id="firstrun">首次登录，先改三处</h2>
-      <p>浏览器打开 <code>http://服务器IP:5757</code>，用 <code>admin</code> / <code>admin123</code> 登进去，然后立刻处理这三件事：</p>
-      <ol>
-        <li><strong>改管理员密码</strong>：界面上直接改。默认账号密码是公开写在文档里的，不改等于没锁门。</li>
-        <li><strong>确认 <code>debug_mode = false</code></strong>：生产环境开调试会漏内部信息和堆栈。</li>
-        <li><strong>确认 <code>secret_key</code></strong>：留空时程序会自动生成随机值写到 <code>data/.secret_key</code>，不要填成示例值。</li>
-      </ol>
+      <h2 id="overview">第 2 步：看懂总览</h2>
+      <p>登录后直接进总览，这一页是你以后最常看的地方——挂没挂、有没有人在拉、流还活着没，都在这里。</p>
+      <figure class="fig">
+        <img src="/images/caster/03-dashboard.png" alt="总览页：运行时长、在线挂载点、在线用户、数据传输四个指标卡，下面是运行状态、在线 RTK 基准站列表和系统日志" loading="lazy" decoding="async" />
+        <figcaption>总览页。右上角「更新于 HH:MM:SS」说明数据是轮询刷新的，页面不用手动刷新</figcaption>
+      </figure>
+      <p>四个指标卡和左边那列运行状态，各是什么含义：</p>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>指标</th><th>含义</th><th>怎么用它判断</th></tr></thead>
+          <tbody>
+            <tr><td>运行时长</td><td>进程启动到现在</td><td>数字比你以为的小 → 服务重启过，去查日志</td></tr>
+            <tr><td>在线挂载点</td><td>此刻有源在推的挂载点数</td><td>建了 3 个只显示 1，说明有 2 路基站掉线了</td></tr>
+            <tr><td>在线用户</td><td>正在拉流的客户端连接数</td><td>流动站说连不上时先看这里是不是 0</td></tr>
+            <tr><td>数据传输</td><td>启动以来累计下发的字节数</td><td>不涨 = 没人在拉，或拉的都断了</td></tr>
+            <tr><td>CPU / 内存</td><td>本进程占用</td><td>2000 并发下也只有一两核、几百 MB，不是瓶颈</td></tr>
+            <tr><td>网络 ↑ ↓</td><td>实时上行 / 下行速率</td><td>↑ 是基站推上来的，↓ 是发给流动站的</td></tr>
+            <tr><td>活动连接</td><td>当前 NTRIP 会话数</td><td>推流 + 拉流都算；和在线挂载点数对不上是正常的</td></tr>
+            <tr><td>最大并发</td><td>配置的上限</td><td>默认 5000，个人用基本碰不到</td></tr>
+            <tr><td>累计连接</td><td>启动以来建立过的会话总数</td><td>客户端反复重连会让它涨得很快</td></tr>
+            <tr><td>已拒绝</td><td>鉴权失败 / 超限被拒的次数</td><td><b>正常应该一直是 0</b>，涨了就是有人在撞密码或配置错</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>下面的「在线 RTK 基准站」是唯一能看到<strong>单路基站实时速率</strong>的地方，一行一个挂载点：</p>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>字段</th><th>含义</th></tr></thead>
+          <tbody>
+            <tr><td>挂载点名称</td><td>例如 <code>2RTK</code>，就是客户端要填的那个名字</td></tr>
+            <tr><td>人数图标</td><td>当前有几个客户端在拉这路流</td></tr>
+            <tr><td>数据包</td><td>累计收到的 RTCM 帧数，<b>只要在涨就说明流是活的</b></td></tr>
+            <tr><td>已传输</td><td>这路流累计转发了多少字节</td></tr>
+            <tr><td>速率</td><td>实时码率。四系统 MSM4 大约 2～3 KB/s，MSM7 会翻几倍</td></tr>
+            <tr><td>在线时长</td><td>本次推流持续了多久；数字一直很小说明基站在反复断连</td></tr>
+            <tr><td>online</td><td>有源在推才是 online，否则这行根本不会出现</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>最底下是系统日志，连接建立、鉴权失败、挂载点增删都会实时推到这里，排错先看它。</p>
 
-      <p>配置文件放在哪，取决于你用的是哪种装法：</p>
+      <h2 id="passwd">第 3 步：改管理员密码</h2>
+      <p>点顶部「设置」，这一页只有两块内容：改密码、重启程序。</p>
+      <figure class="fig">
+        <img src="/images/caster/09-settings.png" alt="系统设置页：安全卡片里是新密码、确认密码和修改按钮，右侧系统控制卡片里是重启程序按钮" loading="lazy" decoding="async" />
+        <figcaption>设置页。新密码最少 6 个字符；改完当前登录不会掉线</figcaption>
+      </figure>
+      <p>
+        <strong>其余配置项都不在界面里，要改 <code>config.ini</code>。</strong>改完必须重启——页面上的「重启程序」按钮就是干这个的，
+        也可以走 systemd。重启会重载配置，并中断所有 NTRIP 会话几秒，流动站会自动重连，但别在测绘作业中途点。
+      </p>
       <div class="table-wrap compact">
         <table>
           <thead><tr><th>装法</th><th>配置文件</th><th>数据库</th></tr></thead>
@@ -306,7 +359,6 @@ curl -s http://localhost:5757/health  <span class="cmt"># 期望 {"status":"ok",
           </tbody>
         </table>
       </div>
-
       <p>真正需要动的配置项就这么几个，其余保持默认：</p>
       <dl class="kv">
         <div class="kv-row"><dt>[ntrip] port</dt><dd>2101　NTRIP 服务端口，改完记得放行新端口</dd></div>
@@ -317,12 +369,25 @@ curl -s http://localhost:5757/health  <span class="cmt"># 期望 {"status":"ok",
         <div class="kv-row"><dt>[security] 登录限流</dt><dd>5　同一 IP+用户名连错 5 次锁 300 秒</dd></div>
       </dl>
       <div class="tip">
-        <p><b>改完配置要重启服务：</b><code>sudo systemctl restart 2rtk</code>；Docker 用 <code>docker restart ntrip-caster</code>。
+        <p><b>另外两处也顺手确认一下：</b><code>debug_mode</code> 生产环境应为 <code>false</code>（开调试会把内部信息和堆栈吐到页面上）；
+        <code>secret_key</code> 留空时程序会自动生成随机值写到 <code>data/.secret_key</code>，不要填成示例值。
         环境变量优先级高于配置文件，排查「改了没生效」时先看 systemd unit 里有没有 <code>Environment=</code> 覆盖。</p>
       </div>
 
-      <h2 id="users">第二步：建用户（拉流账号）</h2>
-      <p>用户是给<strong>客户端</strong>用的账号，一个客户一个账号，出问题能单独停掉。命名规则卡得比较死：</p>
+      <h2 id="user">第 4 步：建用户</h2>
+      <p>
+        用户是给<strong>客户端</strong>用的账号。一个客户一个账号，出问题能单独停掉，也方便看是谁在拉。
+        点「用户」进用户管理，右上角「添加用户」：
+      </p>
+      <figure class="fig">
+        <img src="/images/caster/07-users.png" alt="用户管理页：列表显示用户名、状态、连接数、连接时间和操作按钮" loading="lazy" decoding="async" />
+        <figcaption>用户列表。状态只有在线 / 离线两种；「连接时间」是该用户本次接入的时刻，没连过显示 <code>-</code></figcaption>
+      </figure>
+      <figure class="fig narrow">
+        <img src="/images/caster/08-user-add.png" alt="添加用户弹窗，填写用户名 base02user 和密码" loading="lazy" decoding="async" />
+        <figcaption>添加用户只有两个字段，没有邮箱、没有配额，越简单越不出错</figcaption>
+      </figure>
+      <p>命名规则卡得比较死，输错了会直接弹红条告诉你哪一条不满足：</p>
       <div class="table-wrap compact">
         <table>
           <thead><tr><th>字段</th><th>规则</th></tr></thead>
@@ -341,42 +406,50 @@ curl -s http://localhost:5757/health  <span class="cmt"># 期望 {"status":"ok",
         <p><b>密码存的是 PBKDF2 哈希。</b>管理界面只能重设，看不到原值——忘了就让用户改密码，别指望能「查回来」。</p>
       </div>
 
-      <h2 id="mounts">第三步：建挂载点</h2>
+      <h2 id="mount">第 5 步：建挂载点</h2>
       <p>挂载点（mountpoint）就是「一路流」的名字，基站往上推、流动站往下拉，都靠这个名字对上。</p>
+      <figure class="fig">
+        <img src="/images/caster/04-mounts.png" alt="挂载点管理页：RTKGL、2RTK、RTKSC 三个挂载点，2RTK 为在线状态" loading="lazy" decoding="async" />
+        <figcaption>挂载点列表。<b>2RTK</b> 有源在推所以是绿色「在线」，另外两个没有源就是灰的「离线」</figcaption>
+      </figure>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>列</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>挂载点</td><td>名字，2 – 50 字符，字母 / 数字 / 下划线 / 中横线</td></tr>
+            <tr><td>状态</td><td><b>在线</b> = 此刻有源在推；<b>离线</b> = 建好了但没数据进来</td></tr>
+            <tr><td>连接数</td><td>有几个客户端在拉这路流</td></tr>
+            <tr><td>所属用户</td><td>绑定的账号，没绑就是「未指定」</td></tr>
+            <tr><td>描述</td><td>预留列，目前恒为 <code>-</code>，源表里的描述来自基站电文</td></tr>
+            <tr><td>操作</td><td>编辑（改名 / 改密码 / 改绑定）、删除</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>添加挂载点</h3>
+      <p>右上角「添加挂载点」，三个字段：</p>
+      <figure class="fig narrow">
+        <img src="/images/caster/05-mount-add.png" alt="添加挂载点弹窗：挂载点名称 BASE02、密码、绑定用户下拉选择 test" loading="lazy" decoding="async" />
+        <figcaption>名称是给客户端填的，密码是 NTRIP 1.0 的凭据；绑定用户下拉里列的就是第 4 步建好的账号</figcaption>
+      </figure>
       <dl class="kv">
         <div class="kv-row"><dt>挂载点名称</dt><dd>2 – 50 字符，字母 / 数字 / 下划线 / 中横线，例如 BASE01</dd></div>
         <div class="kv-row"><dt>挂载点密码</dt><dd>6 – 100 字符，NTRIP 1.0 推流和拉流都拿它认证</dd></div>
-        <div class="kv-row"><dt>绑定用户</dt><dd>可选，绑定后 NTRIP 2.0 只允许这个账号推这个点</dd></div>
+        <div class="kv-row"><dt>绑定用户</dt><dd>可选。绑了之后 NTRIP 2.0 只允许这个账号推这个点</dd></div>
       </dl>
+      <p>建好之后还能改。「编辑」弹窗和添加不一样的地方在于：<strong>密码留空表示不改</strong>，绑定用户是<strong>手填用户名</strong>而不是下拉，留空就是解除绑定。</p>
+      <figure class="fig narrow">
+        <img src="/images/caster/06-mount-edit.png" alt="编辑挂载点弹窗：挂载点名称、新密码（留空表示不修改）、绑定用户输入框" loading="lazy" decoding="async" />
+        <figcaption>编辑弹窗的占位提示直接写清了规则：新密码留空 = 不改，绑定用户留空 = 不绑定</figcaption>
+      </figure>
       <div class="warn">
         <p><b>绑定的作用范围不一样，这点容易踩坑：</b>推流（SOURCE）方向，只要挂载点绑了用户，NTRIP 2.0 就<strong>一定</strong>校验绑定关系；
         拉流方向默认只校验账号密码，任何有效用户都能拉全部挂载点，想收紧得把 <code>[ntrip] download_enforce_user_binding</code> 设成 <code>true</code>。</p>
       </div>
 
-      <h3>源表（STR）是自动补的</h3>
+      <h2 id="feed">第 6 步：让基站把流推上来</h2>
       <p>
-        传统 Caster 要你手写 19 个字段的源表行，格式错一个分号客户端就看不见。这个项目不用：
-        挂载点建好，基站把 RTCM 推上来后，服务端用 <code>pyrtcm</code> 解析流里的电文，
-        自动读出坐标、国家、城市和电文类型，再回填到源表里。
-      </p>
-      <ul>
-        <li><strong>位置</strong>：从 <code>1005</code> / <code>1006</code> 电文取 ECEF 坐标并转成经纬度，反查城市名。</li>
-        <li><strong>格式与电文</strong>：按实际收到的 MSM 电文生成，客户端看到的 <code>GPS+GLO+GAL+BDS</code> 是真的在发，不是抄配置。</li>
-        <li><strong>兜底</strong>：流里没有 1005/1006 时，用 <code>[caster]</code> 里的经纬度；再没有就是模板默认值——所以基站端一定要开 1005/1006。</li>
-      </ul>
-      <p>
-        在挂载点列表里点 STR 前面的 INFO，后台会解析几十秒然后显示出这批电文的明细。
-        刚推上来的流解析需要点时间，别急着刷。
-      </p>
-
-      <figure class="fig">
-        <div class="fig-ph"><b>截图待补</b><span>挂载点管理页：在线状态、连接数、数据速率</span></div>
-        <figcaption>列表里能直接看到每个挂载点是否 online、当前几个客户端、实际速率，密码只显示掩码</figcaption>
-      </figure>
-
-      <h2 id="feed">第四步：让基站把流推上来</h2>
-      <p>
-        Caster 起来只是空壳，挂载点要有源推进来才「活」。推流走 NTRIP 的 <code>SOURCE</code> 请求，两种认证方式：
+        Caster 起来只是空壳，挂载点要有源推进来才会变成「在线」。推流走 NTRIP 的 <code>SOURCE</code> 请求，两种认证方式：
       </p>
       <div class="table-wrap">
         <table>
@@ -404,13 +477,91 @@ curl -s http://localhost:5757/health  <span class="cmt"># 期望 {"status":"ok",
 str2str -in  "ntrip://user:pass@rtk2go.com:2101/SOME_MOUNT" \
         -out "ntrips://:挂载点密码@caster.example.com:2101/BASE01"</pre>
       </div>
-      <p>推上去后回首页看：<strong>Mount Point Details</strong> 里该挂载点变成 online，Data Packets 一直在涨，就说明通了。</p>
+      <p>
+        推上去后回<strong>总览</strong>看两处：挂载点列表里状态变成绿色「在线」，以及「在线 RTK 基准站」里多出一行，
+        <strong>数据包</strong>那个数字一直在涨，就说明流真的通了。
+      </p>
       <div class="danger">
         <p><b>挂载点必须先建。</b>Caster 不会因为收到一路新流就自动创建挂载点，名字对不上直接拒绝。
         日志里出现「挂载点不存在」就是这个问题，不是密码错。</p>
       </div>
 
-      <h2 id="client">第五步：流动站怎么连</h2>
+      <h2 id="info">第 7 步：查看挂载点信息</h2>
+      <p>
+        点顶部「实时数据」，这里是给<strong>已经在推的</strong>站点做体检的地方。上面的 STR 数据表列出所有在线挂载点，
+        每一行左边是站点按钮，右边是它当前的源表原文：
+      </p>
+      <figure class="fig">
+        <img src="/images/caster/10-str-table.png" alt="实时数据页的 STR 数据表，一行显示 2RTK 站点按钮和完整的 STR 源表内容" loading="lazy" decoding="async" />
+        <figcaption>STR 数据表。按钮上的名字就是挂载点名，点它才开始解析；右边那串分号分隔的就是客户端看到的源表行</figcaption>
+      </figure>
+      <p>点站点按钮后，右边「基准站信息」会实时解析这路流里的 RTCM 电文，把下面这些一项项填出来：</p>
+      <figure class="fig">
+        <img src="/images/caster/10-str-info.png" alt="基准站信息卡：挂载点、站点编号、国家、城市、接收机型号、固件、天线型号、天线序列号、经纬度高程和 ECEF 坐标" loading="lazy" decoding="async" />
+        <figcaption>基准站信息。这些值全部来自流里的电文解析，不是从配置抄的——接收机型号、固件、天线型号对不上，说明基站端配置有问题</figcaption>
+      </figure>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>字段</th><th>来自哪条电文</th></tr></thead>
+          <tbody>
+            <tr><td>站点编号、国家、城市、接收机 / 固件 / 天线</td><td><code>1005</code> / <code>1006</code>（天线描述）与 <code>1033</code>（接收机与天线描述）</td></tr>
+            <tr><td>经度 / 纬度 / 高程</td><td><code>1005</code> / <code>1006</code> 的 ECEF 坐标反算并换算高程</td></tr>
+            <tr><td>ECEF X / Y / Z</td><td>同上，原始值直接给出来，方便和基站端比对</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>再往下是位置图和卫星状态，用来快速判断「这站的数据到底好不好」：</p>
+      <figure class="fig">
+        <img src="/images/caster/11-station-map.png" alt="基准站位置地图，站点图标和覆盖范围圈，右上角可切换高德地图和 OpenStreetMap" loading="lazy" decoding="async" />
+        <figcaption>基准站位置。圆圈是示意覆盖范围；右上角可切「高德地图 / OpenStreetMap」，海外站点建议用 OSM</figcaption>
+      </figure>
+      <figure class="fig">
+        <img src="/images/caster/12-satellite.png" alt="卫星数据可视化：GPS 与 GLONASS 各卫星的信噪比柱状图，绿色为强信号、黄色为偏弱" loading="lazy" decoding="async" />
+        <figcaption>卫星数据可视化。柱子是各卫星的信噪比，PRN 号在下面；某个星座整排偏黄偏低，就去看基站那边的天线和遮挡</figcaption>
+      </figure>
+      <div class="warn">
+        <p><b>解析要等一会儿，而且一次只解析一个站。</b>点下去先显示「正在解析…」，十几秒到几十秒后才出坐标和卫星；
+        换一个站会接管解析，前一个自动停。别在作业时间反复点，它会占用一点服务端资源。</p>
+      </div>
+
+      <h3 id="str">源表原文长什么样</h3>
+      <p>
+        想不打开网页就确认客户端会看到什么，直接对 2101 端口发一个请求，它会把整个源表吐回来：
+      </p>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 读源表</span></div>
+        <pre>curl -s http://你的域名:2101/ | iconv -f utf-8</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><span>SOURCETABLE 的实际返回（未在线挂载点不会出现）</span></div>
+        <pre>SOURCETABLE 200 OK
+Server: NTRIP 2RTK caster 2.3.4
+Ntrip-Version: Ntrip/1.0
+Content-Type: text/plain
+
+CAS;2rtk;2101;2RTK Ntrip Caster;2rtk;0;CHN;25.20341154;110.277492;0.0.0.0;0;https://2rtk.com
+NET;2rtk;2rtk;B;CHN;https://2rtk.com;https://2rtk.com;i@jia.by;none
+STR;2RTK;Sarlat-la-Can&eacute;da;RTCM3.x;
+    1004(3),1012(2),1077(2),1087(2),1097(2),1107(2),1127(2),1045(3),1046(3),1019(1),
+    1005(1),1008(1),1033(1),1020(1),1006(1),1230(1),1042(2);
+    B1I+B2I+B3I+E1+E5a+E5b+G1+G2+G3+L1+L2+L5+LEX;BDS+GAL+GLO+GPS+QZSS+SBAS;
+    2rtk;FRA;44.8975;1.2167;0;0;2RTK_NtirpCaster;N;B;N;19945;YES
+
+ENDSOURCETABLE</pre>
+      </div>
+      <p class="note">实际返回里 <code>STR</code> 是<b>一整行</b>，上面为了看得清才按字段折开；用 <code>curl</code> 拿到的是连续的一行。</p>
+      <p>
+        三行分别是 <code>CAS</code>（Caster 自身）、<code>NET</code>（运营者信息）、<code>STR</code>（每个在线挂载点一行）。
+        <code>STR</code> 中间的格式串、载波、星座列表，就是上面那张 STR 表里展示的内容；
+        末尾的 <code>19945</code> 是码率（bps），和你总览里看到的 2 KB/s 左右对得上。
+      </p>
+      <p>
+        源表是<strong>自动补的</strong>，不用手写：挂载点建好、基站把 RTCM 推上来之后，服务端用 <code>pyrtcm</code> 解析流里的电文，
+        自动读出坐标、国家、城市和电文类型，再回填进 STR 行。流里没有 <code>1005</code> / <code>1006</code> 时，
+        才会退回到 <code>[caster]</code> 里配的兜底经纬度——所以基站端一定要开这两条电文。
+      </p>
+
+      <h2 id="client">第 8 步：流动站怎么连</h2>
       <p>手簿 / App / 接收机里选 NTRIP，填这几项：</p>
       <dl class="kv">
         <div class="kv-row"><dt>Caster 地址</dt><dd>caster.example.com</dd></div>
@@ -435,7 +586,8 @@ str2str -in  "ntrip://user:pass@rtk2go.com:2101/SOME_MOUNT" \
       </div>
       <p>
         连上后先收到 <code>ICY 200 OK</code>（1.0）或 <code>HTTP/1.1 200 OK</code>（2.0），紧接着就是一串二进制 RTCM。
-        能连但久久不出固定解，八成是电文不匹配——回挂载点列表点 INFO，看实际发的电文里有没有你的接收机需要的类型。
+        能连但久久不出固定解，八成是电文不匹配——去<a href="#info">实时数据</a>点开这个站，
+        看 STR 行里的电文列表有没有你接收机需要的类型，再看卫星信噪比是不是整体偏低。
       </p>
 
       <h2 id="upgrade">升级、备份与回滚</h2>

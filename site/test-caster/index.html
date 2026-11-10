@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>免费 NTRIP Caster 测试服务器：2rtk.com:2101 连接参数与验证方法 | 2RTK</title>
+  <title>免费 NTRIP Caster 测试服务器：43.142.126.162:2101 连接参数与验证方法 | 2RTK</title>
   <meta name="description" content="2RTK 自建的免费 NTRIP Caster 测试服务器，用于验证 RTK 基站推流与流动站拉流配置。含 Caster 地址、端口、挂载点、账号申请方式，以及 curl 源表自检、RTKLIB 拉流、手机 App 测试的完整步骤。" />
-  <meta name="keywords" content="免费NTRIP Caster,NTRIP测试服务器,NTRIP Caster 测试,RTK测试,2rtk.com 2101,挂载点,RTCM推流测试" />
+  <meta name="keywords" content="免费NTRIP Caster,NTRIP测试服务器,NTRIP Caster 测试,RTK测试,43.142.126.162 2101,挂载点,RTCM推流测试" />
   <meta name="author" content="2RTK" />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
   <meta name="theme-color" content="#080b10" />
@@ -13,7 +13,7 @@
 
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="2RTK" />
-  <meta property="og:title" content="免费 NTRIP Caster 测试服务器：2rtk.com:2101" />
+  <meta property="og:title" content="免费 NTRIP Caster 测试服务器：43.142.126.162:2101" />
   <meta property="og:description" content="验证基站推流与流动站拉流的最小可用环境，附连接参数与自检命令。" />
   <meta property="og:url" content="__SITE_ORIGIN__/test-caster/" />
   <meta property="og:image" content="__SITE_ORIGIN__/images/2rtk.png" />
@@ -49,7 +49,7 @@
       你可以在正式上线前，用它验证「基站能不能推上去」「流动站能不能拉下来」这两个最关键的环节——不用买服务器、不用配域名。
     </p>
     <div class="chips">
-      <span class="chip">2rtk.com:2101</span>
+      <span class="chip">43.142.126.162:2101</span>
       <span class="chip">NTRIP 2.0</span>
       <span class="chip">RTCM 3.x</span>
       <span class="chip">限时测试</span>
@@ -61,14 +61,20 @@
 
       <h2 id="params">连接参数</h2>
       <dl class="kv">
-        <div class="kv-row"><dt>Caster 地址</dt><dd>2rtk.com</dd></div>
-        <div class="kv-row"><dt>端口</dt><dd>2101</dd></div>
+        <div class="kv-row"><dt>Caster 地址</dt><dd>43.142.126.162</dd></div>
+        <div class="kv-row"><dt>NTRIP 端口</dt><dd>2101（推流、拉流都走这里）</dd></div>
+        <div class="kv-row"><dt>Web 管理端口</dt><dd><a href="http://43.142.126.162:5757/" target="_blank" rel="noopener">5757</a></dd></div>
         <div class="kv-row"><dt>协议</dt><dd>NTRIP 2.0（兼容 NTRIP 1.0 源推送）</dd></div>
         <div class="kv-row"><dt>挂载点</dt><dd>申请后分配，格式如 TEST01</dd></div>
         <div class="kv-row"><dt>用户名 / 密码</dt><dd>申请后邮件发送</dd></div>
         <div class="kv-row"><dt>数据保留</dt><dd>不落盘，仅实时转发</dd></div>
         <div class="kv-row"><dt>服务状态</dt><dd><span class="tag tag-ok">运行中</span> 空闲挂载点定期回收</dd></div>
       </dl>
+
+      <div class="note">
+        <p>这台测试 Caster 是直接按 <a href="/caster/">Caster 搭建教程</a> 装在一台普通云服务器上的，
+        所以你在截图和教程里看到的界面、端口、默认账号，跟它完全一样——先在它上面跑通，再照搬到自己机器上就行。</p>
+      </div>
 
       <div class="tip">
         <p><b>怎么申请：</b>发邮件到 <a href="mailto:i@jia.im">i@jia.im</a>，写清三件事——
@@ -107,7 +113,7 @@
         <table>
           <thead><tr><th>字段</th><th>值</th></tr></thead>
           <tbody>
-            <tr><td>服务器 / Caster</td><td><code>2rtk.com</code></td></tr>
+            <tr><td>服务器 / Caster</td><td><code>43.142.126.162</code></td></tr>
             <tr><td>端口</td><td><code>2101</code></td></tr>
             <tr><td>挂载点 / Mountpoint</td><td>邮件里给你的名字，<b>区分大小写</b></td></tr>
             <tr><td>用户名 / 密码</td><td>邮件里给你的账号</td></tr>
@@ -120,7 +126,7 @@
       <div class="code-block">
         <div class="code-head"><span>shell · 串口推到测试 Caster</span></div>
         <pre>str2str -in  serial://ttyACM0:115200:1#rtcm3 \
-        -out "ntrips://用户名:密码@2rtk.com:2101/你的挂载点"</pre>
+        -out "ntrips://用户名:密码@43.142.126.162:2101/你的挂载点"</pre>
       </div>
 
       <h2 id="check">第二步：查源表，确认流已上线</h2>
@@ -130,10 +136,10 @@
       <div class="code-block">
         <div class="code-head"><span>shell · 拉取源表并筛选自己的挂载点</span></div>
         <pre><span class="cmt"># 整张源表</span>
-curl -s http://2rtk.com:2101/
+curl -s http://43.142.126.162:2101/
 
 <span class="cmt"># 只看你的挂载点（把 MOUNT 换成实际名字）</span>
-curl -s http://2rtk.com:2101/ | grep -i "STR;MOUNT"</pre>
+curl -s http://43.142.126.162:2101/ | grep -i "STR;MOUNT"</pre>
       </div>
       <p>能看到 <code>STR;你的挂载点;…</code> 这一行，说明 Caster 已经收到并登记了你的流。看不到的话，按这个顺序排查：</p>
       <ol>
@@ -150,7 +156,7 @@ curl -s http://2rtk.com:2101/ | grep -i "STR;MOUNT"</pre>
       <div class="code-block">
         <div class="code-head"><span>shell · 拉 60 秒存成 RTCM 文件</span></div>
         <pre><span class="cmt"># 拉 60 秒，存成 rtcm3 文件</span>
-str2str -in  "ntrip://用户名:密码@2rtk.com:2101/你的挂载点" \
+str2str -in  "ntrip://用户名:密码@43.142.126.162:2101/你的挂载点" \
         -out file://test.rtcm#rtcm3 -t 60
 
 <span class="cmt"># 用 RTKLIB 的 rtkconv 转成 RINEX 看观测值</span>
@@ -167,7 +173,7 @@ rtkconv -r test.rtcm</pre>
         <table>
           <thead><tr><th>字段</th><th>值</th></tr></thead>
           <tbody>
-            <tr><td>Caster / Host</td><td><code>2rtk.com</code></td></tr>
+            <tr><td>Caster / Host</td><td><code>43.142.126.162</code></td></tr>
             <tr><td>Port</td><td><code>2101</code></td></tr>
             <tr><td>Mountpoint</td><td>你的挂载点</td></tr>
             <tr><td>User / Password</td><td>邮件里的账号</td></tr>

@@ -4,16 +4,22 @@
 >
 > 改造已完成并本地验证通过。
 
+> ⚠️ **本文档部分内容已被后续迭代取代**
+>
+> 地图站已进一步升级：Cesium `1.107` → **`1.147.0`**，底图由「三级降级」改为**多图源自动探测切换**，并新增中英双语与 SEO。
+> 关于底图、密钥、双语的**最新准确说明**请以 [`地图站功能与配置说明.md`](./地图站功能与配置说明.md) 为准。
+> 本文保留的价值在于：Cloudflare Pages 部署、GitHub Actions 采集、`files.json` 自动生成这几部分仍然有效。
+
 ---
 
 ## 一、改造总览
 
 | 项目 | 改造前 | 改造后 |
 |------|--------|--------|
-| Cesium 加载 | `cesium.com` 源站（实测 20s） | jsDelivr CDN 固定版本 `1.107` |
+| Cesium 加载 | `cesium.com` 源站（实测 20s） | jsDelivr CDN 固定版本（当前 `1.147.0`） |
 | 静态资源基址 | 未声明（源站相对路径可用） | `CESIUM_BASE_URL` 显式指向 CDN |
 | Ion Token | 硬编码在 HTML | 构建时注入 `config.js`，不入库 |
-| 底图降级 | 无 | Ion → 天地图 → 纯色椭球（三级） |
+| 底图 | 无 | 多图源自动探测（Ion → Esri → CARTO → 天地图 → OSM），见配置说明文档 |
 | `files.json` | 手工维护，易漏 | 构建脚本扫描 `data/` 自动生成 |
 | 数据采集 | 本地/服务器 scheduler.py | GitHub Actions cron，每 6 小时 |
 | 部署产物 | 仓库根目录直接托管 | `dist/` 构建产物 |
@@ -27,26 +33,34 @@
 Cesium 运行时需要动态加载 `Workers/`、`Assets/`、`ThirdParty/`。一旦 Cesium.js 来自 CDN 而非同目录，必须显式声明基址，否则地形、影像、Worker 全部失效，页面表现为白屏或黑球。
 
 ```html
-<script>window.CESIUM_BASE_URL = 'https://cdn.jsdelivr.net/npm/cesium@1.107/Build/Cesium/';</script>
-<script src="https://cdn.jsdelivr.net/npm/cesium@1.107/Build/Cesium/Cesium.js"></script>
+<script>window.CESIUM_BASE_URL = 'https://cdn.jsdelivr.net/npm/cesium@1.147.0/Build/Cesium/';</script>
+<script src="https://cdn.jsdelivr.net/npm/cesium@1.147.0/Build/Cesium/Cesium.js" crossorigin="anonymous"></script>
 ```
 
-### 坑 2：Cesium 1.107 下用 `baseLayer` 会抛跨域错误并卡死页面
+### 坑 2：`baseLayer` 报错的真因是 `IonImageryProvider` 构造函数已私有化
 
-`baseLayer: new Cesium.ImageryLayer(...)` 是 1.104+ 的新写法，但在 1.107 配合 CDN 时会抛 `Script error.`（跨域脚本错误，无详细信息），导致后续所有初始化中断——按钮只渲染一半、数据不加载。
+> **更正**：早期排查时曾得出结论「Cesium 1.107 下不能用 `baseLayer`」，这个结论是**错的**。
+> 官方文档明确推荐 `baseLayer: new Cesium.ImageryLayer(provider)` 的写法，1.147 实测完全正常。
+>
+> 真正抛异常的是这一行：
+> ```js
+> new Cesium.IonImageryProvider({ assetId: 2 })   // ❌ 构造函数已私有化
+> ```
+> 新版必须改用静态工厂方法，它返回 Promise，因此要配合 `ImageryLayer.fromProviderAsync`：
+> ```js
+> Cesium.ImageryLayer.fromProviderAsync(Cesium.IonImageryProvider.fromAssetId(2))   // ✅
+> ```
+> 由于该异常发生在 `new Cesium.Viewer(...)` 内部且来自跨域脚本，浏览器只报 `Script error.`，看不出真实原因，很容易误判成 `baseLayer` 的问题。
 
-**必须用 1.107 的 `imageryProvider` 参数**：
-
-```js
-viewerOptions.imageryProvider = new Cesium.IonImageryProvider({ assetId: 2 });
-```
+**另外注意**：`baseLayer` 只在 `baseLayerPicker: false` 时生效，两者同时配置会互相冲突。
 
 ### 坑 3：底图不能用 OSM / 高德
 
-- `tile.openstreetmap.org`、`services.arcgisonline.com`：国内实测**完全不可达**（连接超时），会导致黑球
+- `tile.openstreetmap.org`、`services.arcgisonline.com`、`a.basemaps.cartocdn.com`：国内实测**不可达**（连接超时）
 - 高德/腾讯瓦片：国内可达，但使用 **GCJ-02 火星坐标**，与 RTK 站点使用的 WGS84 偏差数百米 —— 对厘米级定位展示是灾难性错误
 
-正确的国内可用、坐标兼容底图是**天地图**（CGCS2000，与 WGS84 差异在厘米级）。
+实测可用且坐标兼容的公共源：**`server.arcgisonline.com`（Esri）**、**`basemaps.cartocdn.com`（CARTO，注意不要带子域）**、**天地图**（CGCS2000）。
+
 
 ---
 
@@ -69,21 +83,23 @@ viewerOptions.imageryProvider = new Cesium.IonImageryProvider({ assetId: 2 });
 └── dist/                       # 构建产物（不入库）
 ```
 
-### 前端底图三级降级逻辑
+### 前端底图逻辑（已升级，此处仅留历史参考）
+
+> 下面这段「三级降级」代码是旧实现，**已被多图源自动探测取代**。现行实现见 [`地图站功能与配置说明.md`](./地图站功能与配置说明.md) 第二节。
 
 ```js
-const HAS_ION = ION_TOKEN.length > 20;
-
+// 旧实现（1.107 时期，已废弃，且 imageryProvider 参数在新版中已移除）
 if (HAS_ION) {
   viewerOptions.imageryProvider = new Cesium.IonImageryProvider({ assetId: 2 });
 } else if (TIANDITU_KEY) {
   viewerOptions.imageryProvider = new Cesium.WebMapTileServiceImageryProvider({ /* 天地图 */ });
-  viewerOptions.terrainProvider = new Cesium.EllipsoidTerrainProvider();
 } else {
-  viewerOptions.imageryProvider = false;              // 纯色球，站点坐标仍准确
-  viewerOptions.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+  viewerOptions.imageryProvider = false;
 }
 ```
+
+现行实现要点：`baseLayer: false` 建 Viewer → 按优先级串行探测 5 个图源（各加载一张真实瓦片，5 秒超时）→ 第一个可达的挂载为底图 → 用户可手动切换。
+
 
 无底图时 `baseLayerPicker` 与 `geocoder` 自动关闭（其内置图层依赖 Ion）。
 
@@ -124,10 +140,13 @@ Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git
 
 | 变量名 | 值 | 说明 |
 |--------|-----|------|
-| `CESIUM_ION_TOKEN` | 你的 Ion Token | 不填则降级到天地图/纯色球 |
-| `TIANDITU_TOKEN` | 天地图 key（可选） | [申请地址](https://console.tianditu.gov.cn/api/key)，个人免费 |
+| `CESIUM_ION_TOKEN` | 你的 Ion Token（可选） | 不填则走公共图源 |
+| `TIANDITU_TOKEN` | 天地图 **浏览器端** Key（可选） | [申请](https://console.tianditu.gov.cn/api/key)，务必选「浏览器端」，不要复用小程序 Key |
+| `SITE_ORIGIN` | `https://map.2rtk.com` | 地图站域名，用于 canonical / sitemap |
+| `HOME_ORIGIN` | `https://2rtk.com` | 首页站域名，用于导航链接 |
 
-> 两者都配置时优先 Ion。环境变量只在构建期使用，不会出现在客户端代码里——除了被写进 `config.js` 的那一个，这是静态站无法避免的。
+> 全部可选。一个都不配也能正常出图（自动用 Esri / CARTO 公共源）。
+> 环境变量只在构建期使用，不会出现在客户端代码里——除了被写进 `config.js` 的那一个，这是静态站无法避免的。
 
 ### 4.4 绑定域名
 

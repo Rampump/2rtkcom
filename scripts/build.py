@@ -3,15 +3,15 @@
 职责：
 1. 由环境变量生成 dist/config.js（Ion / 天地图 token 不进代码库）
 2. 扫描 data/*.json 生成 data/files.json（避免手工维护遗漏）
-3. 替换 index.html 中的 __SITE_ORIGIN__ / __BUILD_ID__ 占位符
-4. 生成 robots.txt 与 sitemap.xml（SEO）
-5. 组装 dist/ 产物目录（index.html、images/、data/）
+3. 替换 index.html 与 site/ 下内容页中的 __SITE_ORIGIN__ / __BUILD_ID__ 占位符
+4. 生成 robots.txt 与 sitemap.xml（SEO，收录地图页与全部内容页）
+5. 组装 dist/ 产物目录（index.html、site 内容页、assets/、images/、data/）
 
 环境变量（均为可选）：
     CESIUM_ION_TOKEN   Cesium Ion 访问令牌
     TIANDITU_TOKEN     天地图「浏览器端」Key
-    SITE_ORIGIN        地图站域名，默认 https://map.2rtk.com
-    HOME_ORIGIN        首页站域名（教程/2RTK Server/Caster 页面），默认 https://2rtk.com
+    SITE_ORIGIN        站点域名，默认 https://map.2rtk.com
+    HOME_ORIGIN        首页站域名，默认 https://2rtk.com（内容页已并入本站，暂仅保留配置）
 
 用法：
     python scripts/build.py                 # 完整构建到 dist/
@@ -26,12 +26,23 @@ from datetime import datetime
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(ROOT, 'data')
 DIST_DIR = os.path.join(ROOT, 'dist')
+SITE_DIR = os.path.join(ROOT, 'site')
 
 # files.json 不收录的自身元数据文件
 EXCLUDED = {'files.json', 'meta.json'}
 
 DEFAULT_SITE_ORIGIN = 'https://map.2rtk.com'
 DEFAULT_HOME_ORIGIN = 'https://2rtk.com'
+
+# 内容页清单：目录名 -> (sitemap 权重, 更新频率)
+# 顺序即 sitemap 中的顺序，首页单独处理
+PAGES = [
+    ('rtk-base', '0.9', 'monthly'),
+    ('caster', '0.9', 'monthly'),
+    ('what-is-rtk', '0.8', 'monthly'),
+    ('test-caster', '0.7', 'weekly'),
+    ('about', '0.4', 'yearly'),
+]
 
 
 def get_site_origin():
@@ -114,8 +125,7 @@ def write_config_js(dist_dir):
 def write_seo_files(dist_dir):
     """生成 robots.txt 与 sitemap.xml。
 
-    注意：sitemap 只能收录本域（地图站）的 URL。首页 2rtk.com 与教程页
-    属于另一个域名，需在首页站单独提供 sitemap。
+    地图页与内容页现在同属一个站点（SITE_ORIGIN），sitemap 统一收录。
     """
     origin = get_site_origin()
 
@@ -129,21 +139,65 @@ def write_seo_files(dist_dir):
         f.write(robots)
 
     today = datetime.now().strftime('%Y-%m-%d')
-    sitemap = (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        '  <url>\n'
-        f'    <loc>{origin}/</loc>\n'
-        f'    <lastmod>{today}</lastmod>\n'
-        '    <changefreq>daily</changefreq>\n'
-        '    <priority>1.0</priority>\n'
-        '  </url>\n'
-        '</urlset>\n'
-    )
-    with open(os.path.join(dist_dir, 'sitemap.xml'), 'w', encoding='utf-8') as f:
-        f.write(sitemap)
+    urls = [('/', '1.0', 'daily')]
+    urls += [('/%s/' % slug, prio, freq) for slug, prio, freq in PAGES]
 
-    print("[ok] 已生成 robots.txt 与 sitemap.xml")
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for path, prio, freq in urls:
+        lines += [
+            '  <url>',
+            f'    <loc>{origin}{path}</loc>',
+            f'    <lastmod>{today}</lastmod>',
+            f'    <changefreq>{freq}</changefreq>',
+            f'    <priority>{prio}</priority>',
+            '  </url>',
+        ]
+    lines.append('</urlset>')
+    with open(os.path.join(dist_dir, 'sitemap.xml'), 'w', encoding='utf-8') as f:
+        f.write('\n'.join(lines) + '\n')
+
+    print(f"[ok] 已生成 robots.txt 与 sitemap.xml（{len(urls)} 条 URL）")
+
+
+def render_pages(dist_dir, build_id, origin):
+    """把 site/ 下的静态内容页渲染到 dist/，并替换占位符。
+
+    site/ 目录结构与最终 URL 一一对应：
+        site/assets/site.css      -> /assets/site.css
+        site/what-is-rtk/index.html -> /what-is-rtk/
+    """
+    if not os.path.isdir(SITE_DIR):
+        print("[warn] 未找到 site/ 目录，跳过内容页")
+        return 0
+
+    count = 0
+    for dirpath, _dirnames, filenames in os.walk(SITE_DIR):
+        rel_dir = os.path.relpath(dirpath, SITE_DIR)
+        out_dir = dist_dir if rel_dir == '.' else os.path.join(dist_dir, rel_dir)
+        os.makedirs(out_dir, exist_ok=True)
+
+        for name in filenames:
+            src = os.path.join(dirpath, name)
+            dst = os.path.join(out_dir, name)
+            if name.endswith(('.html', '.js', '.css', '.xml', '.txt')):
+                with open(src, 'r', encoding='utf-8') as f:
+                    text = f.read()
+                text = text.replace('__SITE_ORIGIN__', origin)
+                text = text.replace('__BUILD_ID__', build_id)
+                leftover = [p for p in ('__SITE_ORIGIN__', '__BUILD_ID__') if p in text]
+                if leftover:
+                    raise SystemExit(f"[fail] {name} 中仍有未替换的占位符: {leftover}")
+                with open(dst, 'w', encoding='utf-8') as f:
+                    f.write(text)
+                if name.endswith('.html'):
+                    count += 1
+            else:
+                shutil.copy2(src, dst)
+    print(f"[ok] 内容页渲染完成，共 {count} 个 HTML 页面")
+    return count
 
 
 def ensure_optional_data():
@@ -202,6 +256,7 @@ def build():
         print("       执行 python scripts/fetch_tle.py 生成")
 
     write_config_js(DIST_DIR)
+    render_pages(DIST_DIR, build_id, origin)
     write_seo_files(DIST_DIR)
     print(f"[ok] 构建完成 -> {DIST_DIR}")
 

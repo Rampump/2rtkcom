@@ -36,3 +36,6 @@ site/.vitepress/cache/
 
 # ===== WorkBuddy 工作日志（本地专用，不进公开仓库）=====
 .workbuddy/
+
+# ===== 本地截图 / 临时脚本 =====
+.tmp/

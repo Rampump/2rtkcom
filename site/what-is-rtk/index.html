@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>什么是 RTK？载波相位差分定位原理、精度与 RTCM 电文详解 | 2RTK</title>
+  <meta name="description" content="从伪距到载波相位，讲清 RTK（实时动态差分定位）为什么能做到厘米级：共模误差如何抵消、整周模糊度为什么要固定、基线长度如何限制精度、RTCM 电文都在传什么，以及只能拿到浮动解的排查清单。" />
+  <meta name="keywords" content="什么是RTK,RTK原理,载波相位差分,整周模糊度,RTK精度,RTCM,RTK浮动解,NTRIP,CORS,基准站,2RTK" />
+  <meta name="author" content="2RTK" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+  <meta name="theme-color" content="#080b10" />
+  <link rel="canonical" href="__SITE_ORIGIN__/what-is-rtk/" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="2RTK" />
+  <meta property="og:title" content="什么是 RTK？载波相位差分定位原理与精度详解" />
+  <meta property="og:description" content="共模误差、整周模糊度、基线长度、RTCM 电文——一次把 RTK 讲透。" />
+  <meta property="og:url" content="__SITE_ORIGIN__/what-is-rtk/" />
+  <meta property="og:image" content="__SITE_ORIGIN__/images/2rtk.png" />
+  <meta property="og:locale" content="zh_CN" />
+
+  <link rel="stylesheet" href="/assets/site.css?v=__BUILD_ID__" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand-wrap">
+      <a class="brand" href="/" aria-label="2RTK.COM 首页">2RTK<span class="brand-tld">.COM</span></a>
+      <span class="brand-sub">免费 RTK 基准站地图 · 搭建教程 · NTRIP Caster</span>
+    </div>
+    <nav class="nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/what-is-rtk/" class="is-current" aria-current="page">什么是 RTK</a>
+      <a href="/rtk-base/">基站搭建</a>
+      <a href="/caster/">Caster 搭建</a>
+      <a href="/about/">关于我</a>
+      <a href="/test-caster/">测试服务器</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <span class="eyebrow">RTK 入门</span>
+    <h1>什么是 RTK？</h1>
+    <p class="lead">
+      RTK 是 <strong>Real-Time Kinematic</strong> 的缩写，中文一般叫「实时动态差分定位」。
+      它让一台几百块钱的 GNSS 模块，从「大概在这栋楼里」变成「就是这块砖的中间」，水平精度从米级跨到厘米级。
+      这一页把它为什么能做到、边界在哪、以及你拿不到固定解时该查什么，一次讲清楚。
+    </p>
+    <div class="chips">
+      <span class="chip">厘米级定位</span>
+      <span class="chip">载波相位</span>
+      <span class="chip">整周模糊度</span>
+      <span class="chip">RTCM 3.x</span>
+      <span class="chip">NTRIP</span>
+    </div>
+  </div>
+
+  <div class="doc">
+    <article class="prose">
+
+      <h2 id="definition">一句话说清 RTK</h2>
+      <p>
+        一台普通的 GNSS 接收机，靠自己算出来的位置，水平误差通常在 <strong>1～5 米</strong>。
+        如果旁边有一台「位置已经精确知道」的接收机（基准站），把它观测到的误差实时发给流动站，
+        流动站用这些改正数修正自己的解算，就能把误差压到 <strong>1～2 厘米</strong>。
+        这套「基准站改正 + 实时传输 + 流动站解算」的组合，就是 RTK。
+      </p>
+      <p>
+        关键在于——它修正的不是坐标，而是<strong>观测量里的误差</strong>；而且必须用载波相位这种「尺子更细」的观测量，
+        才能把精度推进到厘米。这也是 RTK 和普通差分（DGPS）最本质的区别。
+      </p>
+
+      <div class="flow">
+        <div class="node"><b>基准站</b><span>坐标已知 · 固定不动<br>观测 → 算改正数</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>数据链路</b><span>电台 / 4G / NTRIP<br>RTCM 3.x 二进制流</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>流动站</b><span>接收改正数<br>解算 → 固定解</span></div>
+      </div>
+
+      <h2 id="why-meter">为什么普通 GPS 只有米级</h2>
+      <p>
+        GNSS 定位的基本原理是「测距 + 交会」：接收机测量信号从卫星到自己的传播时间，乘上光速得到距离（伪距），
+        再用至少 4 颗卫星的距离交会出三维位置和接收机钟差。问题在于，这个「距离」里的误差项非常多：
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>误差来源</th><th>量级</th><th>是否随距离变化</th><th>能否靠差分消除</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>卫星钟差</td><td>几纳秒</td><td>几乎不随距离变化</td><td>星历/钟差改正后可忽略</td></tr>
+            <tr><td>卫星轨道误差</td><td>1～2 m</td><td>随距离缓慢变化</td><td>短基线下大部分可抵消</td></tr>
+            <tr><td>电离层延迟</td><td>1～30 m</td><td>随距离、时段、太阳活动变化</td><td>短基线下大部分可抵消</td></tr>
+            <tr><td>对流层延迟</td><td>0.2～2 m</td><td>随高度角、湿度变化</td><td>短基线下大部分可抵消</td></tr>
+            <tr><td>多路径</td><td>厘米～数米</td><td>与站址强相关</td><td><b>不能</b>，只能靠天线和选址</td></tr>
+            <tr><td>接收机噪声</td><td>厘米～分米</td><td>与站址相关</td><td><b>不能</b>，靠硬件</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        前四项误差有个共同点：<strong>对相距不远的两个测站来说，它们的数值几乎一样</strong>。
+        这就是「空间相关性」，也是差分定位能成立的全部物理基础。
+      </p>
+
+      <h2 id="differencing">差分的核心：把共模误差减掉</h2>
+      <p>
+        基准站的坐标是精确已知的，所以它能算出「自己观测到的距离」和「真实距离」之间的差——
+        这个差里包含了卫星、大气、轨道等一切共模误差。把这个差值实时播发出去，
+        流动站对自己的观测做同样修正，共模误差就被大幅抵消。
+      </p>
+      <p>
+        实际算法里通常用「双差」：先在卫星之间做差消掉接收机钟差，再在两站之间做差消掉卫星钟差和大部分大气延迟。
+        两次做差之后，剩下的主要就是<strong>整周模糊度</strong>和随机噪声。
+      </p>
+
+      <h2 id="vs-dgps">和 DGPS（码差分）差在哪</h2>
+      <p>
+        很多老设备标称支持「差分」，其实是 <strong>DGPS / RTD</strong>：它只修正伪距，精度 0.3～1 米。
+        RTK 修正的是<strong>载波相位</strong>——载波频率约 1.2～1.6 GHz，波长只有 19～25 厘米，
+        测量精度可达波长的 1/100，也就是毫米级。这就是为什么同样的硬件，用相位就能做到厘米级。
+      </p>
+      <p>
+        代价是相位观测存在一个「整周未知数」：接收机只能测到不足一周的相位小数部分，
+        不知道信号从卫星到接收机中间走了多少个完整的周。这个未知数<strong>必须是一个整数</strong>，
+        解算它就是「模糊度固定」。
+      </p>
+
+      <h2 id="ambiguity">整周模糊度：Float 与 Fixed</h2>
+      <p>
+        RTK 的解算状态通常分三种，你的手簿或 App 上一定会显示：
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>状态</th><th>含义</th><th>典型精度</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag tag-bad">单点 / Single</span></td>
+              <td>没有收到差分数据，纯伪距单点定位</td>
+              <td>1～5 m</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-warn">浮动解 / Float</span></td>
+              <td>收到了改正数，相位也在用，但模糊度只解到小数（未取整）</td>
+              <td>0.1～0.5 m</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-ok">固定解 / Fixed</span></td>
+              <td>模糊度搜索成功并验证通过，取为整数</td>
+              <td>1～2 cm</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        从 Float 到 Fixed 通常需要几秒到几十秒，取决于卫星数量、基线长度和大气活跃程度。
+        一旦卫星失锁或信号被遮挡，模糊度要重新搜索，状态会掉回 Float——这就是为什么过树下、过桥洞时精度会抖。
+      </p>
+
+      <div class="tip">
+        <p><b>经验判断：</b>固定解不是「一直有」或「一直没有」，而是持续几秒以上才可信。
+        刚上电那一两秒的 Fixed 有可能是误固定，最好等 10 秒以上、卫星数稳定后再取点。</p>
+      </div>
+
+      <h2 id="accuracy">精度能到多少，能撑多远</h2>
+      <p>
+        主流厂商给出的 RTK 标称精度大致是：<strong>水平 8 mm + 1 ppm</strong>，<strong>垂直 15 mm + 1 ppm</strong>。
+        这个 <code>1 ppm</code> 表示「每公里基线增加 1 毫米误差」，所以：
+      </p>
+      <div class="table-wrap compact">
+        <table>
+          <thead>
+            <tr><th>基线长度</th><th>水平精度（估算）</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1 km</td><td>约 9 mm</td><td>基本等于标称精度</td></tr>
+            <tr><td>10 km</td><td>约 18 mm</td><td>常用作业距离，稳定</td></tr>
+            <tr><td>20 km</td><td>约 28 mm</td><td>双频可用，固定率开始下降</td></tr>
+            <tr><td>30 km 以上</td><td>3 cm 以上</td><td>电离层去相关明显，固定变慢甚至失败</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        单频接收机（只有 L1）的可用基线一般限制在 <strong>10 km 以内</strong>；
+        双频（L1+L2 或 L1+L5）可以到 <strong>30～40 km</strong>。
+        太阳活动高年、正午前后、地平线附近，电离层梯度大，可用距离要再打折。
+      </p>
+
+      <h2 id="system">一套 RTK 系统由什么组成</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>部分</th><th>作用</th><th>关键点</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>基准站</td>
+              <td>提供改正数</td>
+              <td>坐标必须精确（厘米级）；天线要稳、要防多路径；<b>坐标错了，所有成果整体偏移</b></td>
+            </tr>
+            <tr>
+              <td>数据链路</td>
+              <td>把 RTCM 送到流动站</td>
+              <td>电台（UHF/4G 数传）、Wi-Fi、或互联网 + NTRIP Caster</td>
+            </tr>
+            <tr>
+              <td>流动站</td>
+              <td>解算自己的厘米级坐标</td>
+              <td>要能和基准站用同一套星座/频率；天线高要量准并正确输入</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        三者缺一不可。很多「搭了基站还是拿不到固定解」的问题，最后都出在链路或坐标上，而不是接收机不够好。
+      </p>
+
+      <h2 id="ntrip">从电台到互联网：NTRIP 与 CORS</h2>
+      <p>
+        传统 RTK 用电台传改正数，距离受功率和地形限制。现在更常见的是走互联网：
+        基准站把 RTCM 推到一个服务器，流动站再用 4G 从服务器拉流。这套协议叫 <strong>NTRIP</strong>
+        （Networked Transport of RTCM via Internet Protocol），本质是「基于 HTTP 的流式传输」。
+      </p>
+      <div class="flow">
+        <div class="node"><b>NTRIP Server</b><span>基站侧<br>把 RTCM 推上去</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>NTRIP Caster</b><span>中心分发<br>鉴权 + 一对多</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>NTRIP Client</b><span>流动站/手簿<br>按挂载点拉流</span></div>
+      </div>
+      <p>
+        Caster 上每一路数据流叫一个<strong>挂载点（mountpoint）</strong>，通常用 4 个字符或站点名标识。
+        流动站只要知道「地址 + 端口 + 挂载点 + 账号密码」这四项，就能拿到改正数。
+        覆盖多个省市的公共基准站网络，就是大家常说的 <strong>CORS</strong>（连续运行参考站系统）。
+      </p>
+      <p>
+        本站地图上展示的，就是全球各个公共 Caster 的挂载点分布。你可以先去
+        <a href="/">基准站地图</a> 看一眼自己附近有没有可用的免费源。
+      </p>
+
+      <h2 id="rtcm">RTCM 差分电文速查</h2>
+      <p>
+        RTCM 3.x 是二进制格式，一条消息叫一个 message，用编号区分内容。看到源表里写
+        <code>1005(10),1074(1),1087(1),1097(1),1124(1),1033(30)</code>，
+        意思是「1005 每 10 秒发一次，1074 每秒一次……」。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>编号</th><th>内容</th><th>作用</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>1004</code></td><td>GPS L1/L2 观测值</td><td>老式 GPS 观测，MSM 之前的做法</td></tr>
+            <tr><td><code>1005</code></td><td>基准站坐标（ECEF）</td><td>告诉流动站基站在哪，<b>必需</b></td></tr>
+            <tr><td><code>1006</code></td><td>基准站坐标 + 天线高</td><td>同上，额外带天线参考点高度</td></tr>
+            <tr><td><code>1012</code></td><td>GLONASS L1/L2 观测值</td><td>GLONASS 观测</td></tr>
+            <tr><td><code>1013</code></td><td>系统时间偏移</td><td>各星座系统时间对齐</td></tr>
+            <tr><td><code>1033</code></td><td>接收机 / 天线描述</td><td>只用于显示，不影响解算</td></tr>
+            <tr><td><code>1074 / 1077</code></td><td>GPS MSM4 / MSM7</td><td>新版多系统观测，MSM7 含信噪比和精细伪距</td></tr>
+            <tr><td><code>1084 / 1087</code></td><td>GLONASS MSM4 / MSM7</td><td>同上</td></tr>
+            <tr><td><code>1094 / 1097</code></td><td>Galileo MSM4 / MSM7</td><td>同上</td></tr>
+            <tr><td><code>1124 / 1127</code></td><td>北斗 MSM4 / MSM7</td><td>同上</td></tr>
+            <tr><td><code>1230</code></td><td>GLONASS 码相位偏差</td><td>GLONASS 频分多址必须的改正</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <p><b>兼容性提醒：</b>基站发 MSM7、流动站只认 MSM4 时，可能连上了却不出固定解。
+        国内设备常见做法是同时打开 <code>1005 + 1074 + 1084 + 1094 + 1124 + 1033</code>，
+        兼顾老设备；只服务自家流动站时用 MSM7 精度更好、带宽更高。</p>
+      </div>
+
+      <h2 id="float">为什么你只有浮动解</h2>
+      <p>按出现频率从高到低排，逐条排查：</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>现象</th><th>可能原因</th><th>怎么处理</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>一直是 Single</td><td>根本没收到差分数据</td><td>查网络、端口、挂载点名、账号密码；看 Caster 日志有没有你的连接</td></tr>
+            <tr><td>有 Float 不 Fixed</td><td>基线太长 / 电离层活跃</td><td>缩短距离，或换附近的挂载点；避开正午和太阳活动高发期</td></tr>
+            <tr><td>有 Float 不 Fixed</td><td>基站电文不全（缺 1005 或观测类型不匹配）</td><td>看源表里的电文串，确认有坐标电文和对应星座的 MSM</td></tr>
+            <tr><td>偶尔 Fixed 又掉</td><td>多路径、遮挡、天线不稳</td><td>选址抬高、远离金属和水面、加扼流圈天线</td></tr>
+            <tr><td>Fixed 但坐标整体偏</td><td>基准站坐标本身错了</td><td>用 PPP 或已知点重新解算基站坐标</td></tr>
+            <tr><td>Fixed 但高程差很多</td><td>天线高没输入 / 高程异常没处理</td><td>量准天线高；分清椭球高和正常高</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        还有一个常被忽略的点：<strong>基准站和流动站必须用同一个坐标框架</strong>。
+        基站坐标是 CGCS2000、流动站却按 WGS84 出结果，两者差几十厘米到一两米，
+        精度再好也没意义。国内工程测量尤其要注意这一点。
+      </p>
+
+      <h2 id="usage">RTK 用在哪些地方</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>测绘与放样</h3>
+          <p>地形图测绘、界址点、施工放样，厘米级是硬指标。</p>
+        </div>
+        <div class="card">
+          <h3>农机自动驾驶</h3>
+          <p>直线行驶误差 2.5 cm 内，播种、喷药不重不漏。</p>
+        </div>
+        <div class="card">
+          <h3>无人机航测</h3>
+          <p>带 RTK 的无人机可直接输出高精度 POS，少布像控点。</p>
+        </div>
+        <div class="card">
+          <h3>变形监测</h3>
+          <p>边坡、大坝、桥梁的毫米级位移趋势，通常配合静态后处理。</p>
+        </div>
+        <div class="card">
+          <h3>精准农业与水利</h3>
+          <p>平地、开沟、渠道断面，依赖稳定的固定解。</p>
+        </div>
+        <div class="card">
+          <h3>车辆与机器人</h3>
+          <p>园区无人车、港口 AGV 的高精度定位与循迹。</p>
+        </div>
+      </div>
+
+      <div class="next-up">
+        <div class="label">Next</div>
+        <h3>自己搭一台基准站</h3>
+        <p>看懂原理之后，下一步是把它落地：选硬件、定坐标、推流、让流动站拿到固定解。</p>
+        <p style="margin-top:12px"><a href="/rtk-base/">→ 去看 RTK 基站搭建</a></p>
+      </div>
+    </article>
+
+    <nav class="toc" data-toc aria-label="本页目录"></nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">2RTK<span style="color:var(--accent)">.COM</span></div>
+    <div class="footer-links">
+      <a href="/">基准站地图</a>
+      <a href="/what-is-rtk/">什么是 RTK</a>
+      <a href="/rtk-base/">RTK 基站搭建</a>
+      <a href="/caster/">NTRIP Caster 搭建</a>
+      <a href="/test-caster/">测试服务器</a>
+      <a href="/about/">关于我</a>
+      <a href="mailto:i@jia.im">i@jia.im</a>
+    </div>
+    <div>
+      2rtk.com 展示免费的 RTK 基准站公共资源 · 提供免费 NTRIP Caster 测试 · 数据每 6 小时更新<br />
+      若你的站点被收录且不希望展示，或认为侵犯了你的权益，请联系 i@jia.im
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js?v=__BUILD_ID__" defer></script>
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>NTRIP Caster 搭建教程：BKG NtripCaster 配置、源表与鉴权 | 2RTK</title>
+  <meta name="description" content="从零在 VPS 上搭一个 NTRIP Caster：BKG NtripCaster 编译安装、ntripcaster.conf 逐项配置、sourcetable.dat 源表字段说明、systemd 自启、curl 自检、基站推流与流动站拉流、安全加固与排错。" />
+  <meta name="keywords" content="NTRIP Caster搭建,NtripCaster,BKG,sourcetable,源表,挂载点,NTRIP服务器,RTCM分发,2101,自建Caster" />
+  <meta name="author" content="2RTK" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+  <meta name="theme-color" content="#080b10" />
+  <link rel="canonical" href="__SITE_ORIGIN__/caster/" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="2RTK" />
+  <meta property="og:title" content="NTRIP Caster 搭建教程：BKG NtripCaster 配置、源表与鉴权" />
+  <meta property="og:description" content="编译安装 · 配置文件逐项说明 · 源表语法 · 鉴权 · 自检 · 加固排错。" />
+  <meta property="og:url" content="__SITE_ORIGIN__/caster/" />
+  <meta property="og:image" content="__SITE_ORIGIN__/images/2rtk.png" />
+  <meta property="og:locale" content="zh_CN" />
+
+  <link rel="stylesheet" href="/assets/site.css?v=__BUILD_ID__" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand-wrap">
+      <a class="brand" href="/" aria-label="2RTK.COM 首页">2RTK<span class="brand-tld">.COM</span></a>
+      <span class="brand-sub">免费 RTK 基准站地图 · 搭建教程 · NTRIP Caster</span>
+    </div>
+    <nav class="nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/what-is-rtk/">什么是 RTK</a>
+      <a href="/rtk-base/">基站搭建</a>
+      <a href="/caster/" class="is-current" aria-current="page">Caster 搭建</a>
+      <a href="/about/">关于我</a>
+      <a href="/test-caster/">测试服务器</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <span class="eyebrow">服务端教程</span>
+    <h1>NTRIP Caster 搭建与使用</h1>
+    <p class="lead">
+      Caster 是整条链路的「中转站」：基站把 RTCM 推上来，流动站按挂载点把流拉下去，中间由它做鉴权、转发和源表公告。
+      这一页用开源的 <strong>BKG NtripCaster</strong>，在 1 核 1G 的 VPS 上从零搭起，配好源表和账号，最后用 curl 和流动站验证。
+    </p>
+    <div class="chips">
+      <span class="chip">BKG NtripCaster</span>
+      <span class="chip">NTRIP 2.0</span>
+      <span class="chip">Ubuntu / Debian</span>
+      <span class="chip">TCP 2101</span>
+    </div>
+  </div>
+
+  <div class="doc">
+    <article class="prose">
+
+      <h2 id="what">Caster 到底在干什么</h2>
+      <p>
+        NTRIP 协议里有三个角色，很容易记混：
+      </p>
+      <div class="flow">
+        <div class="node"><b>Server（源）</b><span>基站侧，主动推<br>占用 1 个上行连接</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Caster（中枢）</b><span>收 1 份，发 N 份<br>鉴权 + 源表</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Client（客户端）</b><span>流动站侧，主动拉<br>按挂载点选流</span></div>
+      </div>
+      <p>Caster 具体做四件事：</p>
+      <ul>
+        <li><strong>接收</strong>：验证源的密码，把某一路 RTCM 流绑定到一个挂载点（mountpoint）。</li>
+        <li><strong>分发</strong>：一路流可以同时发给几十上百个客户端，基站上行带宽只花一份。</li>
+        <li><strong>鉴权</strong>：每个挂载点可以指定哪些用户名/密码能拉，防止别人白嫖你的基站。</li>
+        <li><strong>公告</strong>：维护<strong>源表（sourcetable）</strong>，告诉所有客户端「我这里有哪些流、在哪、什么格式、什么电文」。</li>
+      </ul>
+      <p>
+        所以它的负载很轻——几十路源、几百个客户端，1 核 1G 的机器绰绰有余，瓶颈永远在带宽和网络质量上。
+      </p>
+
+      <h2 id="when">什么时候值得自己搭</h2>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>场景</th><th>建议</th></tr></thead>
+          <tbody>
+            <tr><td>只有一台基站，自己用</td><td>直接推公共 Caster（如 <a href="/test-caster/">本站测试服务器</a>）就够了</td></tr>
+            <tr><td>几台基站，要给团队分账号</td><td>自己搭，按挂载点 + 账号做隔离</td></tr>
+            <tr><td>数据不能公开（厂区、矿区、项目）</td><td>必须自己搭，公共 Caster 都是公开源表</td></tr>
+            <tr><td>要做中继、把别人的流转发进来</td><td>自己搭，用 relay 把多个上游汇聚成一张源表</td></tr>
+            <tr><td>要给客户提供付费服务</td><td>自己搭 + 计费/日志，注意合规与带宽成本</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="options">方案怎么选</h2>
+      <div class="table-wrap">
+        <table class="tight">
+          <thead>
+            <tr><th>方案</th><th>形态</th><th>成本</th><th>特点</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>BKG NtripCaster</b></td>
+              <td>开源自建</td>
+              <td>免费 + VPS</td>
+              <td>NTRIP 事实标准实现，支持 NTRIP 1/2、源表、组权限、中继、TLS。配置文件是纯文本，运维友好。<b>本页用它</b></td>
+            </tr>
+            <tr>
+              <td>SNIP</td>
+              <td>商业软件</td>
+              <td>有免费 Lite 版</td>
+              <td>Windows 图形界面，上手最快，带监控和地图。适合不想碰 Linux 的人</td>
+            </tr>
+            <tr>
+              <td>Emlid Caster</td>
+              <td>云服务</td>
+              <td>按订阅</td>
+              <td>配合 Emlid 生态开箱即用，挂载点管理界面友好</td>
+            </tr>
+            <tr>
+              <td>rtk2go</td>
+              <td>免费公共</td>
+              <td>免费</td>
+              <td>社区公益 Caster，注册即用。<b>要求数据公开</b>，不接受商业用途</td>
+            </tr>
+            <tr>
+              <td>CentipedeRTK</td>
+              <td>公益网络</td>
+              <td>免费</td>
+              <td>法国科研社区，对基站坐标和安装质量审核严格，适合长期公益站点</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="prepare">服务器准备</h2>
+      <ul>
+        <li><strong>配置</strong>：1 核 1G、10 GB 硬盘足够；带宽按「每路 1～3 KB/s × 客户端数」估。</li>
+        <li><strong>系统</strong>：Ubuntu 22.04 / Debian 12 都行，本页命令以 Ubuntu 为例。</li>
+        <li><strong>公网 IP</strong>：必须有固定公网地址，家宽没有公网 IP 时用 VPS 或内网穿透。</li>
+        <li><strong>域名</strong>：<code>caster.example.com</code> 解析到该 IP。Caster 的 <code>server_name</code> <strong>必须填域名，不能填 IP</strong>。</li>
+        <li><strong>端口</strong>：云厂商安全组 + 系统防火墙都要放行 <code>2101/tcp</code>。</li>
+        <li><strong>合规</strong>：国内服务器对外提供服务的域名需要备案，纯 IP + 非 80/443 端口通常无此要求，但按当地政策确认。</li>
+      </ul>
+
+      <h3>放行端口</h3>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 系统防火墙</span></div>
+        <pre><span class="cmt"># ufw（Ubuntu 默认）</span>
+sudo ufw allow 22/tcp
+sudo ufw allow 2101/tcp
+sudo ufw enable
+
+<span class="cmt"># 如果用的是 firewalld</span>
+sudo firewall-cmd --permanent --add-port=2101/tcp
+sudo firewall-cmd --reload</pre>
+      </div>
+
+      <h2 id="install">编译安装 BKG NtripCaster</h2>
+      <p>
+        源码包由德国联邦制图与大地测量局（BKG）发布，在 RTCM 官方的 NTRIP 页面可以找到
+        <code>ntripcaster-2.x.x.tar.gz</code>；GitHub 上也有多个可直接编译的镜像仓库。
+      </p>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 编译三步</span></div>
+        <pre><span class="cmt"># 1. 装编译依赖</span>
+sudo apt update
+sudo apt install -y build-essential
+
+<span class="cmt"># 2. 解压源码（换成你下载的版本号）</span>
+tar xf ntripcaster-2.0.4x.tar.gz
+cd ntripcaster-2.0.4x
+
+<span class="cmt"># 3. 配置、编译、安装</span>
+./configure
+make
+sudo make install</pre>
+      </div>
+      <p>
+        默认安装到 <code>/usr/local/ntripcaster</code>，配置文件在 <code>conf/</code> 下，
+        日志在 <code>logs/</code> 下。安装完先把模板复制成正式配置：
+      </p>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 初始化配置</span></div>
+        <pre>cd /usr/local/ntripcaster/conf
+sudo cp ntripcaster.conf.dist ntripcaster.conf
+sudo cp sourcetable.dat.dist sourcetable.dat
+ls -l</pre>
+      </div>
+
+      <div class="note">
+        <p><b>不想折腾编译？</b>社区有打包好的 Docker 镜像，把 <code>conf/</code> 挂载进容器、映射 <code>2101</code> 端口即可，
+        配置方式与下面完全一致。适合只想改配置、不想装编译环境的场景。</p>
+      </div>
+
+      <h2 id="conf">配置 ntripcaster.conf</h2>
+      <p>这是主配置，绝大部分坑都出在这里。逐项对照改：</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>配置项</th><th>填什么</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>location</code></td><td>机房或城市</td><td>仅元信息，出现在源表里</td></tr>
+            <tr><td><code>rp_email</code></td><td>你的邮箱</td><td>对外公示的联系方式，建议填真邮箱</td></tr>
+            <tr><td><code>server_url</code></td><td><code>http://caster.example.com</code></td><td>源表里给出的主页地址</td></tr>
+            <tr><td><code>server_name</code></td><td><code>caster.example.com</code></td><td><b>必须是能解析到本机的域名</b>，填 IP 会启动失败或行为异常</td></tr>
+            <tr><td><code>port 2101</code></td><td><code>2101</code></td><td>NTRIP 标准端口。同时保留 <code>#port 80</code> 注释，别开 80 抢 Web 服务</td></tr>
+            <tr><td><code>encoder_password</code></td><td>一串强密码</td><td>所有<strong>源</strong>（基站）推流时用的密码。老版本没有源用户名，随便填</td></tr>
+            <tr><td><code>max_clients</code></td><td><code>500</code></td><td>总连接数上限，按带宽估，别设成天文数字</td></tr>
+            <tr><td><code>max_sources</code></td><td><code>40</code></td><td>允许的源路数上限</td></tr>
+            <tr><td><code>logdir / logfile</code></td><td><code>/usr/local/ntripcaster/logs</code></td><td>排错全靠它，权限要允许 caster 进程写入</td></tr>
+            <tr><td><code>/MOUNT:user:pass</code></td><td>见下</td><td>每个挂载点允许哪些客户端拉流</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>访问控制：一行一个挂载点</h3>
+      <p>格式是 <code>/挂载点:用户名:密码,用户名:密码</code>，多个用户用逗号分隔：</p>
+      <div class="code-block">
+        <div class="code-head"><span>ntripcaster.conf · 片段</span></div>
+        <pre><span class="cmt"># 只有 alice、bob 两个账号能拉 BASE01 这路流</span>
+/BASE01:alice:str0ngPass,bob:anotherPass
+
+<span class="cmt"># 不写用户名密码 = 任何人可拉（公开流）</span>
+/PUBLIC01</pre>
+      </div>
+      <div class="warn">
+        <p><b>挂载点名区分大小写。</b><code>base01</code>、<code>BASE01</code>、<code>Base01</code> 是三个不同的流。
+        定好之后基站、源表、手簿三处必须完全一致。</p>
+      </div>
+
+      <h2 id="sourcetable">配置 sourcetable.dat（源表）</h2>
+      <p>
+        源表是 Caster 对外公示的「菜单」。客户端连上 <code>2101</code> 端口后，第一件事就是读它。
+        文件由若干行记录组成，一行一个 <code>;</code> 分隔字段：
+      </p>
+      <div class="code-block">
+        <div class="code-head"><span>sourcetable.dat · 两台基站</span></div>
+        <pre><span class="cmt"># CAS 行：描述这个 Caster 自己</span>
+CAS;caster.example.com;2101;2RTK-Test;2RTK;0;CHN;31.23;121.47;http://caster.example.com
+
+<span class="cmt"># STR 行：一行一个挂载点</span>
+STR;BASE01;Shanghai-Pudong;RTCM 3.3;1005(10),1074(1),1084(1),1094(1),1124(1),1033(30);2;GPS+GLO+GAL+BDS;2RTK;CHN;31.23;121.47;0;0;u-blox F9P;none;B;N;4000;
+STR;BASE02;Suzhou-Industrial;RTCM 3.3;1005(10),1077(1),1087(1),1097(1),1127(1),1033(30);2;GPS+GLO+GAL+BDS;2RTK;CHN;31.30;120.60;0;0;Septentrio Mosaic;none;B;N;8000;</pre>
+      </div>
+
+      <h3>STR 行字段含义</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>#</th><th>字段</th><th>示例</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>记录类型</td><td><code>STR</code></td><td>固定写 STR</td></tr>
+            <tr><td>2</td><td>挂载点</td><td><code>BASE01</code></td><td>客户端拉流用的名字</td></tr>
+            <tr><td>3</td><td>标识 / 地名</td><td><code>Shanghai-Pudong</code></td><td>给人看的描述</td></tr>
+            <tr><td>4</td><td>格式</td><td><code>RTCM 3.3</code></td><td>RTCM 2.3 / 3.0 / 3.2 / 3.3</td></tr>
+            <tr><td>5</td><td>电文明细</td><td><code>1005(10),1074(1)</code></td><td>编号(间隔秒)，直接影响客户端能否匹配</td></tr>
+            <tr><td>6</td><td>载波</td><td><code>2</code></td><td>0=无 1=L1 2=L1+L2</td></tr>
+            <tr><td>7</td><td>星座</td><td><code>GPS+GLO+GAL+BDS</code></td><td>告诉客户端有哪些系统</td></tr>
+            <tr><td>8</td><td>网络名</td><td><code>2RTK</code></td><td>自定义</td></tr>
+            <tr><td>9</td><td>国家</td><td><code>CHN</code></td><td>三位国家代码</td></tr>
+            <tr><td>10</td><td>纬度</td><td><code>31.23</code></td><td>十进制度</td></tr>
+            <tr><td>11</td><td>经度</td><td><code>121.47</code></td><td>十进制度</td></tr>
+            <tr><td>12</td><td>NMEA</td><td><code>0</code></td><td>是否要求客户端发 GGA</td></tr>
+            <tr><td>13</td><td>解类型</td><td><code>0</code></td><td>0=单点 1=固定 2=浮动</td></tr>
+            <tr><td>14</td><td>生成设备</td><td><code>u-blox F9P</code></td><td>接收机型号</td></tr>
+            <tr><td>15</td><td>压缩</td><td><code>none</code></td><td>一般不用压缩</td></tr>
+            <tr><td>16</td><td>鉴权</td><td><code>B</code></td><td>B=Basic，N=不需要</td></tr>
+            <tr><td>17</td><td>收费</td><td><code>N</code></td><td>N=免费 Y=收费</td></tr>
+            <tr><td>18</td><td>比特率</td><td><code>4000</code></td><td>bps，影响客户端预判带宽</td></tr>
+            <tr><td>19</td><td>备注</td><td>空</td><td>可留空</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <p><b>源表手写容易错。</b>多一个分号、少一个字段，客户端可能直接解析失败或者干脆不显示这路流。
+        改完一定用 <code>curl</code> 把源表拉下来，肉眼核对你那几行。</p>
+      </div>
+
+      <h2 id="run">启动与自检</h2>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 启动</span></div>
+        <pre><span class="cmt"># 官方建议在 bin 目录下运行，让它能找到 conf/</span>
+cd /usr/local/ntripcaster/bin
+sudo ./ntripcaster
+
+<span class="cmt"># 另开一个终端，拉源表自检</span>
+curl http://caster.example.com:2101/</pre>
+      </div>
+      <p>
+        返回内容里能看到 <code>CAS;</code> 开头的一行和你的每一条 <code>STR;</code>，说明服务正常。
+        返回 <code>HTTP/1.1 404</code> 或直接超时，就按下面顺序查：
+      </p>
+      <ol>
+        <li>进程是否还活着（<code>ps aux | grep ntripcaster</code>）。</li>
+        <li>日志（<code>/usr/local/ntripcaster/logs/ntripcaster.log</code>）里有没有报错。</li>
+        <li>安全组 / 防火墙是否放行 2101。</li>
+        <li><code>server_name</code> 是不是写成了 IP。</li>
+      </ol>
+
+      <h3>用 systemd 托管</h3>
+      <div class="code-block">
+        <div class="code-head"><span>/etc/systemd/system/ntripcaster.service</span></div>
+        <pre><span class="key">[Unit]</span>
+<span class="key">Description</span>=<span class="val">NTRIP Caster</span>
+<span class="key">After</span>=<span class="val">network-online.target</span>
+
+<span class="key">[Service]</span>
+<span class="key">Type</span>=<span class="val">simple</span>
+<span class="key">WorkingDirectory</span>=<span class="val">/usr/local/ntripcaster/bin</span>
+<span class="key">ExecStart</span>=<span class="val">/usr/local/ntripcaster/bin/ntripcaster</span>
+<span class="key">Restart</span>=<span class="val">always</span>
+<span class="key">RestartSec</span>=<span class="val">5</span>
+<span class="key">User</span>=<span class="val">root</span>
+
+<span class="key">[Install]</span>
+<span class="key">WantedBy</span>=<span class="val">multi-user.target</span></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 启用</span></div>
+        <pre>sudo systemctl daemon-reload
+sudo systemctl enable --now ntripcaster
+sudo systemctl status ntripcaster --no-pager</pre>
+      </div>
+
+      <h2 id="feed">让数据流进来</h2>
+      <p>
+        Caster 起来只是空壳，源表里的挂载点要真的有源推上来，才会变成「可用」。
+        基站侧把 RTCM 推到 <code>caster.example.com:2101/挂载点</code>，密码用 <code>encoder_password</code>。
+        具体推流配置见 <a href="/rtk-base/">RTK 基站搭建</a>。
+      </p>
+      <p>
+        想先验证链路通不通，可以用 RTKLIB 把一路现成的公共流中继到自己的 Caster 里：
+      </p>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 中继测试</span></div>
+        <pre><span class="cmt"># 从公共源拉一路流，转推到自己的 Caster</span>
+str2str -in  "ntrip://user:pass@rtk2go.com:2101/SOME_MOUNT" \
+        -out "ntrips://:你的encoder_password@caster.example.com:2101/BASE01"</pre>
+      </div>
+      <p>推上去后再拉一次源表，你会在日志里看到 <code>source connected</code> 一类的记录，挂载点状态变为活跃。</p>
+
+      <h2 id="client">流动站怎么连</h2>
+      <p>手簿 / App / 接收机里选 NTRIP，四项参数：</p>
+      <dl class="kv">
+        <div class="kv-row"><dt>Caster 地址</dt><dd>caster.example.com</dd></div>
+        <div class="kv-row"><dt>端口</dt><dd>2101</dd></div>
+        <div class="kv-row"><dt>挂载点</dt><dd>BASE01</dd></div>
+        <div class="kv-row"><dt>用户名 / 密码</dt><dd>ntripcaster.conf 里 /BASE01 那一行配的账号</dd></div>
+      </dl>
+      <p>
+        客户端连上后会收到 <code>ICY 200 OK</code> 或 <code>HTTP/1.1 200 OK</code>（取决于 NTRIP 版本），随后就是一串二进制 RTCM。
+        如果连上了但久久不出固定解，八成是电文不匹配，回头核对源表里第 5 个字段。
+      </p>
+
+      <h2 id="security">安全加固清单</h2>
+      <ul>
+        <li><strong>改默认密码</strong>：<code>encoder_password</code> 一定要换，模板里的示例密码等于没有密码。</li>
+        <li><strong>最小开放</strong>：只放行 2101，别把 SSH 和数据库一起暴露。</li>
+        <li><strong>账号隔离</strong>：一个客户一个账号，出问题能单独封禁。</li>
+        <li><strong>限流</strong>：给 <code>max_clients</code> 设合理上限，防止被当成免费 CDN 刷。</li>
+        <li><strong>封禁名单</strong>：新版本支持 IP 黑名单，遭到滥用时直接拉黑。</li>
+        <li><strong>备份</strong>：<code>conf/</code> 整个目录纳入备份，换机器 5 分钟能复活。</li>
+        <li><strong>监控</strong>：定时 curl 源表 + 检查源是否在线，异常发通知。</li>
+      </ul>
+      <div class="tip">
+        <p><b>需要加密？</b>NTRIP 本身是明文 HTTP。要上 TLS，通常用 Nginx 的 <code>stream</code> 模块在 443 端口做四层转发到本机 2101，
+        证书用 Let's Encrypt。注意很多老手簿不支持 TLS，加了之后兼容性会变差。</p>
+      </div>
+
+      <h2 id="trouble">排错对照表</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>现象</th><th>最可能的原因</th><th>处理</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>curl</code> 连不上</td><td>端口没开 / 进程没起来</td><td>安全组、ufw、日志三处一起查</td></tr>
+            <tr><td>源表为空或 404</td><td><code>sourcetable.dat</code> 路径不对或格式错</td><td>确认工作目录是 bin，字段数与分号数对齐</td></tr>
+            <tr><td>启动报 server_name 错误</td><td>填了 IP 或域名解析不到本机</td><td>改成域名，并确认 <code>ping</code> 得到本机 IP</td></tr>
+            <tr><td>源推不上来</td><td><code>encoder_password</code> 不一致 / 挂载点名大小写错</td><td>对一遍配置，看日志里的拒绝原因</td></tr>
+            <tr><td>客户端能连但无数据</td><td>该挂载点没有源在推</td><td>先在基站侧确认推流状态</td></tr>
+            <tr><td>客户端 401</td><td>账号不在该挂载点的白名单里</td><td>在 <code>/MOUNT:user:pass</code> 行里补上</td></tr>
+            <tr><td>偶发断流</td><td>VPS 带宽被打满 / 丢包</td><td>限制客户端数，换线路，或就近部署</td></tr>
+            <tr><td>时间戳奇怪、解算异常</td><td>服务器时间漂移</td><td>开 <code>systemd-timesyncd</code> 或 chrony 校时</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="next-up">
+        <div class="label">Next</div>
+        <h3>不用自己搭，先测一遍</h3>
+        <p>如果只想验证基站和流动站配置对不对，用本站的测试 Caster 更快。</p>
+        <p style="margin-top:12px"><a href="/test-caster/">→ 免费 NTRIP Caster 测试服务器</a></p>
+      </div>
+    </article>
+
+    <nav class="toc" data-toc aria-label="本页目录"></nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">2RTK<span style="color:var(--accent)">.COM</span></div>
+    <div class="footer-links">
+      <a href="/">基准站地图</a>
+      <a href="/what-is-rtk/">什么是 RTK</a>
+      <a href="/rtk-base/">RTK 基站搭建</a>
+      <a href="/caster/">NTRIP Caster 搭建</a>
+      <a href="/test-caster/">测试服务器</a>
+      <a href="/about/">关于我</a>
+      <a href="mailto:i@jia.im">i@jia.im</a>
+    </div>
+    <div>
+      2rtk.com 展示免费的 RTK 基准站公共资源 · 提供免费 NTRIP Caster 测试 · 数据每 6 小时更新<br />
+      若你的站点被收录且不希望展示，或认为侵犯了你的权益，请联系 i@jia.im
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js?v=__BUILD_ID__" defer></script>
+</body>
+</html>

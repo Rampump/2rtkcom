@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>关于我 · 2RTK 是谁做的、数据从哪来 | 2RTK</title>
+  <meta name="description" content="2RTK 是一个由个人维护的免费 RTK 基准站地图与 NTRIP Caster 测试服务。这里说明为什么做这个站、数据从哪来、怎么更新、边界在哪，以及如何联系我收录或下架站点。" />
+  <meta name="keywords" content="关于2RTK,2RTK是谁,RTK基准站地图,数据来源,联系方式,NTRIP Caster" />
+  <meta name="author" content="2RTK" />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#080b10" />
+  <link rel="canonical" href="__SITE_ORIGIN__/about/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="2RTK" />
+  <meta property="og:title" content="关于我 · 2RTK" />
+  <meta property="og:description" content="一个个人维护的免费 RTK 基准站地图：为什么做、数据从哪来、边界在哪。" />
+  <meta property="og:url" content="__SITE_ORIGIN__/about/" />
+  <meta property="og:image" content="__SITE_ORIGIN__/images/2rtk.png" />
+  <meta property="og:locale" content="zh_CN" />
+
+  <link rel="stylesheet" href="/assets/site.css?v=__BUILD_ID__" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand-wrap">
+      <a class="brand" href="/" aria-label="2RTK.COM 首页">2RTK<span class="brand-tld">.COM</span></a>
+      <span class="brand-sub">免费 RTK 基准站地图 · 搭建教程 · NTRIP Caster</span>
+    </div>
+    <nav class="nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/what-is-rtk/">什么是 RTK</a>
+      <a href="/rtk-base/">基站搭建</a>
+      <a href="/caster/">Caster 搭建</a>
+      <a href="/about/" class="is-current" aria-current="page">关于我</a>
+      <a href="/test-caster/">测试服务器</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <span class="eyebrow">About</span>
+    <h1>关于我，和这个站</h1>
+    <p class="lead">
+      2RTK 不是一个公司项目，是我下班之后自己折腾出来的东西。
+      目标很简单：让你在想用 RTK 的时候，打开一张地图就知道<strong>附近有没有能用的基准站</strong>，
+      并且有一条踩过坑的路可以照着走。
+    </p>
+    <div class="chips">
+      <span class="chip">个人项目</span>
+      <span class="chip">无广告</span>
+      <span class="chip">不收数据</span>
+      <span class="chip">i@jia.im</span>
+    </div>
+  </div>
+
+  <div class="doc">
+    <article class="prose">
+
+      <h2 id="who">我是谁</h2>
+      <!-- 待补充：这里可以加上你的真实背景（职业、所在城市、接触 RTK 的年限、参与过的项目类型）。
+           目前文案刻意写得克制，只保留能确定的事实，避免虚构。 -->
+      <p>
+        我是一名 GNSS / RTK 的实践者。日常和接收机、天线、串口日志、RTCM 电文打交道，
+        自己搭过基站、也踩过「明明显示 Fixed 但坐标就是不对」的坑。
+      </p>
+      <p>
+        和很多人一样，我最开始遇到的问题不是「RTK 怎么用」，而是<strong>「附近到底有没有能用的源」</strong>。
+        各个省市的 CORS、公益网络、国外的公共 Caster，散落在几十个不同的网站里，
+        要一个个去查源表、对坐标、试账号。这件事没有技术含量，但极其浪费时间。
+      </p>
+      <p>
+        于是就有了这个站：把公开的源表抓下来，画到地图上，让你一眼看到覆盖范围。
+      </p>
+
+      <h2 id="why">为什么做这个站</h2>
+      <p>三个很具体的理由：</p>
+      <ol>
+        <li>
+          <strong>选站要看得见。</strong>「XX 省有 CORS」和「离我 8 公里的那个站信号好不好」是两件事。
+          地图能直接回答后者。
+        </li>
+        <li>
+          <strong>新手缺一条完整的路。</strong>网上讲 RTK 原理的多，讲「从买硬件到出固定解」的少。
+          我把自己的流程写下来，包括那些不写在说明书里的坑。
+        </li>
+        <li>
+          <strong>测试环境太难找。</strong>很多人卡在「我的基站到底推上去了没有」。
+          一台公共测试 Caster 能省掉这个环节的绝大部分折腾。
+        </li>
+      </ol>
+
+      <h2 id="what">这个站提供什么</h2>
+      <div class="card-grid grid-2">
+        <a class="card" href="/">
+          <h3>基准站地图</h3>
+          <p>全球公共 NTRIP 挂载点分布，可看覆盖范围与卫星轨道。</p>
+          <span class="arrow">打开地图 →</span>
+        </a>
+        <a class="card" href="/what-is-rtk/">
+          <h3>RTK 知识</h3>
+          <p>原理、精度、RTCM 电文、拿不到固定解的排查清单。</p>
+          <span class="arrow">开始阅读 →</span>
+        </a>
+        <a class="card" href="/rtk-base/">
+          <h3>搭建教程</h3>
+          <p>从选址、硬件到坐标解算、推流、运维的完整流程。</p>
+          <span class="arrow">动手搭一台 →</span>
+        </a>
+        <a class="card" href="/test-caster/">
+          <h3>测试 Caster</h3>
+          <p>免费开放的 NTRIP Caster，用来验证推流与拉流配置。</p>
+          <span class="arrow">申请测试 →</span>
+        </a>
+      </div>
+
+      <h2 id="data">数据从哪来，怎么更新</h2>
+      <p>
+        地图上的站点，全部来自各个<strong>公共 NTRIP Caster 主动公开的源表</strong>（sourcetable）——
+        也就是任何人连上那个 Caster 的 2101 端口都能读到的同一份信息。我不做任何扫描、破解或私有接口访问。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>项目</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>数据内容</td><td>挂载点名称、坐标、数据格式、RTCM 电文、所属网络、注册地址</td></tr>
+            <tr><td>更新频率</td><td>每 6 小时自动抓取一次</td></tr>
+            <tr><td>坐标系</td><td>按各源表原始 WGS84 / CGCS2000 直接呈现，不做偏移转换</td></tr>
+            <tr><td>不采集</td><td>不采集任何用户位置、不记录你的 IP、不做访问画像</td></tr>
+            <tr><td>不下架不留痕</td><td>源表里没有的站点，下一轮就会从地图消失</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <p><b>关于坐标精度：</b>源表里的坐标是各运营方自己填的，精度从米级到厘米级都有。
+        地图上的位置只适合「看分布」，不能当作控制点坐标使用。</p>
+      </div>
+
+      <h2 id="boundary">边界与免责</h2>
+      <ul>
+        <li>这是一个<strong>索引</strong>，不是基准站服务的提供方。站点能不能用、账号怎么申请，请以源表里给出的官方注册地址为准。</li>
+        <li>地图上的「10 公里覆盖圈」是<strong>估算值</strong>，用来表达量级，不代表实际可用半径。实际覆盖受地形、天线、电离层影响很大。</li>
+        <li>测试 Caster 是<strong>尽力而为</strong>的服务，不承诺可用性，不要用在生产作业上。</li>
+        <li>本站不销售任何数据、不做付费排名、不接与内容无关的广告。</li>
+        <li>教程里的命令和参数按通用环境编写，执行前请确认与你的设备型号匹配。因照做产生的损失，我无法承担责任。</li>
+      </ul>
+
+      <h2 id="contact">联系我</h2>
+      <p>下面这些事都可以直接发邮件，不用客套：</p>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>事项</th><th>请提供</th></tr></thead>
+          <tbody>
+            <tr><td>站点被收录，想下架</td><td>挂载点名 + 所属网络</td></tr>
+            <tr><td>站点信息有误</td><td>挂载点名 + 正确的坐标 / 格式</td></tr>
+            <tr><td>想把自己的站加进地图</td><td>站名、坐标、挂载点、是否长期公开</td></tr>
+            <tr><td>申请测试 Caster</td><td>大致位置、接收机型号、用几天</td></tr>
+            <tr><td>教程纠错 / 内容建议</td><td>页码或小节标题 + 你的看法</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:17px">
+        邮箱：<a href="mailto:i@jia.im"><strong>i@jia.im</strong></a>
+      </p>
+      <p>一般当天回，忙的时候可能两三天。看到一定会回。</p>
+
+      <h2 id="timeline">站点大事记</h2>
+      <ul>
+        <li><strong>2025</strong>：做出第一版基准站地图，只接了 rtk2go 一个源。</li>
+        <li><strong>2025</strong>：接入 CRTK、IGS 等多个公共网络，加入覆盖圈与卫星轨道。</li>
+        <li><strong>2026</strong>：重写底图与交互，补齐教程体系；开放自建 Caster 的免费测试。</li>
+      </ul>
+
+      <div class="next-up">
+        <div class="label">Start here</div>
+        <h3>如果你刚接触 RTK</h3>
+        <p>建议顺序是：先搞懂原理，再动手搭站，最后用测试 Caster 验证一遍。</p>
+        <p style="margin-top:12px">
+          <a href="/what-is-rtk/">→ 什么是 RTK</a> &nbsp;·&nbsp;
+          <a href="/rtk-base/">→ 基站搭建</a> &nbsp;·&nbsp;
+          <a href="/caster/">→ Caster 搭建</a>
+        </p>
+      </div>
+    </article>
+
+    <nav class="toc" data-toc aria-label="本页目录"></nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">2RTK<span style="color:var(--accent)">.COM</span></div>
+    <div class="footer-links">
+      <a href="/">基准站地图</a>
+      <a href="/what-is-rtk/">什么是 RTK</a>
+      <a href="/rtk-base/">RTK 基站搭建</a>
+      <a href="/caster/">NTRIP Caster 搭建</a>
+      <a href="/test-caster/">测试服务器</a>
+      <a href="/about/">关于我</a>
+      <a href="mailto:i@jia.im">i@jia.im</a>
+    </div>
+    <div>
+      2rtk.com 展示免费的 RTK 基准站公共资源 · 提供免费 NTRIP Caster 测试 · 数据每 6 小时更新<br />
+      若你的站点被收录且不希望展示，或认为侵犯了你的权益，请联系 i@jia.im
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js?v=__BUILD_ID__" defer></script>
+</body>
+</html>

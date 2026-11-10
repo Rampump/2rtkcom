@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>免费 NTRIP Caster 测试服务器：2rtk.com:2101 连接参数与验证方法 | 2RTK</title>
+  <meta name="description" content="2RTK 自建的免费 NTRIP Caster 测试服务器，用于验证 RTK 基站推流与流动站拉流配置。含 Caster 地址、端口、挂载点、账号申请方式，以及 curl 源表自检、RTKLIB 拉流、手机 App 测试的完整步骤。" />
+  <meta name="keywords" content="免费NTRIP Caster,NTRIP测试服务器,NTRIP Caster 测试,RTK测试,2rtk.com 2101,挂载点,RTCM推流测试" />
+  <meta name="author" content="2RTK" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+  <meta name="theme-color" content="#080b10" />
+  <link rel="canonical" href="__SITE_ORIGIN__/test-caster/" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="2RTK" />
+  <meta property="og:title" content="免费 NTRIP Caster 测试服务器：2rtk.com:2101" />
+  <meta property="og:description" content="验证基站推流与流动站拉流的最小可用环境，附连接参数与自检命令。" />
+  <meta property="og:url" content="__SITE_ORIGIN__/test-caster/" />
+  <meta property="og:image" content="__SITE_ORIGIN__/images/2rtk.png" />
+  <meta property="og:locale" content="zh_CN" />
+
+  <link rel="stylesheet" href="/assets/site.css?v=__BUILD_ID__" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand-wrap">
+      <a class="brand" href="/" aria-label="2RTK.COM 首页">2RTK<span class="brand-tld">.COM</span></a>
+      <span class="brand-sub">免费 RTK 基准站地图 · 搭建教程 · NTRIP Caster</span>
+    </div>
+    <nav class="nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/what-is-rtk/">什么是 RTK</a>
+      <a href="/rtk-base/">基站搭建</a>
+      <a href="/caster/">Caster 搭建</a>
+      <a href="/about/">关于我</a>
+      <a href="/test-caster/" class="is-current" aria-current="page">测试服务器</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <span class="eyebrow">免费测试服务</span>
+    <h1>NTRIP Caster 测试服务器</h1>
+    <p class="lead">
+      这是我自己搭的一台 NTRIP Caster，作为公共测试环境开放。
+      你可以在正式上线前，用它验证「基站能不能推上去」「流动站能不能拉下来」这两个最关键的环节——不用买服务器、不用配域名。
+    </p>
+    <div class="chips">
+      <span class="chip">2rtk.com:2101</span>
+      <span class="chip">NTRIP 2.0</span>
+      <span class="chip">RTCM 3.x</span>
+      <span class="chip">限时测试</span>
+    </div>
+  </div>
+
+  <div class="doc">
+    <article class="prose">
+
+      <h2 id="params">连接参数</h2>
+      <dl class="kv">
+        <div class="kv-row"><dt>Caster 地址</dt><dd>2rtk.com</dd></div>
+        <div class="kv-row"><dt>端口</dt><dd>2101</dd></div>
+        <div class="kv-row"><dt>协议</dt><dd>NTRIP 2.0（兼容 NTRIP 1.0 源推送）</dd></div>
+        <div class="kv-row"><dt>挂载点</dt><dd>申请后分配，格式如 TEST01</dd></div>
+        <div class="kv-row"><dt>用户名 / 密码</dt><dd>申请后邮件发送</dd></div>
+        <div class="kv-row"><dt>数据保留</dt><dd>不落盘，仅实时转发</dd></div>
+        <div class="kv-row"><dt>服务状态</dt><dd><span class="tag tag-ok">运行中</span> 空闲挂载点定期回收</dd></div>
+      </dl>
+
+      <div class="tip">
+        <p><b>怎么申请：</b>发邮件到 <a href="mailto:i@jia.im">i@jia.im</a>，写清三件事——
+        ① 你的基站大致位置（城市即可）；② 接收机型号；③ 打算用几天。
+        我一般当天回，给你一个临时挂载点和账号。</p>
+      </div>
+
+      <h2 id="what">它能帮你验证什么</h2>
+      <div class="card-grid grid-2">
+        <div class="card">
+          <h3>推流通道</h3>
+          <p>接收机的 NTRIP Server 配置对不对、账号密码有没有拼错、网络能不能出公网。</p>
+        </div>
+        <div class="card">
+          <h3>电文完整性</h3>
+          <p>1005、MSM 观测有没有真的在发，间隔对不对，流动站拿到后能不能固定。</p>
+        </div>
+        <div class="card">
+          <h3>拉流配置</h3>
+          <p>手簿、App、RTKLIB 的地址 / 端口 / 挂载点填写方式，先在电脑上跑通再上工地。</p>
+        </div>
+        <div class="card">
+          <h3>网络质量</h3>
+          <p>从你的基站到公网的上行稳定性，以及从测试点到现场的 4G 延迟与丢包。</p>
+        </div>
+      </div>
+
+      <div class="warn">
+        <p><b>这是测试环境，不是生产环境。</b>不承诺可用性、不做长期数据留存、可能随时重启。
+        商用或长期项目请自己搭 Caster，见 <a href="/caster/">NTRIP Caster 搭建</a>。</p>
+      </div>
+
+      <h2 id="push">第一步：把基站的流推上来</h2>
+      <p>在接收机的「NTRIP 推流 / NTRIP Server」页面填写：</p>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>字段</th><th>值</th></tr></thead>
+          <tbody>
+            <tr><td>服务器 / Caster</td><td><code>2rtk.com</code></td></tr>
+            <tr><td>端口</td><td><code>2101</code></td></tr>
+            <tr><td>挂载点 / Mountpoint</td><td>邮件里给你的名字，<b>区分大小写</b></td></tr>
+            <tr><td>用户名 / 密码</td><td>邮件里给你的账号</td></tr>
+            <tr><td>数据格式</td><td>RTCM 3.x</td></tr>
+            <tr><td>自动重连</td><td>打开</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>如果接收机没有推流功能，用树莓派或 PC 跑 RTKLIB 转发：</p>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 串口推到测试 Caster</span></div>
+        <pre>str2str -in  serial://ttyACM0:115200:1#rtcm3 \
+        -out "ntrips://用户名:密码@2rtk.com:2101/你的挂载点"</pre>
+      </div>
+
+      <h2 id="check">第二步：查源表，确认流已上线</h2>
+      <p>
+        Caster 的源表（sourcetable）就是「当前有哪些流」的清单。用浏览器打开，或者用 curl：
+      </p>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 拉取源表并筛选自己的挂载点</span></div>
+        <pre><span class="cmt"># 整张源表</span>
+curl -s http://2rtk.com:2101/
+
+<span class="cmt"># 只看你的挂载点（把 MOUNT 换成实际名字）</span>
+curl -s http://2rtk.com:2101/ | grep -i "STR;MOUNT"</pre>
+      </div>
+      <p>能看到 <code>STR;你的挂载点;…</code> 这一行，说明 Caster 已经收到并登记了你的流。看不到的话，按这个顺序排查：</p>
+      <ol>
+        <li>接收机推送状态是不是「已连接 / 发送中」。</li>
+        <li>挂载点名是否和邮件里完全一致（大小写、有没有多余空格）。</li>
+        <li>账号密码是否被复制进了空格。</li>
+        <li>基站所在网络能不能访问外网 2101 端口（有些企业网会封非标端口）。</li>
+      </ol>
+
+      <h2 id="pull">第三步：把流拉下来验电文</h2>
+      <p>
+        用 RTKLIB 的 <code>str2str</code> 把流存成文件，是最直接的验电文方式——能看清到底有没有观测数据、间隔稳不稳：
+      </p>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 拉 60 秒存成 RTCM 文件</span></div>
+        <pre><span class="cmt"># 拉 60 秒，存成 rtcm3 文件</span>
+str2str -in  "ntrip://用户名:密码@2rtk.com:2101/你的挂载点" \
+        -out file://test.rtcm#rtcm3 -t 60
+
+<span class="cmt"># 用 RTKLIB 的 rtkconv 转成 RINEX 看观测值</span>
+rtkconv -r test.rtcm</pre>
+      </div>
+      <p>
+        更直观的办法是用 <strong>RTKLIB 的 strsvr</strong> 图形界面：把 Input 设成 NTRIP Client，
+        填好参数后下面会实时显示接收的字节数、电文类型和卫星数。能看到 1005 + 各系统 MSM 在滚动，就说明数据是健康的。
+      </p>
+
+      <h2 id="rover">第四步：流动站连上，看固定解</h2>
+      <p>手簿或手机 App 里新建一个 NTRIP 配置：</p>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>字段</th><th>值</th></tr></thead>
+          <tbody>
+            <tr><td>Caster / Host</td><td><code>2rtk.com</code></td></tr>
+            <tr><td>Port</td><td><code>2101</code></td></tr>
+            <tr><td>Mountpoint</td><td>你的挂载点</td></tr>
+            <tr><td>User / Password</td><td>邮件里的账号</td></tr>
+            <tr><td>天线高</td><td>按你的杆高如实填写</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        连上后观察解状态：<span class="tag tag-warn">Float</span> → <span class="tag tag-ok">Fixed</span> 的过程通常在 5～30 秒。
+        如果 3 分钟还停在 Float，先确认基线和电文，再看下面这张表。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>现象</th><th>基本可以确定的原因</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>一直 Single</td><td>没连上 Caster，或挂载点/账号错</td></tr>
+            <tr><td>连上但零字节</td><td>挂载点存在但没有源在推</td></tr>
+            <tr><td>一直 Float</td><td>缺 1005、缺对应星座观测，或基线太远</td></tr>
+            <tr><td>Fixed 但坐标跳</td><td>基站坐标不准 / 天线晃动 / 多路径</td></tr>
+            <tr><td>一分钟断一次</td><td>基站侧 4G 不稳，或自动重连没开</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="clients">常用客户端</h2>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>工具</th><th>平台</th><th>用途</th></tr></thead>
+          <tbody>
+            <tr><td>RTKLIB strsvr / str2str</td><td>Windows / Linux</td><td>最可靠的诊断工具，能看到电文明细</td></tr>
+            <tr><td>Lefebvre NTRIP Client</td><td>Windows / Android</td><td>把 NTRIP 流转发到串口给接收机</td></tr>
+            <tr><td>SW Maps / GNSS Master</td><td>Android / iOS</td><td>手机直连蓝牙接收机做 RTK，现场快速验证</td></tr>
+            <tr><td>接收机自带 Web 界面</td><td>浏览器</td><td>测绘型设备通常内置 NTRIP 客户端，最省事</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="rules">使用约定</h2>
+      <ul>
+        <li><strong>只用于功能测试</strong>：验证链路、电文、客户端配置，不做生产用途。</li>
+        <li><strong>不保证可用性</strong>：可能随时重启、限流或关闭，不要用在依赖连续性的作业上。</li>
+        <li><strong>挂载点会回收</strong>：长期无数据的临时挂载点会被清理，需要时重新申请。</li>
+        <li><strong>不做数据留存</strong>：流转发即走，不落盘、不分析、不转售。</li>
+        <li><strong>禁止滥用</strong>：不要用它做大规模转播、压测或对外提供商业服务。</li>
+        <li><strong>坐标自负</strong>：测试数据的精度与正确性由你自己的基站决定。</li>
+      </ul>
+
+      <div class="note">
+        <p><b>想让你的站点出现在地图上？</b>如果你的基站长期稳定运行、且愿意公开共享，
+        邮件告诉我站名、坐标和挂载点，我可以把它加入 <a href="/">基准站地图</a> 的 2RTK 数据源，每 6 小时同步一次。</p>
+      </div>
+
+      <div class="next-up plain-next">
+        <div class="label">Related</div>
+        <h3>把这个环境换成你自己的</h3>
+        <p>测试通过之后，把同一套配置搬到自己的 Caster 上，只需要改地址和密码。</p>
+        <p style="margin-top:12px">
+          <a href="/rtk-base/">→ RTK 基站搭建</a> &nbsp;·&nbsp;
+          <a href="/caster/">→ NTRIP Caster 搭建</a>
+        </p>
+      </div>
+    </article>
+
+    <nav class="toc" data-toc aria-label="本页目录"></nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">2RTK<span style="color:var(--accent)">.COM</span></div>
+    <div class="footer-links">
+      <a href="/">基准站地图</a>
+      <a href="/what-is-rtk/">什么是 RTK</a>
+      <a href="/rtk-base/">RTK 基站搭建</a>
+      <a href="/caster/">NTRIP Caster 搭建</a>
+      <a href="/test-caster/">测试服务器</a>
+      <a href="/about/">关于我</a>
+      <a href="mailto:i@jia.im">i@jia.im</a>
+    </div>
+    <div>
+      2rtk.com 展示免费的 RTK 基准站公共资源 · 提供免费 NTRIP Caster 测试 · 数据每 6 小时更新<br />
+      若你的站点被收录且不希望展示，或认为侵犯了你的权益，请联系 i@jia.im
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js?v=__BUILD_ID__" defer></script>
+</body>
+</html>

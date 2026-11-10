@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>RTK 基站搭建完整教程：硬件选型、坐标解算、推流到 2RTK Server | 2RTK</title>
+  <meta name="description" content="从选接收机和天线、选址防多路径，到用 PPP 解算基站精确坐标、配置 RTCM 电文、把数据推流到 2RTK Server，再到流动站拿到固定解的完整流程，附常见故障排查表。" />
+  <meta name="keywords" content="RTK基站搭建,基准站搭建,RTK基站,2RTK Server,NTRIP推流,RTCM输出,基站坐标,PPP解算,u-blox F9P,固定解" />
+  <meta name="author" content="2RTK" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+  <meta name="theme-color" content="#080b10" />
+  <link rel="canonical" href="__SITE_ORIGIN__/rtk-base/" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="2RTK" />
+  <meta property="og:title" content="RTK 基站搭建完整教程：从选硬件到流动站固定解" />
+  <meta property="og:description" content="硬件选型 · 选址 · 坐标解算 · RTCM 配置 · 推流到 2RTK Server · 验证与运维。" />
+  <meta property="og:url" content="__SITE_ORIGIN__/rtk-base/" />
+  <meta property="og:image" content="__SITE_ORIGIN__/images/2rtk.png" />
+  <meta property="og:locale" content="zh_CN" />
+
+  <link rel="stylesheet" href="/assets/site.css?v=__BUILD_ID__" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand-wrap">
+      <a class="brand" href="/" aria-label="2RTK.COM 首页">2RTK<span class="brand-tld">.COM</span></a>
+      <span class="brand-sub">免费 RTK 基准站地图 · 搭建教程 · NTRIP Caster</span>
+    </div>
+    <nav class="nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/what-is-rtk/">什么是 RTK</a>
+      <a href="/rtk-base/" class="is-current" aria-current="page">基站搭建</a>
+      <a href="/caster/">Caster 搭建</a>
+      <a href="/about/">关于我</a>
+      <a href="/test-caster/">测试服务器</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <span class="eyebrow">实战教程</span>
+    <h1>用 2RTK Server 搭建自己的 RTK 基站</h1>
+    <p class="lead">
+      一台支持 RTCM 输出的接收机、一根靠谱的天线、一个稳的坐标，再加上 2RTK Server 做分发，
+      你就能在自己家门口得到一块稳定的厘米级区域。这一页按实际施工顺序走：选址 → 硬件 → 坐标 → 电文 → 推流 → 验证 → 运维。
+    </p>
+    <div class="chips">
+      <span class="chip">2-4 小时施工</span>
+      <span class="chip">RTCM 3.x</span>
+      <span class="chip">NTRIP</span>
+      <span class="chip">10 km 覆盖</span>
+    </div>
+  </div>
+
+  <div class="doc">
+    <article class="prose">
+
+      <h2 id="route">先选路线：三种玩法</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>① 推给 2RTK Server</h3>
+          <p>本站自建的 Caster，填四个参数就能推流。适合想给自己或小团队用、又不想维护服务器的场景。</p>
+        </div>
+        <div class="card">
+          <h3>② 推给公共 Caster</h3>
+          <p>rtk2go 之类的免费公共平台。零成本，但<strong>数据必须公开</strong>，且不接受商业用途。</p>
+        </div>
+        <div class="card">
+          <h3>③ 自己搭 Caster</h3>
+          <p>多基站、私有数据、要给一队人用，就在 VPS 上自己跑一个。见 <a href="/caster/">Caster 搭建</a>。</p>
+        </div>
+      </div>
+      <p>
+        这一页走第 ① 条路线。基站本身的施工方式三种都一样，只差最后「往哪推」。
+      </p>
+
+      <h2 id="hardware">硬件清单</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>部件</th><th>要求</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>GNSS 接收机</td>
+              <td>双频（或多频）、支持 RTCM 3.x 输出、可设固定坐标</td>
+              <td>u-blox F9P 模块最便宜好用；测绘型接收机（司南、华测、中海达、天宝等）自带 Web 界面更省事</td>
+            </tr>
+            <tr>
+              <td>天线</td>
+              <td>测绘级、相位中心稳定、多路径抑制好</td>
+              <td>预算够上扼流圈天线；普通螺旋天线也能用，但固定率和重复性差一些</td>
+            </tr>
+            <tr>
+              <td>馈线</td>
+              <td>低损耗，尽量短</td>
+              <td>10 m 以上必须用低损耗线；每米损耗直接影响信噪比</td>
+            </tr>
+            <tr>
+              <td>供电</td>
+              <td>稳定、带 UPS 或宽压输入</td>
+              <td>电压跌落会导致接收机重启，模糊度重新收敛</td>
+            </tr>
+            <tr>
+              <td>网络</td>
+              <td>有线宽带优先，4G 路由器兜底</td>
+              <td>上行只需要每秒几 KB，重点是<strong>稳定不掉线</strong></td>
+            </tr>
+            <tr>
+              <td>防雷</td>
+              <td>天线馈线加同轴避雷器、机柜接地</td>
+              <td>屋顶基站被雷击是头号硬件杀手</td>
+            </tr>
+            <tr>
+              <td>安装件</td>
+              <td>刚性杆 / 观测墩 / 抱箍</td>
+              <td>天线必须绝对稳固，风吹晃动等于精度归零</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="site">选址：决定成败的一半</h2>
+      <ul>
+        <li><strong>天空视野</strong>：以天线为中心，10°～15° 高度角以上尽量无遮挡。北半球注意南向天空。</li>
+        <li><strong>远离反射面</strong>：大水面、玻璃幕墙、彩钢瓦屋顶、金属货架都会制造多路径。天线尽量比周围高出 1 米以上。</li>
+        <li><strong>远离干扰源</strong>：大功率电台、雷达、逆变器、劣质 LED 电源都可能抬升噪底。</li>
+        <li><strong>稳固</strong>：立杆直径够、底部固定牢、加三向拉线。风一吹就晃的杆子，用手簿能看出坐标在跳。</li>
+        <li><strong>可维护</strong>：留出检修空间，能断电重启、能换 SIM 卡。</li>
+      </ul>
+
+      <div class="warn">
+        <p><b>不要装在阳台栏杆或空调外机上。</b>金属结构和震动是多路径与周跳的主要来源，
+        看起来「能看到天」，实际固定率会很差。</p>
+      </div>
+
+      <h2 id="coords">基站坐标：这一步错了全盘皆错</h2>
+      <p>
+        基准站的坐标误差会 <strong>100% 传递给流动站</strong>。基站坐标偏 30 厘米，你用这台基站测出来的每一根桩都偏 30 厘米。
+        所以坐标绝不能靠接收机自己单点算一下就用。
+      </p>
+
+      <h3>方法 A：静态观测 + PPP（推荐，无已知点也能做）</h3>
+      <ol>
+        <li>天线固定好，连续观测 <strong>2～4 小时</strong>（越长越好），采样间隔 30 s，记录 RINEX 观测文件。</li>
+        <li>把 RINEX 上传到免费 PPP 服务（如加拿大 NRCan 的 CSRS-PPP、美国 OPUS、武汉大学 PPP 服务）。</li>
+        <li>拿到 ITRF 框架下的精确坐标，误差可到 <strong>1～3 厘米</strong>。</li>
+        <li>把结果按需转换到当地坐标系（国内工程常用 CGCS2000）。</li>
+      </ol>
+      <div class="note">
+        <p><b>注意框架与历元：</b>PPP 给的是 ITRF20xx 某一历元的坐标，
+        和 CGCS2000 之间差几厘米量级，做一般工程可忽略，做控制网联测则要统一。</p>
+      </div>
+
+      <h3>方法 B：与已知 CORS 做同步静态基线（相对精度最高）</h3>
+      <p>
+        附近有可靠的 CORS 或城市控制点时，同步观测 1 小时以上，用商业软件或 RTKLIB 做基线解算。
+        这条路线拿到的是「相对于该控制网」的坐标，做本地工程最合适。
+      </p>
+
+      <h3>方法 C：单点长时间平均（只适合相对定位）</h3>
+      <p>
+        让接收机在一个点上连续跑 24 小时，把单点解平均。这样能消掉一部分随机误差，
+        但绝对精度仍然只有<strong>米级</strong>。只有在「只关心相对位置、不关心绝对坐标」时才这么干。
+      </p>
+
+      <h3>别忘了天线高</h3>
+      <p>
+        无论用哪种方法，都要记录<strong>天线参考点（ARP）到标石/测站标记的高度</strong>，
+        并在接收机里正确填写。斜高请绕天线 120° 量三次取平均，误差控制在 1 毫米内。
+        输入坐标时也要分清：填的是<strong>天线相位中心</strong>还是<strong>标石</strong>，两者差一个天线高。
+      </p>
+
+      <h2 id="receiver">配置接收机：输出哪些 RTCM</h2>
+      <p>目标只有一个：<strong>让 Caster 上有一路完整、连续、能被流动站直接用的 RTCM 3 流</strong>。通用配置如下：</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>电文</th><th>间隔</th><th>作用</th><th>必需性</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>1005</code></td><td>10 s</td><td>基站坐标（ECEF，不含天线高）</td><td><span class="tag tag-ok">必需</span></td></tr>
+            <tr><td><code>1006</code></td><td>10 s</td><td>基站坐标 + 天线高（二选一）</td><td><span class="tag">可选</span></td></tr>
+            <tr><td><code>1074 / 1084 / 1094 / 1124</code></td><td>1 s</td><td>GPS / GLONASS / Galileo / 北斗 MSM4 观测</td><td><span class="tag tag-ok">必需</span></td></tr>
+            <tr><td><code>1077 / 1087 / 1097 / 1127</code></td><td>1 s</td><td>同上，MSM7（含信噪比，精度更好、带宽更高）</td><td><span class="tag">二选一</span></td></tr>
+            <tr><td><code>1033</code></td><td>30 s</td><td>接收机与天线型号描述</td><td><span class="tag">建议</span></td></tr>
+            <tr><td><code>1230</code></td><td>1 s</td><td>GLONASS 码相位偏差</td><td><span class="tag">用 GLO 时必需</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>其他设置：</p>
+      <ul>
+        <li><strong>观测频率</strong>：基站 1 Hz 足够；流动站 1～5 Hz 按需要。</li>
+        <li><strong>星座</strong>：GPS + 北斗 + GLONASS + Galileo 全开，卫星数越多固定越快。</li>
+        <li><strong>模式</strong>：设为「基站 / Base / Fixed」并<strong>填入上一步解算出的坐标</strong>，不要用「平均位置」。</li>
+        <li><strong>串口</strong>：USB 直连一般 115200 或 921600，确保不丢包。</li>
+      </ul>
+
+      <div class="tip">
+        <p><b>带宽估算：</b>四系统 MSM4 @1 Hz 大约 1 KB/s（一个月约 2.5～3 GB）；
+        MSM7 约 2～3 KB/s（一个月 6～8 GB）。用 4G 卡长期跑，记得按这个量选套餐。</p>
+      </div>
+
+      <h2 id="push">推流到 2RTK Server</h2>
+      <p>
+        2RTK Server 是本站自建的 NTRIP Caster，用来把基站数据分发给流动站。
+        先在控制台创建一个属于你的<strong>挂载点</strong>（mountpoint），拿到账号密码，然后用下面任一方式推送。
+      </p>
+
+      <dl class="kv">
+        <div class="kv-row"><dt>Caster 地址</dt><dd>2rtk.com</dd></div>
+        <div class="kv-row"><dt>端口</dt><dd>2101</dd></div>
+        <div class="kv-row"><dt>挂载点</dt><dd>你的站点名（区分大小写）</dd></div>
+        <div class="kv-row"><dt>用户名 / 密码</dt><dd>创建挂载点时分配</dd></div>
+        <div class="kv-row"><dt>协议</dt><dd>NTRIP 2.0（兼容 1.0 源推送）</dd></div>
+        <div class="kv-row"><dt>开通方式</dt><dd class="plain">邮件 <a href="mailto:i@jia.im">i@jia.im</a> 说明站点位置与设备型号</dd></div>
+      </dl>
+
+      <h3>方式一：接收机内置 NTRIP Server（最简单）</h3>
+      <p>
+        测绘型接收机一般在 Web 界面里有「NTRIP 推流 / NTRIP Server / 数据转发」页面，
+        填入上面五个参数、勾选自动重连即可。设置完看一眼状态灯或日志，出现「已连接 / 发送中」就成功了。
+      </p>
+
+      <h3>方式二：树莓派或路由器用 RTKLIB 转发</h3>
+      <p>
+        接收机只能吐串口、或者你想在中间做一层缓冲时，用 RTKLIB 的 <code>str2str</code> 把串口流推到 Caster：
+      </p>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 串口 → NTRIP Caster</span></div>
+        <pre><span class="cmt"># -in  串口读入，115200 波特率，1 Hz，强制按 rtcm3 解析</span>
+<span class="cmt"># -out 推到 Caster，格式：ntrips://用户名:密码@主机:端口/挂载点</span>
+str2str -in  serial://ttyACM0:115200:1#rtcm3 \
+        -out "ntrips://用户名:密码@2rtk.com:2101/你的挂载点"</pre>
+      </div>
+      <div class="note">
+        <p><b>版本差异：</b>较早的 RTKLIB 只支持 <code>ntrips://:密码@主机:端口/挂载点</code>（不带用户名）。
+        如果报协议错误，先去掉用户名试一次。</p>
+      </div>
+      <p>让它开机自启，最简单的办法是 systemd：</p>
+      <div class="code-block">
+        <div class="code-head"><span>/etc/systemd/system/rtk-push.service</span></div>
+        <pre><span class="key">[Unit]</span>
+<span class="key">Description</span>=<span class="val">Push RTCM to 2RTK Server</span>
+<span class="key">After</span>=<span class="val">network-online.target</span>
+
+<span class="key">[Service]</span>
+<span class="key">ExecStart</span>=<span class="val">/usr/local/bin/str2str -in serial://ttyACM0:115200:1#rtcm3 -out "ntrips://用户名:密码@2rtk.com:2101/你的挂载点"</span>
+<span class="key">Restart</span>=<span class="val">always</span>
+<span class="key">RestartSec</span>=<span class="val">10</span>
+
+<span class="key">[Install]</span>
+<span class="key">WantedBy</span>=<span class="val">multi-user.target</span></pre>
+      </div>
+
+      <h2 id="verify">验证：三看一听</h2>
+      <ol class="steps">
+        <li>
+          <h3>看源表</h3>
+          <p>Caster 会把所有挂载点列在源表里。用浏览器或 curl 访问 <code>http://2rtk.com:2101/</code>，
+          搜你的挂载点。出现 <code>STR;你的挂载点;…</code> 这一行，说明 Caster 已经收到你的流。</p>
+        </li>
+        <li>
+          <h3>看电文</h3>
+          <p>用 RTKLIB 的 <code>strsvr</code> 或 <code>str2str</code> 把流拉到本地存成文件，
+          确认 1005 和观测电文都在，间隔正常、没有大段空洞。</p>
+        </li>
+        <li>
+          <h3>看地图</h3>
+          <p>回到 <a href="/">基准站地图</a>，如果你的挂载点已被收录，会以站点形式出现。
+          地图每 6 小时刷新一次，刚建好的站点不会立刻显示。</p>
+        </li>
+        <li>
+          <h3>听流动站</h3>
+          <p>最终判据只有一个：流动站能不能稳定拿到 <span class="tag tag-ok">Fixed</span>。
+          在基线上取 3 个点复测，平面较差应在 2 厘米以内。</p>
+        </li>
+      </ol>
+
+      <h2 id="rover">流动站怎么用</h2>
+      <p>手簿、App 或接收机 Web 界面里选「NTRIP / 网络 RTK」，填四项：</p>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>字段</th><th>填写</th></tr></thead>
+          <tbody>
+            <tr><td>Caster IP / 域名</td><td><code>2rtk.com</code></td></tr>
+            <tr><td>端口</td><td><code>2101</code></td></tr>
+            <tr><td>挂载点</td><td>你创建的站点名（大小写敏感）</td></tr>
+            <tr><td>用户名 / 密码</td><td>与推流时一致或单独分配</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        连上后注意两件事：一是<strong>天线高</strong>要按流动站自己的杆高填对；
+        二是等固定解<strong>稳定 10 秒以上</strong>再开始测，别抢那一两秒的假固定。
+      </p>
+
+      <h2 id="ops">长期运维</h2>
+      <ul>
+        <li><strong>断电自恢复</strong>：接收机、路由器、树莓派全部设成上电自启；路由器加定时重启。</li>
+        <li><strong>断线重连</strong>：<code>str2str</code> 用 <code>Restart=always</code>；接收机内置推流勾选自动重连。</li>
+        <li><strong>坐标复核</strong>：板块每年移动几厘米，高精度应用建议每年复测一次。</li>
+        <li><strong>天线检查</strong>：台风、大雪后检查立杆垂直度和接头进水。</li>
+        <li><strong>监控</strong>：至少做到「掉线能收到通知」。可以定时 curl 源表，搜不到自己的挂载点就报警。</li>
+        <li><strong>备份配置</strong>：接收机配置导出一份存好，换设备时能快速恢复。</li>
+      </ul>
+
+      <h2 id="trouble">常见故障速查</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>现象</th><th>原因</th><th>处理</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>源表里没有自己的挂载点</td><td>推流没连上，或挂载点名不一致</td><td>查账号密码、端口 2101 是否放行、名字大小写</td></tr>
+            <tr><td>源表有，但拉流没数据</td><td>接收机没输出 RTCM，或电文不全</td><td>先在本地用串口工具确认有二进制流输出</td></tr>
+            <tr><td>流动站一直 Single</td><td>端口/挂载点错误，或网络被墙</td><td>换手机热点交叉测试</td></tr>
+            <tr><td>一直 Float 不 Fixed</td><td>缺 1005、缺对应星座 MSM、基线太远</td><td>补齐电文；确认流动站在 10 km 内</td></tr>
+            <tr><td>固定解频繁掉</td><td>多路径、天线晃动、供电不稳</td><td>换位置、加固立杆、加 UPS</td></tr>
+            <tr><td>坐标整体偏几十厘米</td><td>基站坐标不准</td><td>重新用 PPP 或基线解算</td></tr>
+            <tr><td>每天固定时间掉线</td><td>4G 卡限速/断流、路由器过热</td><td>换有线、加散热、换物联网卡</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="next-up">
+        <div class="label">Next</div>
+        <h3>想让更多人用你的站？</h3>
+        <p>把挂载点开放出来，或者自己搭一个 Caster 管多台基站、给团队分配账号。</p>
+        <p style="margin-top:12px">
+          <a href="/caster/">→ NTRIP Caster 搭建</a> &nbsp;·&nbsp;
+          <a href="/test-caster/">→ 先用测试服务器验证一遍</a>
+        </p>
+      </div>
+    </article>
+
+    <nav class="toc" data-toc aria-label="本页目录"></nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">2RTK<span style="color:var(--accent)">.COM</span></div>
+    <div class="footer-links">
+      <a href="/">基准站地图</a>
+      <a href="/what-is-rtk/">什么是 RTK</a>
+      <a href="/rtk-base/">RTK 基站搭建</a>
+      <a href="/caster/">NTRIP Caster 搭建</a>
+      <a href="/test-caster/">测试服务器</a>
+      <a href="/about/">关于我</a>
+      <a href="mailto:i@jia.im">i@jia.im</a>
+    </div>
+    <div>
+      2rtk.com 展示免费的 RTK 基准站公共资源 · 提供免费 NTRIP Caster 测试 · 数据每 6 小时更新<br />
+      若你的站点被收录且不希望展示，或认为侵犯了你的权益，请联系 i@jia.im
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js?v=__BUILD_ID__" defer></script>
+</body>
+</html>

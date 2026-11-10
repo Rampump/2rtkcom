@@ -329,6 +329,12 @@
       border-color: var(--accent);
     }
 
+    .function-controls button:disabled {
+      cursor: default;
+      border-color: rgba(204, 204, 204, 0.35);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
     .data-source-buttons button.active,
     .function-controls button.active {
       border: 2px solid var(--accent);
@@ -479,6 +485,7 @@
 
   <div class="function-controls">
     <button id="toggleButton" type="button">暂停旋转</button>
+    <button id="toggleSatellites" type="button">隐藏卫星</button>
     <button id="toggleSatelliteLabels" type="button">显示卫星标签</button>
     <button id="toggleStationLabels" type="button">显示站点标签</button>
     <button id="toggleCoverage" type="button">隐藏覆盖范围</button>
@@ -538,6 +545,8 @@
         footer: '2RTK · 全球免费 RTK 基准站地图 · 数据每 6 小时更新 · 提供免费 NTRIP Caster 测试',
         pauseRotation: '暂停旋转',
         resumeRotation: '开始旋转',
+        showSatellites: '显示卫星',
+        hideSatellites: '隐藏卫星',
         showSatLabels: '显示卫星标签',
         hideSatLabels: '隐藏卫星标签',
         showStationLabels: '显示站点标签',
@@ -591,6 +600,8 @@
         footer: '2RTK · Free global RTK base station map · Data refreshed every 6 hours · Free NTRIP Caster trial',
         pauseRotation: 'Pause Rotation',
         resumeRotation: 'Resume Rotation',
+        showSatellites: 'Show Satellites',
+        hideSatellites: 'Hide Satellites',
         showSatLabels: 'Show Satellite Labels',
         hideSatLabels: 'Hide Satellite Labels',
         showStationLabels: 'Show Station Labels',
@@ -940,6 +951,7 @@
      * ========================================================== */
     var tleTimestamp = new Date();
     var rotationEnabled = true;
+    var satellitesVisible = true;         // 卫星图层整体显隐
     var satelliteLabelsVisible = false;
     var stationLabelsVisible = false;
     var coverageVisible = true;
@@ -977,7 +989,8 @@
     // 单独的版权容器，保证 Esri/CARTO/天地图的署名可见（合规要求）
     var creditDiv = document.createElement('div');
     creditDiv.id = 'creditBox';
-    creditDiv.style.cssText = 'position:absolute;bottom:32px;right:8px;z-index:997;'
+    // 版权条压到最底部：控制条按钮在窄屏英文下会变长，32px 处会被压住
+    creditDiv.style.cssText = 'position:absolute;bottom:2px;right:8px;z-index:997;'
       + 'font-size:10px;color:rgba(255,255,255,0.55);text-align:right;pointer-events:none;max-width:48vw;';
     document.body.appendChild(creditDiv);
     var creditDisplay = new Cesium.CreditDisplay(creditDiv);
@@ -1137,7 +1150,11 @@
       document.getElementById('langSwitch').textContent = t('switchLang');
 
       document.getElementById('toggleButton').textContent = rotationEnabled ? t('pauseRotation') : t('resumeRotation');
+      document.getElementById('toggleSatellites').textContent = satellitesVisible ? t('hideSatellites') : t('showSatellites');
       document.getElementById('toggleSatelliteLabels').textContent = satelliteLabelsVisible ? t('hideSatLabels') : t('showSatLabels');
+      // 卫星整体隐藏时，标签开关没有意义，置灰
+      document.getElementById('toggleSatelliteLabels').disabled = !satellitesVisible;
+      document.getElementById('toggleSatelliteLabels').style.opacity = satellitesVisible ? '1' : '0.4';
       document.getElementById('toggleStationLabels').textContent = stationLabelsVisible ? t('hideStationLabels') : t('showStationLabels');
       document.getElementById('toggleCoverage').textContent = coverageVisible ? t('hideCoverage') : t('showCoverage');
 
@@ -1157,6 +1174,18 @@
 
     document.getElementById('toggleButton').addEventListener('click', function () {
       rotationEnabled = !rotationEnabled;
+      refreshControlLabels();
+    });
+
+    document.getElementById('toggleSatellites').addEventListener('click', function () {
+      satellitesVisible = !satellitesVisible;
+      viewer.entities.values.forEach(function (entity) {
+        if (entity.isSatellite) entity.show = satellitesVisible;
+      });
+      // 当前正打开的就是卫星面板 → 一并收起，避免看着空面板
+      if (!satellitesVisible && viewer.selectedEntity && viewer.selectedEntity.isSatellite) {
+        viewer.selectedEntity = undefined;
+      }
       refreshControlLabels();
     });
 
@@ -1232,6 +1261,7 @@
           var entity = viewer.entities.add({
             id: 'sat_' + name,
             name: name,
+            show: satellitesVisible,
             position: Cesium.Cartesian3.fromDegrees(lon, lat, alt),
             billboard: {
               image: icon,

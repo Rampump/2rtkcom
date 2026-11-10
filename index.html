@@ -240,6 +240,41 @@
       z-index: 1004 !important;
     }
 
+    /* 站点信息面板：默认从 top:50px 开始，会被我们的顶栏盖住标题行，
+       这里整体下移到导航条下方，并限制宽度/高度避免溢出屏幕 */
+    .cesium-infoBox {
+      top: 96px !important;
+      width: 336px !important;
+      max-width: 46vw !important;
+      max-height: calc(100vh - 210px);
+      overflow-y: auto;
+      z-index: 1001;
+    }
+
+    .cesium-infoBox-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cesium-infoBox .cesium-infoBox-description table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .cesium-infoBox .cesium-infoBox-description td {
+      padding: 3px 4px;
+      vertical-align: top;
+      word-break: break-word;
+    }
+
+    .cesium-infoBox .cesium-infoBox-description td:first-child {
+      white-space: nowrap;
+      color: #9fd8b6;
+      padding-right: 8px;
+    }
+
     /* ============ 左侧数据源 ============ */
     .data-source-buttons {
       position: absolute;
@@ -348,6 +383,16 @@
 
       .site-nav a { font-size: 12px; padding: 4px 9px; }
 
+      /* 移动端顶栏更高，信息面板再往下让一点 */
+      .cesium-infoBox {
+        top: 150px !important;
+        width: auto !important;
+        left: 8px !important;
+        right: 8px !important;
+        max-width: none !important;
+        max-height: calc(100vh - 260px);
+      }
+
       .update-info {
         margin-top: 5px;
         font-size: 10px;
@@ -429,6 +474,7 @@
     <button id="loadRtkButton" type="button">2RTK</button>
     <button id="loadCrtkButton" type="button">CRTK</button>
     <button id="loadRtk2goButton" type="button">RTK2</button>
+    <button id="loadIgsButton" type="button">IGS</button>
   </div>
 
   <div class="function-controls">
@@ -520,6 +566,10 @@
         tableHost: 'Caster 地址',
         tablePort: 'Caster 端口',
         tableAddress: '注册地址',
+        tableId: '站点编号',
+        tableReceiver: '接收机',
+        tableAntenna: '天线',
+        tableInstallDate: '安装日期',
         satName: '卫星名称',
         satNorad: 'NORAD 编号',
         satAlt: '轨道高度',
@@ -569,6 +619,10 @@
         tableHost: 'Caster Host',
         tablePort: 'Caster Port',
         tableAddress: 'Address',
+        tableId: 'Station ID',
+        tableReceiver: 'Receiver',
+        tableAntenna: 'Antenna',
+        tableInstallDate: 'Installed',
         satName: 'Satellite',
         satNorad: 'NORAD ID',
         satAlt: 'Altitude',
@@ -620,8 +674,10 @@
     var GLYPH_ROAD_LIGHT = '<path d="M9 45L26 20" stroke="#5a4a33" stroke-width="4.5" stroke-linecap="round"/>'
       + '<path d="M52 46L38 21" stroke="rgba(90,74,51,.72)" stroke-width="4.5" stroke-linecap="round"/>'
       + '<path d="M13 24h38" stroke="rgba(90,74,51,.42)" stroke-width="3" stroke-linecap="round"/>';
-    var GLYPH_GRID = '<rect x="16" y="16" width="32" height="32" rx="3" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="2.6"/>'
-      + '<path d="M16 32h32M32 16v32" stroke="rgba(255,255,255,.55)" stroke-width="2.2"/>';
+    var GLYPH_ROAD_DARK = '<path d="M8 44L27 19" stroke="#eaf6ee" stroke-width="4.6" stroke-linecap="round"/>'
+      + '<path d="M53 45L37 20" stroke="rgba(234,246,238,.7)" stroke-width="4.6" stroke-linecap="round"/>'
+      + '<path d="M12 26h40" stroke="rgba(234,246,238,.4)" stroke-width="3" stroke-linecap="round"/>'
+      + '<circle cx="45" cy="41" r="3.4" fill="#eaf6ee"/>';
     var GLYPH_NODE = '<circle cx="20" cy="23" r="4.2" fill="#fff"/><circle cx="45" cy="21" r="4.2" fill="#fff"/>'
       + '<circle cx="32" cy="45" r="4.2" fill="#fff"/>'
       + '<path d="M23 24l18-2M23.6 26.5l6 15M42 24.5l-8 17" stroke="rgba(255,255,255,.62)" stroke-width="2.4" stroke-linecap="round"/>';
@@ -630,19 +686,39 @@
       + '<path d="M20 27c5-3 9 1 14-1s8-4 12 0M19 37c6-2 10 2 16 0s9-3 12 0" '
       + 'stroke="rgba(255,255,255,.85)" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
 
-    // 数组顺序 = 默认优先级，第一个能正常出图的源会被自动启用
-    // 现状（2026）：
-    //   · Cesium Ion（Bing）需要免费 token，影像质量最好
-    //   · 天地图需要免费「浏览器端」key，国内最稳
-    //   · OSM 无需 key，但国内不可达
-    //   · NASA GIBS 无需 key、全球可达，但是静态蓝地球（最高 8 级）
-    //   · Esri / CARTO 已开始要求 key，无 key 会返回 "API KEY REQUIRED" 水印，
-    //     因此只排在最后兜底，界面上也标注了「需 Key」
+    // 数组顺序 = 底图面板里的展示顺序；priority 决定探测完成后自动选谁（数字越小越优先）
+    //
+    // 实测结论（2026-11，中国大陆网络）：
+    //   · Esri（server.arcgisonline.com）影像 + 街道：免 key、无水印、国内 1~2 秒可达 ← 默认
+    //   · CARTO（basemaps.cartocdn.com）：已强制 API Key，无 key 返回 "API KEY REQUIRED" 水印 → 已移除
+    //   · OpenStreetMap 官方瓦片：国内不可达，海外正常 → 海外兜底
+    //   · 高德（AMap）：免 key、国内最快，但瓦片是 GCJ-02（火星坐标），
+    //     与基准站的 WGS84 坐标差 300~700 米，只能手动选择，绝不做默认
+    //   · NASA GIBS：免 key 全球可达，但是静态蓝地球，最高 8 级
     var BASEMAPS = [
       {
-        id: 'ion',
+        id: 'esri-imagery',
         priority: 1,
-        name: 'Bing 卫星影像 · Ion',
+        name: 'Esri 影像',
+        tooltip: 'Esri World Imagery · 免 Key · WGS84',
+        category: '影像 · Imagery',
+        icon: svgIcon('#2a6d7d', '#08252f', GLYPH_SAT),
+        probe: function () {
+          return probeImage('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/3/3/1');
+        },
+        create: function () {
+          return new Cesium.UrlTemplateImageryProvider({
+            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            maximumLevel: 19,
+            credit: new Cesium.Credit('Esri, Maxar, Earthstar Geographics', false)
+          });
+        }
+      },
+      {
+        id: 'ion',
+        priority: 2,
+        name: 'Bing 影像',
+        tooltip: 'Cesium Ion · 需要免费 token',
         category: '影像 · Imagery',
         icon: svgIcon('#2f6bd8', '#12315f', GLYPH_SAT),
         needKey: function () { return !HAS_ION; },
@@ -655,8 +731,9 @@
       },
       {
         id: 'tianditu',
-        priority: 2,
-        name: '天地图影像 · Tianditu',
+        priority: 3,
+        name: '天地图影像',
+        tooltip: '需要「浏览器端」Key · CGCS2000 · 国内最稳',
         category: '影像 · Imagery',
         icon: svgIcon('#d3503c', '#7d1c12', GLYPH_SAT),
         needKey: function () { return !TIANDITU_KEY; },
@@ -682,8 +759,9 @@
       },
       {
         id: 'gibs',
-        priority: 4,
-        name: 'NASA 蓝地球 · Blue Marble',
+        priority: 9,
+        name: 'NASA 蓝地球',
+        tooltip: 'NASA GIBS · 免 Key · 最高 8 级',
         category: '影像 · Imagery',
         icon: svgIcon('#1d5f8a', '#0a2a44', GLYPH_BLUE),
         probe: function () {
@@ -700,13 +778,32 @@
         }
       },
       {
+        id: 'esri-street',
+        priority: 5,
+        name: 'Esri 街道',
+        tooltip: 'Esri World Street Map · 免 Key · WGS84 · 国内可达',
+        category: '街道 · Streets',
+        icon: svgIcon('#f7f1e3', '#c9b48c', GLYPH_ROAD_LIGHT),
+        probe: function () {
+          return probeImage('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/3/3/1');
+        },
+        create: function () {
+          return new Cesium.UrlTemplateImageryProvider({
+            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+            maximumLevel: 19,
+            credit: new Cesium.Credit('Esri, HERE, Garmin, OpenStreetMap contributors', true)
+          });
+        }
+      },
+      {
         id: 'osm',
-        priority: 3,
+        priority: 6,
         name: 'OpenStreetMap',
+        tooltip: 'OSM 官方瓦片 · 免 Key · 国内不可达',
         category: '街道 · Streets',
         icon: svgIcon('#7b5cc4', '#3a2660', GLYPH_NODE),
         probe: function () {
-          return probeImage('https://tile.openstreetmap.org/2/2/1.png');
+          return probeImage('https://tile.openstreetmap.org/3/3/1.png');
         },
         create: function () {
           return new Cesium.OpenStreetMapImageryProvider({
@@ -715,54 +812,44 @@
         }
       },
       {
-        id: 'carto-voyager',
-        priority: 5,
-        name: 'CARTO 街道（需 Key）',
-        category: '街道 · Streets',
-        icon: svgIcon('#f7f1e3', '#c9b48c', GLYPH_ROAD_LIGHT),
-        probe: function () {
-          return probeImage('https://basemaps.cartocdn.com/rastertiles/voyager/2/2/1.png');
-        },
-        create: function () {
-          return new Cesium.UrlTemplateImageryProvider({
-            url: 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
-            maximumLevel: 19,
-            credit: new Cesium.Credit('&copy; OpenStreetMap contributors &copy; CARTO', true)
-          });
-        }
-      },
-      {
-        id: 'esri',
-        priority: 6,
-        name: 'Esri 影像（需 Key）',
-        category: '影像 · Imagery',
-        icon: svgIcon('#2a6d7d', '#08252f', GLYPH_SAT),
-        probe: function () {
-          return probeImage('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/2/1/2');
-        },
-        create: function () {
-          return new Cesium.UrlTemplateImageryProvider({
-            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-            maximumLevel: 19,
-            credit: new Cesium.Credit('Esri, Maxar, Earthstar Geographics', false)
-          });
-        }
-      },
-      {
-        id: 'carto-dark',
-        priority: 7,
-        name: '深色地图（需 Key）',
-        category: '街道 · Streets',
-        icon: svgIcon('#39414d', '#11151a', GLYPH_GRID),
+        id: 'amap-street',
+        priority: 20,
         manualOnly: true,
+        gcj02: true,
+        name: '高德街道',
+        tooltip: 'AMap 免 Key · 但为 GCJ-02 火星坐标，站点会偏移 300~700 米',
+        category: '街道 · Streets',
+        icon: svgIcon('#3aa76d', '#16512f', GLYPH_ROAD_DARK),
         probe: function () {
-          return probeImage('https://basemaps.cartocdn.com/dark_all/2/2/1.png');
+          return probeImage('https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x=26&y=12&z=5');
         },
         create: function () {
           return new Cesium.UrlTemplateImageryProvider({
-            url: 'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-            maximumLevel: 19,
-            credit: new Cesium.Credit('&copy; OpenStreetMap contributors &copy; CARTO', true)
+            url: 'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+            subdomains: ['1', '2', '3', '4'],
+            maximumLevel: 18,
+            credit: new Cesium.Credit('高德地图 AMap · GCJ-02', false)
+          });
+        }
+      },
+      {
+        id: 'amap-sat',
+        priority: 21,
+        manualOnly: true,
+        gcj02: true,
+        name: '高德卫星',
+        tooltip: 'AMap 免 Key · 但为 GCJ-02 火星坐标，站点会偏移 300~700 米',
+        category: '影像 · Imagery',
+        icon: svgIcon('#1f7a4d', '#0a3320', GLYPH_SAT),
+        probe: function () {
+          return probeImage('https://webst01.is.autonavi.com/appmaptile?style=6&x=26&y=12&z=5');
+        },
+        create: function () {
+          return new Cesium.UrlTemplateImageryProvider({
+            url: 'https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}',
+            subdomains: ['1', '2', '3', '4'],
+            maximumLevel: 18,
+            credit: new Cesium.Credit('高德地图 AMap · GCJ-02', false)
           });
         }
       }
@@ -824,7 +911,7 @@
         if (src.needKey && src.needKey()) return;
         var vm = new Cesium.ProviderViewModel({
           name: src.name,
-          tooltip: src.name,
+          tooltip: src.tooltip || src.name,
           category: src.category,
           iconUrl: src.icon,
           creationFunction: src.create
@@ -989,7 +1076,8 @@
         match: function (name) { return /(GALILEO|SES-\d+|ASTRA|EUTELSAT)/i.test(name); }
       },
       'USA': {
-        color: Cesium.Color.DARKBLUE,
+        // 深蓝在黑色星空背景上几乎看不见，标签统一用亮一点的天蓝
+        color: Cesium.Color.fromCssColorString('#6fa8ff'),
         match: function (name) { return /(GPS|NAVSTAR|BIIR-\d+|BIIRM-\d+|BIIF-\d+|BIII-\d+)/i.test(name); }
       },
       'UK': {
@@ -1058,6 +1146,7 @@
       });
 
       renderUpdateInfo();
+      refreshStationDescriptions();
     }
 
     document.getElementById('langSwitch').addEventListener('click', function () {
@@ -1097,73 +1186,121 @@
 
     /* ==========================================================
      * 9. GNSS 卫星
+     *
+     *    TLE 优先读本地 data/tle-gnss.txt（由 scripts/fetch_tle.py
+     *    随采集任务一起刷新，跟仓库一起部署）。
+     *    原因：celestrak.org 对同一 IP 有下载频率限制，超限直接返回 403，
+     *    访客一旦被限流，卫星图层一颗都画不出来。
+     *    本地文件缺失时才回退到 CelesTrak 实时接口。
      * ========================================================== */
-    fetch('https://celestrak.org/NORAD/elements/gp.php?GROUP=gnss&FORMAT=tle')
-      .then(function (res) { return res.text(); })
-      .then(function (tleText) {
-        var lines = tleText.trim().split('\n');
-        for (var i = 0; i < lines.length; i += 3) {
-          var name = lines[i].trim();
-          var tle1 = lines[i + 1] ? lines[i + 1].trim() : null;
-          var tle2 = lines[i + 2] ? lines[i + 2].trim() : null;
-          if (!name || !tle1 || !tle2) continue;
+    var TLE_LOCAL = './data/tle-gnss.txt';
+    var TLE_REMOTE = 'https://celestrak.org/NORAD/elements/gp.php?GROUP=gnss&FORMAT=tle';
 
-          try {
-            var satrec = satellite.twoline2satrec(tle1, tle2);
-            var jsDate = new Date();
-            var posVel = satellite.propagate(satrec, jsDate);
-            var gmst = satellite.gstime(jsDate);
+    function parseTLE(tleText) {
+      // 去掉 # 注释行与空行，按 3 行一组（名称 / 1 行 / 2 行）解析
+      var lines = tleText.split('\n')
+        .map(function (l) { return l.replace(/\r$/, '').trim(); })
+        .filter(function (l) { return l && l.charAt(0) !== '#'; });
 
-            if (!posVel.position) continue;
+      var added = 0;
 
-            var geo = satellite.eciToGeodetic(posVel.position, gmst);
-            var lon = Cesium.Math.toDegrees(geo.longitude);
-            var lat = Cesium.Math.toDegrees(geo.latitude);
-            var alt = geo.height * 1000;
+      for (var i = 0; i + 2 < lines.length; i += 3) {
+        var name = lines[i];
+        var tle1 = lines[i + 1];
+        var tle2 = lines[i + 2];
+        if (tle1.charAt(0) !== '1' || tle2.charAt(0) !== '2') continue;
 
-            if (!isValidCoordinate(lon, lat, alt)) continue;
+        try {
+          var satrec = satellite.twoline2satrec(tle1, tle2);
+          var jsDate = new Date();
+          var posVel = satellite.propagate(satrec, jsDate);
+          var gmst = satellite.gstime(jsDate);
 
-            var country = getSatelliteCountry(name);
-            var icon = satelliteIcons[country] || satelliteIcons['Other'];
-            var color = (countrySatellites[country] && countrySatellites[country].color) || Cesium.Color.GRAY;
+          if (!posVel.position) continue;
 
-            var entity = viewer.entities.add({
-              id: 'sat_' + name,
-              name: name,
-              position: Cesium.Cartesian3.fromDegrees(lon, lat, alt),
-              billboard: {
-                image: icon,
-                width: 28,
-                height: 28,
-                verticalOrigin: Cesium.VerticalOrigin.CENTER,
-                scaleByDistance: new Cesium.NearFarScalar(500000, 1.2, 40000000, 0.35)
-              },
-              label: {
-                text: name,
-                font: '12px sans-serif',
-                fillColor: color,
-                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-                outlineWidth: 2,
-                verticalOrigin: Cesium.VerticalOrigin.TOP,
-                pixelOffset: new Cesium.Cartesian2(0, 20),
-                show: satelliteLabelsVisible
-              },
-              properties: {
-                norad: satrec.satnum,
-                tleDate: tleTimestamp.toISOString(),
-                country: country
-              }
-            });
-            entity.isSatellite = true;
-            entity.satrec = satrec;
-          } catch (e) {
-            console.warn('[2RTK] 卫星 ' + name + ' 处理失败:', e && e.message);
-          }
+          var geo = satellite.eciToGeodetic(posVel.position, gmst);
+          var lon = Cesium.Math.toDegrees(geo.longitude);
+          var lat = Cesium.Math.toDegrees(geo.latitude);
+          var alt = geo.height * 1000;
+
+          if (!isValidCoordinate(lon, lat, alt)) continue;
+
+          var country = getSatelliteCountry(name);
+          var icon = satelliteIcons[country] || satelliteIcons['Other'];
+          var color = (countrySatellites[country] && countrySatellites[country].color) || Cesium.Color.GRAY;
+
+          var entity = viewer.entities.add({
+            id: 'sat_' + name,
+            name: name,
+            position: Cesium.Cartesian3.fromDegrees(lon, lat, alt),
+            billboard: {
+              image: icon,
+              width: 28,
+              height: 28,
+              verticalOrigin: Cesium.VerticalOrigin.CENTER,
+              scaleByDistance: new Cesium.NearFarScalar(500000, 1.2, 40000000, 0.35)
+            },
+            label: {
+              text: name,
+              font: '12px sans-serif',
+              fillColor: color,
+              style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+              outlineWidth: 2,
+              verticalOrigin: Cesium.VerticalOrigin.TOP,
+              pixelOffset: new Cesium.Cartesian2(0, 20),
+              show: satelliteLabelsVisible
+            },
+            properties: {
+              norad: satrec.satnum,
+              tleDate: tleTimestamp.toISOString(),
+              country: country
+            }
+          });
+          entity.isSatellite = true;
+          entity.satrec = satrec;
+          entity._satInfo = {
+            norad: satrec.satnum,
+            tleDate: tleTimestamp.toISOString(),
+            country: country
+          };
+          added++;
+        } catch (e) {
+          console.warn('[2RTK] 卫星 ' + name + ' 处理失败:', e && e.message);
         }
-      })
-      .catch(function (err) {
-        console.warn('[2RTK] 卫星 TLE 数据获取失败:', err && err.message);
-      });
+      }
+
+      console.log('[2RTK] 卫星加载完成 ' + added + ' 颗');
+      return added;
+    }
+
+    function loadSatellites() {
+      return fetch(TLE_LOCAL, { cache: 'no-cache' })
+        .then(function (res) {
+          if (!res.ok) throw new Error('local TLE HTTP ' + res.status);
+          return res.text();
+        })
+        .then(function (text) {
+          if (text.indexOf('1 ') === -1) throw new Error('local TLE 内容为空');
+          return parseTLE(text);
+        })
+        .then(function (n) {
+          if (n > 0) return n;
+          throw new Error('local TLE 解析出 0 颗卫星');
+        })
+        .catch(function (err) {
+          console.warn('[2RTK] 本地 TLE 不可用（' + (err && err.message) + '），回退 CelesTrak');
+          return fetch(TLE_REMOTE)
+            .then(function (res) {
+              if (!res.ok) throw new Error('celestrak HTTP ' + res.status);
+              return res.text();
+            })
+            .then(parseTLE)
+            .catch(function (e2) {
+              console.warn('[2RTK] 卫星 TLE 全部获取失败:', e2 && e2.message);
+              return 0;
+            });
+        });
+    }
 
     /* ==========================================================
      * 10. 基准站点
@@ -1196,9 +1333,70 @@
         row(t('tableHost'), station.server_host);
         row(t('tablePort'), station.server_port);
         row(t('tableAddress'), station.registration_address);
+      } else if (stationType === 'isIgs') {
+        row(t('tableId'), station.id || station.name);
+        row(t('tableName'), station.name);
+        row(t('tableReceiver'), station.receiver);
+        row(t('tableAntenna'), station.antenna);
+        row(t('tableLat'), station.latitude);
+        row(t('tableLon'), station.longitude);
+        row(t('tableHeight'), station.height);
+        row(t('tableSystems'), station.systems);
+        row(t('tableCountry'), station.country);
+        row(t('tableInstallDate'), station.receiverInstallDate);
       }
 
       return '<table>' + rows.join('') + '</table>';
+    }
+
+    /**
+     * Cesium 的 InfoBox 只在「选中项发生变化」时重绘，
+     * 直接改 entity.description 不会刷新已经打开的面板。
+     * 所以切换语言后要把所有站点的描述重建一遍，
+     * 再把当前选中的实体重新选一次，强制面板重绘。
+     */
+    function refreshStationDescriptions() {
+      var selected = viewer.selectedEntity;
+
+      viewer.entities.values.forEach(function (entity) {
+        if (entity._station) {
+          entity.description = buildStationDescription(entity._station, entity._stationType);
+        } else if (entity.isSatellite && entity._satInfo) {
+          entity.description = buildSatelliteDescription(entity);
+        }
+      });
+
+      if (selected && (selected._station || selected.isSatellite)) {
+        viewer.selectedEntity = undefined;
+        viewer.selectedEntity = selected;
+      }
+    }
+
+    function buildSatelliteDescription(entity) {
+      var info = entity._satInfo || {};
+      var now = new Date();
+      var posVel = satellite.propagate(entity.satrec, now);
+      if (!posVel || !posVel.position) return '<table></table>';
+
+      var gmst = satellite.gstime(now);
+      var geo = satellite.eciToGeodetic(posVel.position, gmst);
+      var ageDays = info.tleDate
+        ? ((now - new Date(info.tleDate)) / 86400000).toFixed(1)
+        : 'N/A';
+
+      function row(label, value) {
+        return '<tr><td><b>' + label + '</b></td><td>' + value + '</td></tr>';
+      }
+
+      return '<table>'
+        + row(t('satName'), entity.name)
+        + row(t('satNorad'), info.norad)
+        + row(t('tableCountry'), info.country)
+        + row(t('satAlt'), geo.height.toFixed(1) + ' km')
+        + row(t('satPlane'), Cesium.Math.toDegrees(entity.satrec.nodeo).toFixed(2) + '°')
+        + row(t('satIncl'), Cesium.Math.toDegrees(entity.satrec.inclo).toFixed(2) + '°')
+        + row(t('satTleAge'), ageDays + ' ' + t('days'))
+        + '</table>';
     }
 
     function addRtkEntities(baseStations, color, stationType) {
@@ -1216,11 +1414,15 @@
 
         var description = buildStationDescription(station, stationType);
         var stationId = stationType + '_' + station.name;
+        var isIgs = stationType === 'isIgs';
 
-        viewer.entities.add({
+        // IGS 是大地测量网（坐标权威、带接收机/天线信息），
+        // 点画大一点以便在整球视角也能看见，且不画覆盖圈
+        var marker = viewer.entities.add({
           id: stationId,
+          name: station.name,     // InfoBox 标题用 name，不设的话会显示 id 前缀 isIgs_xxx
           position: Cesium.Cartesian3.fromDegrees(lon, lat, height),
-          point: { pixelSize: 5, color: color },
+          point: { pixelSize: isIgs ? 8 : 5, color: color },
           label: {
             text: station.name,
             font: '10px sans-serif',
@@ -1234,11 +1436,19 @@
           description: description,
           stationType: stationType
         });
+
+        // 记住原始数据，语言切换时可以重建描述文本
+        marker._station = station;
+        marker._stationType = stationType;
+        if (isIgs) marker._isIgs = true;
         points.push([lon, lat]);
 
-        // 覆盖范围：单圈 10 公里
-        viewer.entities.add({
+        if (isIgs) return;
+
+        // 覆盖范围：单圈半径 10 公里的圆
+        var ring = viewer.entities.add({
           id: stationId + '_coverage',
+          name: station.name,
           position: Cesium.Cartesian3.fromDegrees(lon, lat),
           ellipse: {
             semiMinorAxis: COVERAGE_RADIUS,
@@ -1253,6 +1463,8 @@
           parentId: stationId,
           show: coverageVisible
         });
+        ring._station = station;
+        ring._stationType = stationType;
       });
 
       fitToStations(points);
@@ -1344,27 +1556,7 @@
 
       if (picked.id.isSatellite) {
         var entity = picked.id;
-        var now = new Date();
-        var posVel = satellite.propagate(entity.satrec, now);
-        var gmst = satellite.gstime(now);
-        if (!posVel.position) return;
-
-        var geo = satellite.eciToGeodetic(posVel.position, gmst);
-        var tleAgeDays = ((now - new Date(entity.properties.tleDate)) / 86400000).toFixed(1);
-
-        var rows = [
-          [t('satName'), entity.name],
-          [t('satNorad'), entity.properties.norad],
-          [t('tableCountry'), entity.properties.country],
-          [t('satAlt'), geo.height.toFixed(1) + ' km'],
-          [t('satPlane'), Cesium.Math.toDegrees(entity.satrec.nodeo).toFixed(2) + '°'],
-          [t('satIncl'), Cesium.Math.toDegrees(entity.satrec.inclo).toFixed(2) + '°'],
-          [t('satTleAge'), tleAgeDays + ' ' + t('days')]
-        ].map(function (r) {
-          return '<tr><td><b>' + r[0] + '</b></td><td>' + r[1] + '</td></tr>';
-        }).join('');
-
-        entity.description = '<table>' + rows + '</table>';
+        entity.description = buildSatelliteDescription(entity);
         viewer.selectedEntity = entity;
       } else if (picked.id.stationType) {
         viewer.selectedEntity = picked.id;
@@ -1413,6 +1605,59 @@
         .then(function (res) { return res.json(); })
         .then(function (data) { addRtkEntities(data, Cesium.Color.MAGENTA, 'isCrtk'); })
         .catch(function (err) { console.warn('[2RTK] CRTK 数据加载失败:', err && err.message); });
+    });
+
+    /**
+     * IGS 数据是 IGS 站日志（station log）导出的字典结构，
+     * 键是 4 字符站点编号（如 ABMF00GLP），字段是 PascalCase，
+     * 这里统一转成和 NTRIP 站点一致的扁平结构再画。
+     */
+    function normalizeIgsStations(raw) {
+      var list = [];
+
+      Object.keys(raw || {}).forEach(function (id) {
+        var d = raw[id];
+        if (!d) return;
+
+        var lat = parseFloat(d.Latitude);
+        var lon = parseFloat(d.Longitude);
+        var height = parseFloat(d.Height);
+        if (isNaN(height)) height = 0;
+
+        var ant = d.Antenna || {};
+        var rcv = d.Receiver || {};
+
+        list.push({
+          id: id,
+          name: id,
+          latitude: lat,
+          longitude: lon,
+          height: height,
+          country: d.CountryOrRegion,
+          systems: rcv.SatelliteSystem,
+          receiver: [rcv.Name, rcv.FirmwareVersion ? 'fw ' + rcv.FirmwareVersion : '']
+            .filter(Boolean).join(' · '),
+          antenna: [ant.Name, ant.Radome && ant.Radome !== 'NONE' ? ant.Radome : '']
+            .filter(Boolean).join(' · '),
+          receiverInstallDate: rcv.DateInstalled ? String(rcv.DateInstalled).replace('T', ' ').replace('Z', '') : ''
+        });
+      });
+
+      return list;
+    }
+
+    document.getElementById('loadIgsButton').addEventListener('click', function () {
+      setActiveButton('loadIgsButton');
+      removeAllStations();
+      fetch('./data/IGSNetwork.json')
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (raw) {
+          addRtkEntities(normalizeIgsStations(raw), Cesium.Color.LIME, 'isIgs');
+        })
+        .catch(function (err) { console.warn('[2RTK] IGS 数据加载失败:', err && err.message); });
     });
 
     /* ==========================================================
@@ -1473,6 +1718,7 @@
     refreshControlLabels();
     initBasemapAvailability();
     loadMetaInfo();
+    loadSatellites();
 
     // 默认展示 rtk2go（数据量最大、覆盖最广）
     document.getElementById('loadRtk2goButton').click();

@@ -10,6 +10,8 @@ ntrip_servers.ini
 
 # ===== 采集运行时产物 =====
 data/*.txt
+# 例外：卫星 TLE 必须入库，前端直接从站点读取（避免被 CelesTrak 限流）
+!data/tle-gnss.txt
 
 # ===== 运行时配置（含 Ion Token，由构建注入，严禁入库）=====
 config.js

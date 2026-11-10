@@ -89,7 +89,7 @@ def write_config_js(dist_dir):
     if tdt_token:
         print("[ok] 已注入 TIANDITU_TOKEN")
     if not ion_token and not tdt_token:
-        print("[info] 未配置 Ion / 天地图凭证，将使用公共图源（Esri / CARTO / OSM）")
+        print("[info] 未配置 Ion / 天地图凭证，将使用公共图源（Esri 影像 / Esri 街道 / OSM）")
     print(f"[info] 地图站: {origin} | 首页站: {home}")
 
     payload = {
@@ -191,6 +191,15 @@ def build():
     for name in os.listdir(DATA_DIR):
         if name.endswith('.json'):
             shutil.copy2(os.path.join(DATA_DIR, name), os.path.join(dst_data, name))
+
+    # 卫星 TLE（前端优先读这份本地文件，避免被 CelesTrak 限流时画不出卫星）
+    tle_src = os.path.join(DATA_DIR, 'tle-gnss.txt')
+    if os.path.exists(tle_src):
+        shutil.copy2(tle_src, os.path.join(dst_data, 'tle-gnss.txt'))
+        print(f"[ok] 已同步 data/tle-gnss.txt（{os.path.getsize(tle_src) / 1024:.1f} KB）")
+    else:
+        print("[warn] 缺少 data/tle-gnss.txt，前端将回退到 CelesTrak 实时接口（容易被限流）")
+        print("       执行 python scripts/fetch_tle.py 生成")
 
     write_config_js(DIST_DIR)
     write_seo_files(DIST_DIR)

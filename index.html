@@ -165,7 +165,9 @@
       font-size: 11px;
       line-height: 1.35;
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
-      max-width: 260px;
+      max-width: 300px;
+      /* 中英双语副标题按 \n 断成两行，避免 "Map" 这类单词被单独挤到第二行 */
+      white-space: pre-line;
     }
 
     /* 语言切换：挂在 Cesium 自带控件左侧，跟工具栏同一水平线。
@@ -513,7 +515,8 @@
       <div class="brand-row">
         <a class="brand" href="/" aria-label="2RTK.COM 首页">2RTK<span class="brand-tld">.COM</span></a>
       </div>
-      <p class="brand-sub" id="brandSub">全球免费 RTK 基准站地图 · Free RTK Base Station Map</p>
+      <p class="brand-sub" id="brandSub">全球免费 RTK 基准站地图
+Free RTK Base Station Map</p>
       <div class="update-info" id="updateInfo">数据加载中…</div>
     </div>
 
@@ -591,7 +594,7 @@
     var I18N = {
       zh: {
         pageTitle: '全球免费 RTK 基准站地图 | 2RTK NTRIP Caster 基站可视化',
-        brandSub: '全球免费 RTK 基准站地图 · Free RTK Base Station Map',
+        brandSub: '全球免费 RTK 基准站地图\nFree RTK Base Station Map',
         navHome: '首页',
         navRtk: '什么是 RTK',
         navBase: '基站搭建',
@@ -647,13 +650,13 @@
       },
       en: {
         pageTitle: 'Free Global RTK Base Station Map | 2RTK NTRIP Caster Viewer',
-        brandSub: '全球免费 RTK 基准站地图 · Free RTK Base Station Map',
+        brandSub: 'Free RTK Base Station Map',
         navHome: 'Home',
         navRtk: 'What is RTK',
-        navBase: 'Base Setup',
-        navCaster: 'Caster Setup',
-        navAbout: 'About',
-        navTest: 'Test Caster',
+        navBase: 'RTK Base Setup',
+        navCaster: 'NTRIP Caster Setup',
+        navAbout: 'About Me',
+        navTest: 'Our Test NTRIP Caster',
         footer: '2rtk.com lists free public RTK base station resources · Free NTRIP Caster trial · Data refreshed every 6 hours'
           + '<br>To have your station removed or report a rights concern, contact i@jia.im',
         pauseRotation: 'Pause Rotation',

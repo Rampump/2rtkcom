@@ -6,8 +6,8 @@
 
   <!-- ==================== SEO ==================== -->
   <title>全球免费 RTK 基准站地图 | 2RTK NTRIP Caster 基站可视化</title>
-  <meta name="description" content="2RTK 提供全球免费 RTK 基准站（RTK Base Station）地图，可查看 rtk2go、IGS、CRTK 等 NTRIP Caster 的挂载点分布与覆盖范围，并实时显示 GNSS 卫星轨道。同时提供免费 NTRIP Caster 测试服务和 RTK 基准站搭建教程。" />
-  <meta name="keywords" content="RTK,RTK基准站,RTK Base Station,NTRIP Caster,NTRIP,GNSS,rtk2go,IGS,RTCM,免费NTRIP,RTK搭建教程,2RTK,厘米级定位,网络RTK,基准站地图" />
+  <meta name="description" content="2RTK 提供全球免费 RTK 基准站（RTK Base Station）地图，可查看 2RTK、CRTK、rtk2go 等 NTRIP Caster 的挂载点分布与 10 公里覆盖范围，并实时显示 GNSS 卫星轨道。同时提供免费 NTRIP Caster 测试服务和 RTK 基准站搭建教程。" />
+  <meta name="keywords" content="RTK,RTK基准站,RTK Base Station,NTRIP Caster,NTRIP,GNSS,rtk2go,CRTK,RTCM,免费NTRIP,RTK搭建教程,2RTK,厘米级定位,网络RTK,基准站地图" />
   <meta name="author" content="2RTK" />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
   <meta name="theme-color" content="#0b0f14" />
@@ -58,7 +58,7 @@
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "All",
         "browserRequirements": "Requires WebGL",
-        "description": "基于 Cesium 的全球 RTK 基准站与 GNSS 卫星三维可视化地图，数据覆盖 rtk2go、IGS、CRTK 等多个 NTRIP Caster。",
+        "description": "基于 Cesium 的全球 RTK 基准站与 GNSS 卫星三维可视化地图，数据覆盖 2RTK、CRTK、rtk2go 三个 NTRIP Caster。",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
         "isAccessibleForFree": true,
         "provider": { "@id": "__SITE_ORIGIN__/#organization" }
@@ -120,8 +120,8 @@
       z-index: 1000;
       display: flex;
       align-items: flex-start;
-      gap: 16px;
-      padding: 14px 18px;
+      gap: 18px;
+      padding: 14px 16px;
       pointer-events: none;
       background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
     }
@@ -129,6 +129,13 @@
     .brand-block {
       pointer-events: auto;
       flex: 0 0 auto;
+      max-width: calc(100% - 120px);
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .brand {
@@ -153,6 +160,45 @@
       max-width: 260px;
     }
 
+    /* 语言切换：跟随品牌放在左上角，不再占用 Cesium 右上控件区 */
+    .lang-switch {
+      background: rgba(0, 0, 0, 0.62);
+      border: 1px solid var(--panel-border);
+      color: #fff;
+      font-size: 11.5px;
+      line-height: 1;
+      padding: 6px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .lang-switch:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* 数据更新时间：Logo 正下方，左侧对齐 */
+    .update-info {
+      margin-top: 8px;
+      display: inline-block;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 11.5px;
+      line-height: 1.55;
+      color: #fff;
+      text-align: left;
+      backdrop-filter: blur(6px);
+      white-space: nowrap;
+    }
+
+    .update-info .ok { color: var(--accent); }
+    .update-info .fail { color: #ff6b6b; }
+    .update-info .sub { color: rgba(255, 255, 255, 0.55); }
+
     .site-nav {
       pointer-events: auto;
       display: flex;
@@ -165,6 +211,7 @@
       border: 1px solid var(--panel-border);
       backdrop-filter: blur(6px);
       margin-top: 2px;
+      margin-right: 92px;   /* 让位给 Cesium 自带右上角控件 */
     }
 
     .site-nav a {
@@ -187,49 +234,11 @@
       color: var(--accent);
     }
 
-    .top-right {
-      pointer-events: auto;
-      margin-left: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 8px;
-      flex: 0 0 auto;
+    /* Cesium 自带工具栏（底图选择 / 投影切换）需要盖在自定义顶栏之上，
+       否则展开的底图面板顶部会被导航条遮住 */
+    .cesium-viewer-toolbar {
+      z-index: 1004 !important;
     }
-
-    .lang-switch {
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      color: #fff;
-      font-size: 12px;
-      padding: 5px 12px;
-      border-radius: 14px;
-      cursor: pointer;
-      min-width: 54px;
-      backdrop-filter: blur(6px);
-    }
-
-    .lang-switch:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .update-info {
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      color: #fff;
-      font-size: 12px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      line-height: 1.5;
-      max-width: 260px;
-      text-align: right;
-      backdrop-filter: blur(6px);
-    }
-
-    .update-info .ok { color: var(--accent); }
-    .update-info .fail { color: #ff6b6b; }
-    .update-info .sub { font-size: 10px; color: rgba(255, 255, 255, 0.55); }
 
     /* ============ 左侧数据源 ============ */
     .data-source-buttons {
@@ -291,65 +300,6 @@
       color: var(--accent);
     }
 
-    /* ============ 底图切换面板 ============ */
-    .basemap-panel {
-      position: absolute;
-      bottom: 82px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1002;
-      background: rgba(14, 16, 20, 0.95);
-      border: 1px solid #3a3f47;
-      border-radius: 10px;
-      padding: 6px;
-      min-width: 240px;
-      max-height: 56vh;
-      overflow-y: auto;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
-    }
-
-    .basemap-panel[hidden] { display: none; }
-
-    .basemap-title {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.45);
-      padding: 4px 10px 8px;
-      letter-spacing: 0.4px;
-    }
-
-    .basemap-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: #e6e6e6;
-      padding: 8px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      text-align: left;
-      min-width: 0;
-    }
-
-    .basemap-item:hover { background: rgba(255, 255, 255, 0.1); }
-
-    .basemap-item.is-active {
-      color: var(--accent);
-      background: rgba(0, 255, 136, 0.1);
-    }
-
-    .basemap-item .st {
-      font-size: 11px;
-      opacity: 0.7;
-      flex: 0 0 auto;
-    }
-
-    .basemap-item .st.ok { color: var(--accent); opacity: 1; }
-    .basemap-item .st.fail { color: #ff6b6b; opacity: 1; }
-
     .bottom-mask {
       position: absolute;
       bottom: 0;
@@ -398,18 +348,17 @@
 
       .site-nav a { font-size: 12px; padding: 4px 9px; }
 
-      .top-right { flex-direction: row; align-items: center; gap: 6px; }
-
       .update-info {
+        margin-top: 5px;
         font-size: 10px;
         padding: 4px 8px;
-        max-width: 58vw;
+        max-width: 88vw;
       }
 
       .update-info .sub { display: none; }
 
       .data-source-buttons {
-        top: 118px;
+        top: 128px;
         left: 10px;
         right: auto;
         bottom: auto;
@@ -448,16 +397,6 @@
         min-width: auto;
         box-sizing: border-box;
       }
-
-      .basemap-panel {
-        left: 10px;
-        right: 10px;
-        transform: none;
-        bottom: auto;
-        top: 50%;
-        transform: translateY(-50%);
-        min-width: 0;
-      }
     }
   </style>
 </head>
@@ -468,8 +407,12 @@
 
   <header class="top-bar">
     <div class="brand-block">
-      <a class="brand" href="__HOME_ORIGIN__/" aria-label="2RTK 首页">2RTK</a>
+      <div class="brand-row">
+        <a class="brand" href="__HOME_ORIGIN__/" aria-label="2RTK 首页">2RTK</a>
+        <button id="langSwitch" class="lang-switch" type="button" aria-label="Switch language">EN</button>
+      </div>
       <p class="brand-sub" id="brandSub">全球免费 RTK 基准站地图 · Free RTK Base Station Map</p>
+      <div class="update-info" id="updateInfo">数据加载中…</div>
     </div>
 
     <nav class="site-nav" id="siteNav" aria-label="站点导航">
@@ -480,19 +423,12 @@
       <a href="__HOME_ORIGIN__/caster/" data-i18n="navCaster">NTRIP Caster 搭建</a>
       <a href="__HOME_ORIGIN__/free-caster/" data-i18n="navFree">免费测试</a>
     </nav>
-
-    <div class="top-right">
-      <button id="langSwitch" class="lang-switch" type="button" aria-label="Switch language">EN</button>
-      <div class="update-info" id="updateInfo">数据加载中…</div>
-    </div>
   </header>
 
   <div class="data-source-buttons">
     <button id="loadRtkButton" type="button">2RTK</button>
     <button id="loadCrtkButton" type="button">CRTK</button>
     <button id="loadRtk2goButton" type="button">RTK2</button>
-    <button id="loadIgsButton" type="button">IGS Network</button>
-    <!-- World 按钮由脚本动态添加 -->
   </div>
 
   <div class="function-controls">
@@ -500,10 +436,7 @@
     <button id="toggleSatelliteLabels" type="button">显示卫星标签</button>
     <button id="toggleStationLabels" type="button">显示站点标签</button>
     <button id="toggleCoverage" type="button">隐藏覆盖范围</button>
-    <button id="basemapButton" type="button" aria-haspopup="true" aria-expanded="false">底图 · 探测中…</button>
   </div>
-
-  <div class="basemap-panel" id="basemapPanel" hidden role="menu" aria-label="底图选择"></div>
 
   <div class="bottom-mask">
     <span id="footerNote">2RTK · 全球免费 RTK 基准站地图 · 数据每 6 小时更新 · 提供免费 NTRIP Caster 测试</span>
@@ -515,7 +448,7 @@
       <p>本页面需要启用 JavaScript 才能显示三维地球。请开启 JavaScript 后重新访问。</p>
       <p>2RTK 是一个免费开放的 RTK 基准站（RTK Base Station）信息平台，提供：</p>
       <ul>
-        <li>全球 NTRIP Caster 挂载点分布地图（rtk2go、IGS、CRTK 等）</li>
+        <li>全球 NTRIP Caster 挂载点分布地图（2RTK、CRTK、rtk2go）</li>
         <li>GNSS 卫星实时轨道可视化（GPS、北斗、GLONASS、Galileo）</li>
         <li>RTK 基准站搭建教程与 RTCM 数据格式说明</li>
         <li>免费 NTRIP Caster 测试服务，无需自备云服务器</li>
@@ -565,20 +498,11 @@
         hideStationLabels: '隐藏站点标签',
         showCoverage: '显示覆盖范围',
         hideCoverage: '隐藏覆盖范围',
-        basemap: '底图',
-        basemapProbing: '底图 · 探测中…',
-        basemapNone: '底图 · 无可用',
-        basemapPanelTitle: '选择底图（不可达的源会自动跳过）',
-        statusOk: '可用',
-        statusFail: '不可达',
-        statusSkip: '需配置',
-        statusUnknown: '未探测',
         loading: '数据加载中…',
         updatedAt: '数据更新时间',
         ok: '成功',
         fail: '失败',
         sourceCount: '个数据源',
-        autoUpdate: '每 6 小时自动更新',
         timeUnknown: '时间未知',
         netError: '网络异常',
         rtkNotReady: '2RTK 数据源尚未配置',
@@ -596,10 +520,6 @@
         tableHost: 'Caster 地址',
         tablePort: 'Caster 端口',
         tableAddress: '注册地址',
-        tableId: '站点编号',
-        tableReceiver: '接收机',
-        tableAntenna: '天线',
-        tableInstallDate: '安装日期',
         satName: '卫星名称',
         satNorad: 'NORAD 编号',
         satAlt: '轨道高度',
@@ -627,20 +547,11 @@
         hideStationLabels: 'Hide Station Labels',
         showCoverage: 'Show Coverage Areas',
         hideCoverage: 'Hide Coverage Areas',
-        basemap: 'Basemap',
-        basemapProbing: 'Basemap · probing…',
-        basemapNone: 'Basemap · none',
-        basemapPanelTitle: 'Choose basemap (unreachable sources are skipped automatically)',
-        statusOk: 'OK',
-        statusFail: 'unreachable',
-        statusSkip: 'needs key',
-        statusUnknown: 'untested',
         loading: 'Loading data…',
         updatedAt: 'Updated',
         ok: 'OK',
         fail: 'failed',
         sourceCount: 'sources',
-        autoUpdate: 'Auto-refresh every 6 hours',
         timeUnknown: 'unknown time',
         netError: 'Network error',
         rtkNotReady: '2RTK data source is not configured yet',
@@ -658,10 +569,6 @@
         tableHost: 'Caster Host',
         tablePort: 'Caster Port',
         tableAddress: 'Address',
-        tableId: 'ID',
-        tableReceiver: 'Receiver',
-        tableAntenna: 'Antenna',
-        tableInstallDate: 'Install Date',
         satName: 'Satellite',
         satNorad: 'NORAD ID',
         satAlt: 'Altitude',
@@ -691,54 +598,67 @@
     }
 
     /* ==========================================================
-     * 2. 多图源（全部为 WGS84 / Web Mercator，保证 RTK 坐标不偏移）
+     * 2. 底图源
+     *    全部为 WGS84 / Web Mercator，保证 RTK 坐标不偏移
      *    高德、腾讯等 GCJ-02 图源会引入数百米偏移，绝不采用
+     *
+     *    这里直接通过 imageryProviderViewModels 注入 Cesium 自带的
+     *    底图选择器（baseLayerPicker），不再自己造底部按钮 + 弹层
      * ========================================================== */
+    function svgIcon(from, to, glyph) {
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">'
+        + '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">'
+        + '<stop offset="0" stop-color="' + from + '"/><stop offset="1" stop-color="' + to + '"/>'
+        + '</linearGradient></defs>'
+        + '<rect width="64" height="64" rx="9" fill="url(#g)"/>' + glyph + '</svg>';
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    var GLYPH_SAT = '<circle cx="32" cy="32" r="14" fill="none" stroke="rgba(255,255,255,.92)" stroke-width="2.6"/>'
+      + '<circle cx="32" cy="32" r="4.5" fill="#fff"/>'
+      + '<path d="M32 6v7M32 51v7M6 32h7M51 32h7" stroke="rgba(255,255,255,.8)" stroke-width="2.6" stroke-linecap="round"/>';
+    var GLYPH_ROAD_LIGHT = '<path d="M9 45L26 20" stroke="#5a4a33" stroke-width="4.5" stroke-linecap="round"/>'
+      + '<path d="M52 46L38 21" stroke="rgba(90,74,51,.72)" stroke-width="4.5" stroke-linecap="round"/>'
+      + '<path d="M13 24h38" stroke="rgba(90,74,51,.42)" stroke-width="3" stroke-linecap="round"/>';
+    var GLYPH_GRID = '<rect x="16" y="16" width="32" height="32" rx="3" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="2.6"/>'
+      + '<path d="M16 32h32M32 16v32" stroke="rgba(255,255,255,.55)" stroke-width="2.2"/>';
+    var GLYPH_NODE = '<circle cx="20" cy="23" r="4.2" fill="#fff"/><circle cx="45" cy="21" r="4.2" fill="#fff"/>'
+      + '<circle cx="32" cy="45" r="4.2" fill="#fff"/>'
+      + '<path d="M23 24l18-2M23.6 26.5l6 15M42 24.5l-8 17" stroke="rgba(255,255,255,.62)" stroke-width="2.4" stroke-linecap="round"/>';
+
+    var GLYPH_BLUE = '<circle cx="32" cy="32" r="14" fill="rgba(255,255,255,.16)" stroke="rgba(255,255,255,.9)" stroke-width="2.4"/>'
+      + '<path d="M20 27c5-3 9 1 14-1s8-4 12 0M19 37c6-2 10 2 16 0s9-3 12 0" '
+      + 'stroke="rgba(255,255,255,.85)" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+
+    // 数组顺序 = 默认优先级，第一个能正常出图的源会被自动启用
+    // 现状（2026）：
+    //   · Cesium Ion（Bing）需要免费 token，影像质量最好
+    //   · 天地图需要免费「浏览器端」key，国内最稳
+    //   · OSM 无需 key，但国内不可达
+    //   · NASA GIBS 无需 key、全球可达，但是静态蓝地球（最高 8 级）
+    //   · Esri / CARTO 已开始要求 key，无 key 会返回 "API KEY REQUIRED" 水印，
+    //     因此只排在最后兜底，界面上也标注了「需 Key」
     var BASEMAPS = [
       {
         id: 'ion',
-        label: { zh: 'Ion / Bing 影像', en: 'Ion / Bing' },
+        priority: 1,
+        name: 'Bing 卫星影像 · Ion',
+        category: '影像 · Imagery',
+        icon: svgIcon('#2f6bd8', '#12315f', GLYPH_SAT),
         needKey: function () { return !HAS_ION; },
         probe: function () {
           return probeFetch('https://api.cesium.com/v1/assets/2/endpoint?access_token=' + encodeURIComponent(ION_TOKEN));
         },
         create: function () {
-          return Cesium.ImageryLayer.fromProviderAsync(Cesium.IonImageryProvider.fromAssetId(2));
-        }
-      },
-      {
-        id: 'esri-imagery',
-        label: { zh: '卫星影像', en: 'Satellite' },
-        needKey: function () { return false; },
-        probe: function () {
-          return probeImage('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/2/1/2');
-        },
-        create: function () {
-          return new Cesium.ImageryLayer(new Cesium.UrlTemplateImageryProvider({
-            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-            maximumLevel: 19,
-            credit: new Cesium.Credit('Esri, Maxar, Earthstar Geographics', false)
-          }));
-        }
-      },
-      {
-        id: 'carto-voyager',
-        label: { zh: '街道地图', en: 'Street' },
-        needKey: function () { return false; },
-        probe: function () {
-          return probeImage('https://basemaps.cartocdn.com/rastertiles/voyager/2/2/1.png');
-        },
-        create: function () {
-          return new Cesium.ImageryLayer(new Cesium.UrlTemplateImageryProvider({
-            url: 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
-            maximumLevel: 19,
-            credit: new Cesium.Credit('&copy; OpenStreetMap contributors &copy; CARTO', true)
-          }));
+          return Cesium.IonImageryProvider.fromAssetId(2);
         }
       },
       {
         id: 'tianditu',
-        label: { zh: '天地图影像', en: 'Tianditu' },
+        priority: 2,
+        name: '天地图影像 · Tianditu',
+        category: '影像 · Imagery',
+        icon: svgIcon('#d3503c', '#7d1c12', GLYPH_SAT),
         needKey: function () { return !TIANDITU_KEY; },
         probe: function () {
           return probeImage('https://t0.tianditu.gov.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0'
@@ -746,7 +666,7 @@
             + encodeURIComponent(TIANDITU_KEY));
         },
         create: function () {
-          return new Cesium.ImageryLayer(new Cesium.WebMapTileServiceImageryProvider({
+          return new Cesium.WebMapTileServiceImageryProvider({
             url: 'https://t{s}.tianditu.gov.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0'
               + '&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}'
               + '&style=default&format=tiles&tk=' + encodeURIComponent(TIANDITU_KEY),
@@ -757,42 +677,99 @@
             subdomains: ['0', '1', '2', '3', '4', '5', '6', '7'],
             maximumLevel: 18,
             credit: new Cesium.Credit('天地图 · Tianditu', false)
-          }));
+          });
+        }
+      },
+      {
+        id: 'gibs',
+        priority: 4,
+        name: 'NASA 蓝地球 · Blue Marble',
+        category: '影像 · Imagery',
+        icon: svgIcon('#1d5f8a', '#0a2a44', GLYPH_BLUE),
+        probe: function () {
+          return probeImage('https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_ShadedRelief_Bathymetry'
+            + '/default/GoogleMapsCompatible_Level8/2/1/2.jpeg');
+        },
+        create: function () {
+          return new Cesium.UrlTemplateImageryProvider({
+            url: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_ShadedRelief_Bathymetry'
+              + '/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg',
+            maximumLevel: 8,
+            credit: new Cesium.Credit('NASA EOSDIS GIBS · Blue Marble', false)
+          });
         }
       },
       {
         id: 'osm',
-        label: { zh: 'OpenStreetMap', en: 'OpenStreetMap' },
-        needKey: function () { return false; },
+        priority: 3,
+        name: 'OpenStreetMap',
+        category: '街道 · Streets',
+        icon: svgIcon('#7b5cc4', '#3a2660', GLYPH_NODE),
         probe: function () {
           return probeImage('https://tile.openstreetmap.org/2/2/1.png');
         },
         create: function () {
-          return new Cesium.ImageryLayer(new Cesium.OpenStreetMapImageryProvider({
+          return new Cesium.OpenStreetMapImageryProvider({
             url: 'https://tile.openstreetmap.org/'
-          }));
+          });
+        }
+      },
+      {
+        id: 'carto-voyager',
+        priority: 5,
+        name: 'CARTO 街道（需 Key）',
+        category: '街道 · Streets',
+        icon: svgIcon('#f7f1e3', '#c9b48c', GLYPH_ROAD_LIGHT),
+        probe: function () {
+          return probeImage('https://basemaps.cartocdn.com/rastertiles/voyager/2/2/1.png');
+        },
+        create: function () {
+          return new Cesium.UrlTemplateImageryProvider({
+            url: 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
+            maximumLevel: 19,
+            credit: new Cesium.Credit('&copy; OpenStreetMap contributors &copy; CARTO', true)
+          });
+        }
+      },
+      {
+        id: 'esri',
+        priority: 6,
+        name: 'Esri 影像（需 Key）',
+        category: '影像 · Imagery',
+        icon: svgIcon('#2a6d7d', '#08252f', GLYPH_SAT),
+        probe: function () {
+          return probeImage('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/2/1/2');
+        },
+        create: function () {
+          return new Cesium.UrlTemplateImageryProvider({
+            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            maximumLevel: 19,
+            credit: new Cesium.Credit('Esri, Maxar, Earthstar Geographics', false)
+          });
         }
       },
       {
         id: 'carto-dark',
-        label: { zh: '深色地图', en: 'Dark' },
-        needKey: function () { return false; },
+        priority: 7,
+        name: '深色地图（需 Key）',
+        category: '街道 · Streets',
+        icon: svgIcon('#39414d', '#11151a', GLYPH_GRID),
         manualOnly: true,
         probe: function () {
           return probeImage('https://basemaps.cartocdn.com/dark_all/2/2/1.png');
         },
         create: function () {
-          return new Cesium.ImageryLayer(new Cesium.UrlTemplateImageryProvider({
+          return new Cesium.UrlTemplateImageryProvider({
             url: 'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
             maximumLevel: 19,
             credit: new Cesium.Credit('&copy; OpenStreetMap contributors &copy; CARTO', true)
-          }));
+          });
         }
       }
     ];
 
     var PROBE_TIMEOUT = 5000;
-    var probeState = {};   // id -> 'ok' | 'fail' | 'skip' | 'pending'
+    var probeState = {};   // id -> 'ok' | 'fail' | 'skip'
 
     function probeImage(url) {
       return new Promise(function (resolve) {
@@ -836,6 +813,41 @@
         });
     }
 
+    /**
+     * 把自定义图源包装成 Cesium 的 ProviderViewModel，
+     * Cesium 自带的 baseLayerPicker 会直接渲染它们。
+     * 缺少 key 的源不进入列表（避免出现点了没反应的死项）。
+     */
+    function buildBasemapViewModels() {
+      var models = [];
+      BASEMAPS.forEach(function (src) {
+        if (src.needKey && src.needKey()) return;
+        var vm = new Cesium.ProviderViewModel({
+          name: src.name,
+          tooltip: src.name,
+          category: src.category,
+          iconUrl: src.icon,
+          creationFunction: src.create
+        });
+        vm.basemapId = src.id;
+        models.push(vm);
+      });
+      if (!models.length) {
+        var fallback = new Cesium.ProviderViewModel({
+          name: 'OpenStreetMap',
+          tooltip: 'OpenStreetMap',
+          category: '街道 · Streets',
+          iconUrl: svgIcon('#7b5cc4', '#3a2660', GLYPH_NODE),
+          creationFunction: function () {
+            return new Cesium.OpenStreetMapImageryProvider({ url: 'https://tile.openstreetmap.org/' });
+          }
+        });
+        fallback.basemapId = 'osm';
+        models.push(fallback);
+      }
+      return models;
+    }
+
     /* ==========================================================
      * 3. 状态变量
      * ========================================================== */
@@ -845,22 +857,25 @@
     var stationLabelsVisible = false;
     var coverageVisible = true;
     var lastMeta = null;
-    var basemapLayer = null;
-    var activeBasemapId = null;
-    var basemapBusy = false;
+
+    var COVERAGE_RADIUS = 10000;   // 覆盖范围半径：10 公里
 
     /* ==========================================================
      * 4. 创建 Viewer
-     *    官方推荐写法：baseLayerPicker:false + baseLayer
-     *    这里先用 baseLayer:false 立即可渲染，底图异步探测后再挂载
+     *    baseLayerPicker 使用 Cesium 自带控件，
+     *    图源列表由 imageryProviderViewModels 注入
      * ========================================================== */
+    var VIEW_MODELS = buildBasemapViewModels();
+
     var viewer = new Cesium.Viewer('cesiumContainer', {
       timeline: false,
       animation: false,
       shouldAnimate: true,
-      baseLayerPicker: false,          // 必须为 false，才能使用 baseLayer
-      baseLayer: false,                // 底图稍后探测后动态添加
-      geocoder: false,                 // 地理编码依赖 Ion，关闭
+      baseLayerPicker: true,                      // Cesium 自带底图切换
+      imageryProviderViewModels: VIEW_MODELS,     // 注入自定义图源
+      selectedImageryProviderViewModel: VIEW_MODELS[0],
+      terrainProviderViewModels: [],              // 不提供地形选项
+      geocoder: false,                            // 地理编码依赖 Ion，关闭
       homeButton: false,
       sceneModePicker: true,
       navigationHelpButton: false,
@@ -882,178 +897,72 @@
     viewer.scene.creditDisplay = creditDisplay;
 
     /* ==========================================================
-     * 5. 底图管理
+     * 5. 底图可用性探测 + 自动降级
+     *    先渲染首选源（保证首屏有图），再并行探测，
+     *    首选不可达时自动切到下一个可用源
      * ========================================================== */
-    var basemapButton = document.getElementById('basemapButton');
-    var basemapPanel = document.getElementById('basemapPanel');
+    var pickerViewModel = viewer.baseLayerPicker ? viewer.baseLayerPicker.viewModel : null;
 
-    function basemapLabel(src) {
-      return src.label[LANG] || src.label.en;
+    function currentBasemapId() {
+      if (!pickerViewModel || !pickerViewModel.selectedImagery) return null;
+      return pickerViewModel.selectedImagery.basemapId || null;
     }
 
-    function setBasemapButtonText(text) {
-      basemapButton.textContent = text;
+    function activateBasemap(id) {
+      if (!pickerViewModel) return false;
+      var models = pickerViewModel.imageryProviderViewModels;
+      for (var i = 0; i < models.length; i++) {
+        if (models[i].basemapId === id) {
+          pickerViewModel.selectedImagery = models[i];
+          return true;
+        }
+      }
+      return false;
     }
 
-    function refreshBasemapButtonText() {
-      if (basemapBusy) {
-        setBasemapButtonText(t('basemapProbing'));
-        return;
-      }
-      if (!activeBasemapId) {
-        setBasemapButtonText(t('basemapNone'));
-        return;
-      }
-      var src = BASEMAPS.filter(function (b) { return b.id === activeBasemapId; })[0];
-      setBasemapButtonText(t('basemap') + ' · ' + (src ? basemapLabel(src) : '—'));
-    }
-
-    function removeBasemap() {
-      if (basemapLayer) {
-        try { viewer.imageryLayers.remove(basemapLayer, true); } catch (e) { /* ignore */ }
-        basemapLayer = null;
-      }
-      activeBasemapId = null;
-    }
-
-    function applyBasemap(src) {
-      removeBasemap();
-      if (!src) {
-        refreshBasemapButtonText();
-        renderBasemapPanel();
-        return;
-      }
-      try {
-        var layer = src.create();
-        if (layer && typeof layer.then === 'function') {
-          layer.then(function (l) {
-            basemapLayer = viewer.imageryLayers.add(l);
-            activeBasemapId = src.id;
-            refreshBasemapButtonText();
-            renderBasemapPanel();
-          }).catch(function (err) {
-            console.warn('[2RTK] 底图挂载失败:', src.id, err);
-            probeState[src.id] = 'fail';
-            refreshBasemapButtonText();
-            renderBasemapPanel();
-          });
+    function initBasemapAvailability() {
+      var jobs = [];
+      BASEMAPS.forEach(function (src) {
+        if (src.manualOnly) return;
+        if (src.needKey && src.needKey()) {
+          probeState[src.id] = 'skip';
           return;
         }
-        basemapLayer = viewer.imageryLayers.add(layer);
-        activeBasemapId = src.id;
-      } catch (err) {
-        console.warn('[2RTK] 底图创建异常:', src.id, err);
-        probeState[src.id] = 'fail';
-      }
-      refreshBasemapButtonText();
-      renderBasemapPanel();
-    }
+        jobs.push(src.probe().then(function (ok) {
+          probeState[src.id] = ok ? 'ok' : 'fail';
+          console.log('[2RTK] 底图探测 ' + src.id + ' -> ' + (ok ? '可用' : '不可达'));
+        }, function () {
+          probeState[src.id] = 'fail';
+        }));
+      });
 
-    function renderBasemapPanel() {
-      basemapPanel.innerHTML = '';
-
-      var title = document.createElement('div');
-      title.className = 'basemap-title';
-      title.textContent = t('basemapPanelTitle');
-      basemapPanel.appendChild(title);
-
-      BASEMAPS.forEach(function (src) {
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'basemap-item' + (src.id === activeBasemapId ? ' is-active' : '');
-        btn.setAttribute('role', 'menuitem');
-
-        var nameSpan = document.createElement('span');
-        nameSpan.textContent = basemapLabel(src);
-        btn.appendChild(nameSpan);
-
-        var state = probeState[src.id];
-        if (src.needKey()) {
-          state = 'skip';
-        }
-        var stSpan = document.createElement('span');
-        stSpan.className = 'st';
-        if (state === 'ok') { stSpan.className += ' ok'; stSpan.textContent = t('statusOk'); }
-        else if (state === 'fail') { stSpan.className += ' fail'; stSpan.textContent = t('statusFail'); }
-        else if (state === 'skip') { stSpan.textContent = t('statusSkip'); }
-        else { stSpan.textContent = t('statusUnknown'); }
-        btn.appendChild(stSpan);
-
-        btn.addEventListener('click', function () {
-          closeBasemapPanel();
-          if (src.needKey()) return;
-          if (src.id === activeBasemapId) return;
-          applyBasemap(src);
+      Promise.all(jobs).then(function () {
+        // 按 priority 选最优可用源（数组顺序只决定界面展示顺序与首屏兜底）
+        var best = null;
+        BASEMAPS.forEach(function (src) {
+          if (src.manualOnly) return;
+          if (probeState[src.id] !== 'ok') return;
+          if (!best || src.priority < best.priority) best = src;
         });
 
-        basemapPanel.appendChild(btn);
+        if (!best) {
+          console.warn('[2RTK] 所有底图源均不可达，仅显示站点与卫星（坐标仍然准确）');
+          return;
+        }
+
+        var cur = currentBasemapId();
+        if (cur === best.id) return;
+
+        var curSrc = null;
+        BASEMAPS.forEach(function (src) { if (src.id === cur) curSrc = src; });
+
+        if (!curSrc || curSrc.priority > best.priority) {
+          activateBasemap(best.id);
+          console.log('[2RTK] 已自动切换到最合适的底图: ' + best.id);
+        }
       });
     }
 
-    function openBasemapPanel() {
-      renderBasemapPanel();
-      basemapPanel.hidden = false;
-      basemapButton.setAttribute('aria-expanded', 'true');
-    }
-
-    function closeBasemapPanel() {
-      basemapPanel.hidden = true;
-      basemapButton.setAttribute('aria-expanded', 'false');
-    }
-
-    basemapButton.addEventListener('click', function (e) {
-      e.stopPropagation();
-      if (basemapPanel.hidden) openBasemapPanel();
-      else closeBasemapPanel();
-    });
-
-    document.addEventListener('click', function (e) {
-      if (!basemapPanel.hidden && !basemapPanel.contains(e.target) && e.target !== basemapButton) {
-        closeBasemapPanel();
-      }
-    });
-
-    /**
-     * 按优先级串行探测，第一个可达的源直接启用。
-     * 这样在不同国家 / 不同网络环境下都能自动落到一个可用的图源。
-     */
-    async function selectInitialBasemap() {
-      basemapBusy = true;
-      refreshBasemapButtonText();
-
-      var candidates = BASEMAPS.filter(function (b) { return !b.manualOnly; });
-
-      for (var i = 0; i < candidates.length; i++) {
-        var src = candidates[i];
-        if (src.needKey()) {
-          probeState[src.id] = 'skip';
-          continue;
-        }
-        probeState[src.id] = 'pending';
-        renderBasemapPanel();
-
-        var ok = false;
-        try {
-          ok = await src.probe();
-        } catch (e) {
-          ok = false;
-        }
-        probeState[src.id] = ok ? 'ok' : 'fail';
-        console.log('[2RTK] 图源探测 ' + src.id + ' -> ' + (ok ? '可用' : '不可达'));
-
-        if (ok) {
-          basemapBusy = false;
-          applyBasemap(src);
-          return;
-        }
-      }
-
-      basemapBusy = false;
-      activeBasemapId = null;
-      refreshBasemapButtonText();
-      renderBasemapPanel();
-      console.warn('[2RTK] 所有底图源均不可达，仅显示站点与卫星（坐标仍然准确）');
-    }
 
     /* ==========================================================
      * 6. 卫星分类配置
@@ -1143,13 +1052,11 @@
       document.getElementById('toggleSatelliteLabels').textContent = satelliteLabelsVisible ? t('hideSatLabels') : t('showSatLabels');
       document.getElementById('toggleStationLabels').textContent = stationLabelsVisible ? t('hideStationLabels') : t('showStationLabels');
       document.getElementById('toggleCoverage').textContent = coverageVisible ? t('hideCoverage') : t('showCoverage');
-      refreshBasemapButtonText();
 
       document.querySelectorAll('[data-i18n]').forEach(function (el) {
         el.textContent = t(el.getAttribute('data-i18n'));
       });
 
-      renderBasemapPanel();
       renderUpdateInfo();
     }
 
@@ -1289,21 +1196,14 @@
         row(t('tableHost'), station.server_host);
         row(t('tablePort'), station.server_port);
         row(t('tableAddress'), station.registration_address);
-      } else if (stationType === 'isIgs') {
-        row(t('tableId'), station.id);
-        row(t('tableReceiver'), station.receiver);
-        row(t('tableAntenna'), station.antenna);
-        row(t('tableLat'), station.latitude);
-        row(t('tableLon'), station.longitude);
-        row(t('tableHeight'), station.height);
-        row(t('tableSystems'), station.systems);
-        row(t('tableInstallDate'), station.receiverInstallDate);
       }
 
       return '<table>' + rows.join('') + '</table>';
     }
 
     function addRtkEntities(baseStations, color, stationType) {
+      var points = [];
+
       baseStations.forEach(function (station) {
         if (!station.name || station.longitude === undefined || station.latitude === undefined) return;
 
@@ -1315,9 +1215,10 @@
         if (!isValidCoordinate(lon, lat, height)) return;
 
         var description = buildStationDescription(station, stationType);
+        var stationId = stationType + '_' + station.name;
 
         viewer.entities.add({
-          id: stationType + '_' + station.name,
+          id: stationId,
           position: Cesium.Cartesian3.fromDegrees(lon, lat, height),
           point: { pixelSize: 5, color: color },
           label: {
@@ -1333,31 +1234,104 @@
           description: description,
           stationType: stationType
         });
+        points.push([lon, lat]);
 
-        if (stationType !== 'isIgs') {
-          [10000, 20000, 50000].forEach(function (radius, i) {
-            var colors = [Cesium.Color.GREEN, Cesium.Color.BLUE, Cesium.Color.ORANGE];
-            viewer.entities.add({
-              id: stationType + '_' + station.name + '_circle_' + i,
-              position: Cesium.Cartesian3.fromDegrees(lon, lat),
-              ellipse: {
-                semiMinorAxis: radius,
-                semiMajorAxis: radius,
-                height: 0,
-                material: colors[i].withAlpha(0.1),
-                outline: true,
-                outlineColor: colors[i]
-              },
-              description: description,
-              stationType: stationType,
-              parentId: stationType + '_' + station.name,
-              show: coverageVisible
-            });
-          });
+        // 覆盖范围：单圈 10 公里
+        viewer.entities.add({
+          id: stationId + '_coverage',
+          position: Cesium.Cartesian3.fromDegrees(lon, lat),
+          ellipse: {
+            semiMinorAxis: COVERAGE_RADIUS,
+            semiMajorAxis: COVERAGE_RADIUS,
+            height: 0,
+            material: color.withAlpha(0.06),
+            outline: true,
+            outlineColor: color.withAlpha(0.8)
+          },
+          description: description,
+          stationType: stationType,
+          parentId: stationId,
+          show: coverageVisible
+        });
+      });
+
+      fitToStations(points);
+    }
+
+    /**
+     * 按站点分布取景：
+     * 1. 先找最密集的 20°×20° 网格，作为“主区域”（避免法国海外省这类离群点把视野拉到全球）
+     * 2. 主区域占多数时贴合主区域外接矩形
+     * 3. 数据本身就是全球分布时退回整颗地球视角
+     */
+    function fitToStations(points) {
+      if (!points.length) return;
+
+      var cells = {};
+      var bestKey = null;
+      var bestCount = 0;
+
+      points.forEach(function (p) {
+        var key = Math.floor(p[0] / 20) + ',' + Math.floor(p[1] / 20);
+        cells[key] = (cells[key] || 0) + 1;
+        if (cells[key] > bestCount) {
+          bestCount = cells[key];
+          bestKey = key;
         }
       });
 
-      viewer.zoomTo(viewer.entities);
+      var isGlobal = bestCount / points.length < 0.45;
+      var scope = points;
+
+      if (!isGlobal) {
+        var parts = bestKey.split(',');
+        var centerLon = parseFloat(parts[0]) * 20 + 10;
+        var centerLat = parseFloat(parts[1]) * 20 + 10;
+        var dense = points.filter(function (p) {
+          var dLon = Math.abs(p[0] - centerLon);
+          if (dLon > 180) dLon = 360 - dLon;
+          return dLon <= 20 && Math.abs(p[1] - centerLat) <= 15;
+        });
+        if (dense.length) scope = dense;
+      }
+
+      var minLon = 180, maxLon = -180, minLat = 90, maxLat = -90;
+      scope.forEach(function (p) {
+        if (p[0] < minLon) minLon = p[0];
+        if (p[0] > maxLon) maxLon = p[0];
+        if (p[1] < minLat) minLat = p[1];
+        if (p[1] > maxLat) maxLat = p[1];
+      });
+
+      var lonSpan = maxLon - minLon;
+      var latSpan = maxLat - minLat;
+
+      if (isGlobal || lonSpan > 120 || latSpan > 80) {
+        viewer.camera.flyTo({
+          destination: Cesium.Cartesian3.fromDegrees(10, 18, 22000000),
+          duration: 1.6
+        });
+        return;
+      }
+
+      var padLon = Math.max(lonSpan * 0.25, 0.8);
+      var padLat = Math.max(latSpan * 0.25, 0.8);
+
+      // 贴合到区域后停掉自转，否则镜头会自己转走
+      if (rotationEnabled) {
+        rotationEnabled = false;
+        refreshControlLabels();
+      }
+
+      viewer.camera.flyTo({
+        destination: Cesium.Rectangle.fromDegrees(
+          Math.max(-179.9, minLon - padLon),
+          Math.max(-84, minLat - padLat),
+          Math.min(179.9, maxLon + padLon),
+          Math.min(84, maxLat + padLat)
+        ),
+        duration: 1.6
+      });
     }
 
     /* ==========================================================
@@ -1402,8 +1376,10 @@
      * ========================================================== */
     function showInfoError(title, hint) {
       var el = document.getElementById('updateInfo');
+      if (!el) return;
       el.innerHTML = '<div class="fail">' + title + '</div>'
         + (hint ? '<div class="sub">' + hint + '</div>' : '');
+      setTimeout(renderUpdateInfo, 8000);
     }
 
     document.getElementById('loadRtkButton').addEventListener('click', function () {
@@ -1430,30 +1406,6 @@
         .catch(function (err) { console.warn('[2RTK] RTK2 数据加载失败:', err && err.message); });
     });
 
-    document.getElementById('loadIgsButton').addEventListener('click', function () {
-      setActiveButton('loadIgsButton');
-      removeAllStations();
-      fetch('./data/IGSNetwork.json')
-        .then(function (res) { return res.json(); })
-        .then(function (data) {
-          var stations = Object.keys(data).map(function (id) {
-            return {
-              id: id,
-              name: id,
-              longitude: parseFloat(data[id].Longitude),
-              latitude: parseFloat(data[id].Latitude),
-              height: parseFloat(data[id].Height || 0),
-              systems: (data[id].Receiver && data[id].Receiver.SatelliteSystem) || 'N/A',
-              receiver: (data[id].Receiver && data[id].Receiver.Name) || 'N/A',
-              receiverInstallDate: (data[id].Receiver && data[id].Receiver.DateInstalled) || 'N/A',
-              antenna: (data[id].Antenna && data[id].Antenna.Name) || 'N/A'
-            };
-          });
-          addRtkEntities(stations, Cesium.Color.LIME, 'isIgs');
-        })
-        .catch(function (err) { console.warn('[2RTK] IGS 数据加载失败:', err && err.message); });
-    });
-
     document.getElementById('loadCrtkButton').addEventListener('click', function () {
       setActiveButton('loadCrtkButton');
       removeAllStations();
@@ -1462,58 +1414,6 @@
         .then(function (data) { addRtkEntities(data, Cesium.Color.MAGENTA, 'isCrtk'); })
         .catch(function (err) { console.warn('[2RTK] CRTK 数据加载失败:', err && err.message); });
     });
-
-    /* ==========================================================
-     * 13. World 汇总按钮
-     * ========================================================== */
-    var excludeFiles = ['2rtk.json', 'France.json', 'rtk2go.json', 'IGSNetwork.json', 'files.json', 'meta.json'];
-    var allCustomDataSources = [];
-
-    async function loadCustomDataSources() {
-      var container = document.querySelector('.data-source-buttons');
-      var worldButton = document.createElement('button');
-      worldButton.id = 'loadWorldButton';
-      worldButton.type = 'button';
-      worldButton.textContent = 'World';
-      worldButton.className = 'custom-data-btn';
-      container.appendChild(worldButton);
-
-      worldButton.addEventListener('click', async function () {
-        setActiveButton('loadWorldButton');
-        removeAllStations();
-
-        try {
-          if (allCustomDataSources.length === 0) {
-            var res = await fetch('./data/files.json');
-            if (!res.ok) throw new Error('files.json HTTP ' + res.status);
-
-            var allFiles = await res.json();
-            var customFiles = allFiles.filter(function (file) {
-              return file.indexOf('.json') !== -1 && excludeFiles.indexOf(file) === -1;
-            });
-
-            var results = await Promise.all(customFiles.map(async function (file) {
-              try {
-                var r = await fetch('./data/' + file);
-                if (!r.ok) throw new Error('HTTP ' + r.status);
-                return await r.json();
-              } catch (e) {
-                console.warn('[2RTK] 加载 ' + file + ' 失败:', e && e.message);
-                return [];
-              }
-            }));
-
-            allCustomDataSources = results.reduce(function (acc, arr) {
-              return acc.concat(Array.isArray(arr) ? arr : []);
-            }, []);
-          }
-
-          addRtkEntities(allCustomDataSources, Cesium.Color.YELLOW, 'isWorld');
-        } catch (err) {
-          console.warn('[2RTK] World 数据加载失败:', err && err.message);
-        }
-      });
-    }
 
     /* ==========================================================
      * 14. 自动旋转
@@ -1544,11 +1444,10 @@
         : t('timeUnknown');
 
       el.innerHTML = ''
-        + '<div>' + t('updatedAt') + '：' + timeStr + '</div>'
-        + '<div><span class="ok">' + t('ok') + ' ' + okCount + '</span> / '
+        + '<div>' + t('updatedAt') + ' ' + timeStr + '</div>'
+        + '<div class="counts"><span class="ok">' + t('ok') + ' ' + okCount + '</span> / '
         + '<span class="' + (okCount < total ? 'fail' : 'ok') + '">' + t('fail') + ' ' + (total - okCount) + '</span> '
-        + t('sourceCount') + '</div>'
-        + '<div class="sub">' + t('autoUpdate') + '</div>';
+        + t('sourceCount') + '</div>';
     }
 
     function loadMetaInfo() {
@@ -1572,8 +1471,7 @@
      * 16. 启动
      * ========================================================== */
     refreshControlLabels();
-    selectInitialBasemap();
-    loadCustomDataSources();
+    initBasemapAvailability();
     loadMetaInfo();
 
     // 默认展示 rtk2go（数据量最大、覆盖最广）

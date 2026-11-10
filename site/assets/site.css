@@ -356,6 +356,18 @@ td code { white-space: nowrap; }
 .trouble td:first-child { white-space: normal; }
 .trouble td code { white-space: normal; overflow-wrap: anywhere; }
 
+/* 五列方案对照表：列多，自动布局会把「部署」「适合」压成三字一行，固定比例 */
+.cmp th, .cmp td { white-space: normal; }
+.cmp td:first-child { white-space: normal; }
+.cmp { table-layout: fixed; }
+/* 固定列宽后 code 必须允许断开，否则长文件名会横向压到下一列上 */
+.cmp td code { white-space: normal; overflow-wrap: anywhere; }
+.cmp col.n1 { width: 19%; }
+.cmp col.n2 { width: 13%; }
+.cmp col.n3 { width: 24%; }
+.cmp col.n4 { width: 15%; }
+.cmp col.n5 { width: 29%; }
+
 .table-wrap.compact table { font-size: 13px; }
 
 /* 提示块 */

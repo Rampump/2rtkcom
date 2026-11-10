@@ -346,6 +346,16 @@ table.tight td:nth-child(3) { white-space: nowrap; }
 
 td code { white-space: nowrap; }
 
+/* 排错表：三列，第一列是长中文、第三列含长命令。
+   默认的自动列宽会把中间列压成一字一行，所以固定列宽并允许单元格内换行 */
+.trouble table { table-layout: fixed; }
+.trouble col.c1 { width: 33%; }
+.trouble col.c2 { width: 19%; }
+.trouble col.c3 { width: 48%; }
+.trouble th, .trouble td { white-space: normal; }
+.trouble td:first-child { white-space: normal; }
+.trouble td code { white-space: normal; overflow-wrap: anywhere; }
+
 .table-wrap.compact table { font-size: 13px; }
 
 /* 提示块 */
@@ -421,6 +431,11 @@ td code { white-space: nowrap; }
 .flow .node b { display: block; font-size: 13.5px; color: var(--text-strong); margin-bottom: 2px; }
 .flow .node span { font-family: var(--mono); font-size: 11.5px; color: var(--muted); line-height: 1.6; display: block; }
 .flow .arrow { display: flex; align-items: center; color: var(--accent); font-size: 14px; padding: 0 2px; }
+
+/* 五个节点的长链路：默认 148px 的基准宽度在 780px 正文里会掉行，收紧一点 */
+.flow.flow-5 .node { flex: 1 1 108px; padding: 10px 11px; }
+.flow.flow-5 .node b { font-size: 12.5px; }
+.flow.flow-5 .node span { font-size: 10.8px; }
 
 /* 步骤 */
 .steps { list-style: none; counter-reset: step; padding: 0; margin: 22px 0; }
@@ -510,6 +525,63 @@ td code { white-space: nowrap; }
 .tag-ok { color: var(--accent); border-color: rgba(0, 255, 136, 0.45); background: rgba(0, 255, 136, 0.08); }
 .tag-warn { color: var(--warn); border-color: rgba(255, 180, 87, 0.45); background: rgba(255, 180, 87, 0.08); }
 .tag-bad { color: var(--danger); border-color: rgba(255, 107, 107, 0.45); background: rgba(255, 107, 107, 0.08); }
+
+/* 实物图 / 截图：figure.fig 里放 <img>，占位期用 .fig-ph */
+.fig { margin: 22px 0 26px; }
+
+.fig img {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #05070a;
+}
+
+.fig figcaption {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.fig-ph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  aspect-ratio: 16 / 9;
+  padding: 14px;
+  text-align: center;
+  border: 1px dashed var(--border-strong);
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.022) 0 10px, transparent 10px 20px),
+    rgba(255, 255, 255, 0.012);
+  color: #5f6b7a;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.fig-ph b {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #7b8797;
+}
+
+.fig-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 22px 0 26px;
+}
+
+.fig-grid .fig { margin: 0; }
+
+/* 正文里独占一行的图（整机照、网页截图）用更扁的比例，别占掉一整屏 */
+.prose > .fig .fig-ph { aspect-ratio: 21 / 9; }
 
 /* 结尾引导 */
 .next-up {
@@ -621,4 +693,5 @@ td code { white-space: nowrap; }
   .steps > li { padding-left: 38px; }
 
   .card-grid.grid-2 { grid-template-columns: minmax(0, 1fr); }
+  .fig-grid { grid-template-columns: minmax(0, 1fr); }
 }

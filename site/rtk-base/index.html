@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>RTK 基站搭建完整教程：硬件选型、坐标解算、推流到 2RTK Server | 2RTK</title>
-  <meta name="description" content="从选接收机和天线、选址防多路径，到用 PPP 解算基站精确坐标、配置 RTCM 电文、把数据推流到 2RTK Server，再到流动站拿到固定解的完整流程，附常见故障排查表。" />
-  <meta name="keywords" content="RTK基站搭建,基准站搭建,RTK基站,2RTK Server,NTRIP推流,RTCM输出,基站坐标,PPP解算,u-blox F9P,固定解" />
+  <title>在家搭建 RTK 基准站：旧机顶盒 + RTK 模块 + 室外天线 | 2RTK</title>
+  <meta name="description" content="用一台刷了 Armbian 的机顶盒（玩客云 / 树莓派也可）+ 支持基准站模式的 RTK 模块 + RTK 室外天线，靠开源的 2RTK NTRIP Server 在自己家搭一套 RTK 基准站，把 RTCM 推给自建 NTRIP Caster 或 RTK2GO。" />
+  <meta name="keywords" content="RTK基准站,自建RTK基准站,在家搭建基准站,Armbian,机顶盒刷Armbian,玩客云,树莓派,2RTK NTRIP Server,RTCM,NTRIP,RTK2GO,u-blox F9P,LG290P,室外天线" />
   <meta name="author" content="2RTK" />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
   <meta name="theme-color" content="#080b10" />
@@ -13,8 +13,8 @@
 
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="2RTK" />
-  <meta property="og:title" content="RTK 基站搭建完整教程：从选硬件到流动站固定解" />
-  <meta property="og:description" content="硬件选型 · 选址 · 坐标解算 · RTCM 配置 · 推流到 2RTK Server · 验证与运维。" />
+  <meta property="og:title" content="在家搭建 RTK 基准站：一台旧盒子 + 一个 RTK 模块" />
+  <meta property="og:description" content="Armbian 旧盒子 + RTK 模块 + 室外天线，用 2RTK NTRIP Server 把 RTCM 推到自建 Caster 或 RTK2GO。" />
   <meta property="og:url" content="__SITE_ORIGIN__/rtk-base/" />
   <meta property="og:image" content="__SITE_ORIGIN__/images/2rtk.png" />
   <meta property="og:locale" content="zh_CN" />
@@ -42,298 +42,592 @@
 
 <main class="wrap">
   <div class="hero">
-    <span class="eyebrow">实战教程</span>
-    <h1>用 2RTK Server 搭建自己的 RTK 基站</h1>
+    <span class="eyebrow">在家搭站</span>
+    <h1>一台旧盒子 + 一个 RTK 模块，搭自己的基准站</h1>
     <p class="lead">
-      一台支持 RTCM 输出的接收机、一根靠谱的天线、一个稳的坐标，再加上 2RTK Server 做分发，
-      你就能在自己家门口得到一块稳定的厘米级区域。这一页按实际施工顺序走：选址 → 硬件 → 坐标 → 电文 → 推流 → 验证 → 运维。
+      不用买测绘主机，也不用开商业 CORS 账号。一台刷了 Armbian 的电视盒子（玩客云、树莓派、香橙派都行）、
+      一个能进基准站模式的 RTK 模块、一根架在屋顶的室外天线，再加上开源的
+      <strong>2RTK NTRIP Server</strong>，就是一套能常年跑的家用基准站：把 RTCM 差分推给自己的 Caster，
+      或者推到 RTK2GO 这类公共 Caster，十几公里内的流动站都能用上你的固定解。
     </p>
     <div class="chips">
-      <span class="chip">2-4 小时施工</span>
+      <span class="chip">Armbian / Debian</span>
+      <span class="chip">512 MB 内存够用</span>
+      <span class="chip">2RTK NTRIP Server</span>
       <span class="chip">RTCM 3.x</span>
-      <span class="chip">NTRIP</span>
-      <span class="chip">10 km 覆盖</span>
     </div>
   </div>
 
   <div class="doc">
     <article class="prose">
 
-      <h2 id="route">先选路线：三种玩法</h2>
-      <div class="card-grid">
-        <div class="card">
-          <h3>① 推给 2RTK Server</h3>
-          <p>本站自建的 Caster，填四个参数就能推流。适合想给自己或小团队用、又不想维护服务器的场景。</p>
-        </div>
-        <div class="card">
-          <h3>② 推给公共 Caster</h3>
-          <p>rtk2go 之类的免费公共平台。零成本，但<strong>数据必须公开</strong>，且不接受商业用途。</p>
-        </div>
-        <div class="card">
-          <h3>③ 自己搭 Caster</h3>
-          <p>多基站、私有数据、要给一队人用，就在 VPS 上自己跑一个。见 <a href="/caster/">Caster 搭建</a>。</p>
-        </div>
+      <h2 id="arch">这套系统长什么样</h2>
+      <p>
+        把整条链路摊开其实只有五段，每一段都是现成的零件，你做的是把它们接起来、配好、钉在墙上。
+      </p>
+      <div class="flow flow-5">
+        <div class="node"><b>室外天线</b><span>屋顶 / 楼顶<br>需开阔天空</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>RTK 模块</b><span>USB 串口<br>Base 模式吐 RTCM</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>Armbian 盒子</b><span>跑 2RTK Server<br>功耗 3～5 W</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>网络 / 电台</b><span>宽带 / 4G 卡<br>或 USB 数传</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>流动站</b><span>手簿 / 无人机<br>农机 / 测量杆</span></div>
       </div>
       <p>
-        这一页走第 ① 条路线。基站本身的施工方式三种都一样，只差最后「往哪推」。
+        这里最容易被误解的一点是：<strong>算坐标的是模块，盒子只负责搬字节。</strong>
+        RTCM 里的基站坐标（<code>1005/1006</code> 电文）由模块自己广播，盒子既不改也不猜。
+        所以对主机的要求低到离谱——1 GHz ARM、512 MB 内存就够，一台十年前闲置的机顶盒完全能胜任。
+        2RTK NTRIP Server 的官方测试平台就是 Armbian 机顶盒和玩客云。
       </p>
 
       <h2 id="hardware">硬件清单</h2>
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>部件</th><th>要求</th><th>说明</th></tr>
+            <tr><th>部件</th><th>选什么</th><th>注意</th></tr>
           </thead>
           <tbody>
             <tr>
-              <td>GNSS 接收机</td>
-              <td>双频（或多频）、支持 RTCM 3.x 输出、可设固定坐标</td>
-              <td>u-blox F9P 模块最便宜好用；测绘型接收机（司南、华测、中海达、天宝等）自带 Web 界面更省事</td>
+              <td>主机</td>
+              <td>刷 Armbian 的机顶盒（S905 / S912 / RK3328 等）、玩客云、树莓派 3B+ 以上、香橙派，或任意 x86 小主机</td>
+              <td>能跑 Debian 12、内存 ≥ 512 MB、有个空闲 USB 口即可；<strong>不用买贵的</strong></td>
+            </tr>
+            <tr>
+              <td>RTK 模块</td>
+              <td>u-blox ZED-F9P、Quectel LG290P / LC29H(BS)、UniCore UM980 / UM982 / N4、Septentrio mosaik 等</td>
+              <td>必须<strong>能进基准站（Base）模式</strong>并输出 RTCM 3.x；只支持流动站的板子不行</td>
             </tr>
             <tr>
               <td>天线</td>
-              <td>测绘级、相位中心稳定、多路径抑制好</td>
-              <td>预算够上扼流圈天线；普通螺旋天线也能用，但固定率和重复性差一些</td>
+              <td>测量型 GNSS 天线，双频或多频；预算够上扼流圈</td>
+              <td>相位中心稳定比增益重要；蘑菇头 + 接地平面是最经济的组合</td>
             </tr>
             <tr>
               <td>馈线</td>
-              <td>低损耗，尽量短</td>
-              <td>10 m 以上必须用低损耗线；每米损耗直接影响信噪比</td>
+              <td>50 Ω 低损耗同轴（LMR400 一类），SMA / TNC 转接</td>
+              <td>每米都在吃信号，超过 10 m 一定要用低损耗线，接头做好防水</td>
             </tr>
             <tr>
               <td>供电</td>
-              <td>稳定、带 UPS 或宽压输入</td>
-              <td>电压跌落会导致接收机重启，模糊度重新收敛</td>
+              <td>5 V 稳压电源（盒子 + 模块），最好带 UPS 或宽压输入</td>
+              <td>劣质电源会让盒子反复重启，模块跟着重新收敛，比没装还糟</td>
             </tr>
             <tr>
               <td>网络</td>
-              <td>有线宽带优先，4G 路由器兜底</td>
-              <td>上行只需要每秒几 KB，重点是<strong>稳定不掉线</strong></td>
+              <td>有线宽带优先；没有就 4G 路由器 / 物联网卡</td>
+              <td>上行只要每秒几 KB，关键<strong>别断</strong></td>
             </tr>
             <tr>
-              <td>防雷</td>
-              <td>天线馈线加同轴避雷器、机柜接地</td>
-              <td>屋顶基站被雷击是头号硬件杀手</td>
-            </tr>
-            <tr>
-              <td>安装件</td>
-              <td>刚性杆 / 观测墩 / 抱箍</td>
-              <td>天线必须绝对稳固，风吹晃动等于精度归零</td>
+              <td>防护</td>
+              <td>同轴避雷器、接地、防水盒、散热片</td>
+              <td>屋顶基站的头号杀手是雷击和进水，不是软件</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <h2 id="site">选址：决定成败的一半</h2>
-      <ul>
-        <li><strong>天空视野</strong>：以天线为中心，10°～15° 高度角以上尽量无遮挡。北半球注意南向天空。</li>
-        <li><strong>远离反射面</strong>：大水面、玻璃幕墙、彩钢瓦屋顶、金属货架都会制造多路径。天线尽量比周围高出 1 米以上。</li>
-        <li><strong>远离干扰源</strong>：大功率电台、雷达、逆变器、劣质 LED 电源都可能抬升噪底。</li>
-        <li><strong>稳固</strong>：立杆直径够、底部固定牢、加三向拉线。风一吹就晃的杆子，用手簿能看出坐标在跳。</li>
-        <li><strong>可维护</strong>：留出检修空间，能断电重启、能换 SIM 卡。</li>
-      </ul>
-
-      <div class="warn">
-        <p><b>不要装在阳台栏杆或空调外机上。</b>金属结构和震动是多路径与周跳的主要来源，
-        看起来「能看到天」，实际固定率会很差。</p>
+      <p>下面几张是我自己这套东西的实物，拍照后补上：</p>
+      <div class="fig-grid">
+        <figure class="fig">
+          <div class="fig-ph"><b>实物图</b><span>刷好 Armbian 的盒子 + 散热</span></div>
+          <figcaption>主机：闲置机顶盒，插一张 8 GB 以上的卡或 eMMC</figcaption>
+        </figure>
+        <figure class="fig">
+          <div class="fig-ph"><b>实物图</b><span>RTK 模块与 USB 线</span></div>
+          <figcaption>模块：USB 转串口接盒子，注意别用只供电的数据线</figcaption>
+        </figure>
+        <figure class="fig">
+          <div class="fig-ph"><b>实物图</b><span>屋顶天线与立杆</span></div>
+          <figcaption>天线：刚性立杆固定，馈线从防水接头进屋</figcaption>
+        </figure>
+        <figure class="fig">
+          <div class="fig-ph"><b>实物图</b><span>整套装好的样子</span></div>
+          <figcaption>整机：盒子、模块、电源装进一个防水盒，挂在室内墙上</figcaption>
+        </figure>
       </div>
-
-      <h2 id="coords">基站坐标：这一步错了全盘皆错</h2>
-      <p>
-        基准站的坐标误差会 <strong>100% 传递给流动站</strong>。基站坐标偏 30 厘米，你用这台基站测出来的每一根桩都偏 30 厘米。
-        所以坐标绝不能靠接收机自己单点算一下就用。
-      </p>
-
-      <h3>方法 A：静态观测 + PPP（推荐，无已知点也能做）</h3>
-      <ol>
-        <li>天线固定好，连续观测 <strong>2～4 小时</strong>（越长越好），采样间隔 30 s，记录 RINEX 观测文件。</li>
-        <li>把 RINEX 上传到免费 PPP 服务（如加拿大 NRCan 的 CSRS-PPP、美国 OPUS、武汉大学 PPP 服务）。</li>
-        <li>拿到 ITRF 框架下的精确坐标，误差可到 <strong>1～3 厘米</strong>。</li>
-        <li>把结果按需转换到当地坐标系（国内工程常用 CGCS2000）。</li>
-      </ol>
-      <div class="note">
-        <p><b>注意框架与历元：</b>PPP 给的是 ITRF20xx 某一历元的坐标，
-        和 CGCS2000 之间差几厘米量级，做一般工程可忽略，做控制网联测则要统一。</p>
-      </div>
-
-      <h3>方法 B：与已知 CORS 做同步静态基线（相对精度最高）</h3>
-      <p>
-        附近有可靠的 CORS 或城市控制点时，同步观测 1 小时以上，用商业软件或 RTKLIB 做基线解算。
-        这条路线拿到的是「相对于该控制网」的坐标，做本地工程最合适。
-      </p>
-
-      <h3>方法 C：单点长时间平均（只适合相对定位）</h3>
-      <p>
-        让接收机在一个点上连续跑 24 小时，把单点解平均。这样能消掉一部分随机误差，
-        但绝对精度仍然只有<strong>米级</strong>。只有在「只关心相对位置、不关心绝对坐标」时才这么干。
-      </p>
-
-      <h3>别忘了天线高</h3>
-      <p>
-        无论用哪种方法，都要记录<strong>天线参考点（ARP）到标石/测站标记的高度</strong>，
-        并在接收机里正确填写。斜高请绕天线 120° 量三次取平均，误差控制在 1 毫米内。
-        输入坐标时也要分清：填的是<strong>天线相位中心</strong>还是<strong>标石</strong>，两者差一个天线高。
-      </p>
-
-      <h2 id="receiver">配置接收机：输出哪些 RTCM</h2>
-      <p>目标只有一个：<strong>让 Caster 上有一路完整、连续、能被流动站直接用的 RTCM 3 流</strong>。通用配置如下：</p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>电文</th><th>间隔</th><th>作用</th><th>必需性</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><code>1005</code></td><td>10 s</td><td>基站坐标（ECEF，不含天线高）</td><td><span class="tag tag-ok">必需</span></td></tr>
-            <tr><td><code>1006</code></td><td>10 s</td><td>基站坐标 + 天线高（二选一）</td><td><span class="tag">可选</span></td></tr>
-            <tr><td><code>1074 / 1084 / 1094 / 1124</code></td><td>1 s</td><td>GPS / GLONASS / Galileo / 北斗 MSM4 观测</td><td><span class="tag tag-ok">必需</span></td></tr>
-            <tr><td><code>1077 / 1087 / 1097 / 1127</code></td><td>1 s</td><td>同上，MSM7（含信噪比，精度更好、带宽更高）</td><td><span class="tag">二选一</span></td></tr>
-            <tr><td><code>1033</code></td><td>30 s</td><td>接收机与天线型号描述</td><td><span class="tag">建议</span></td></tr>
-            <tr><td><code>1230</code></td><td>1 s</td><td>GLONASS 码相位偏差</td><td><span class="tag">用 GLO 时必需</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>其他设置：</p>
-      <ul>
-        <li><strong>观测频率</strong>：基站 1 Hz 足够；流动站 1～5 Hz 按需要。</li>
-        <li><strong>星座</strong>：GPS + 北斗 + GLONASS + Galileo 全开，卫星数越多固定越快。</li>
-        <li><strong>模式</strong>：设为「基站 / Base / Fixed」并<strong>填入上一步解算出的坐标</strong>，不要用「平均位置」。</li>
-        <li><strong>串口</strong>：USB 直连一般 115200 或 921600，确保不丢包。</li>
-      </ul>
 
       <div class="tip">
-        <p><b>带宽估算：</b>四系统 MSM4 @1 Hz 大约 1 KB/s（一个月约 2.5～3 GB）；
-        MSM7 约 2～3 KB/s（一个月 6～8 GB）。用 4G 卡长期跑，记得按这个量选套餐。</p>
+        <p><b>一句话选型：</b>想省事就买带 USB 的 F9P 评估板（几百块），想省钱就买 LG290P 模块自己焊个 USB 转接；
+        天线别省，几十块的陶瓷片天线做基准站是自找麻烦。</p>
       </div>
 
-      <h2 id="push">推流到 2RTK Server</h2>
+      <h2 id="host">第一步：把盒子刷成一台 Linux 主机</h2>
       <p>
-        2RTK Server 是本站自建的 NTRIP Caster，用来把基站数据分发给流动站。
-        先在控制台创建一个属于你的<strong>挂载点</strong>（mountpoint），拿到账号密码，然后用下面任一方式推送。
+        机顶盒出厂是安卓，我们要的是 Armbian（Debian 系）。这一步是整篇里唯一可能卡住的地方，
+        因为不同型号的盒子差别很大——但只要刷成功了，后面全是点鼠标。
       </p>
-
-      <dl class="kv">
-        <div class="kv-row"><dt>Caster 地址</dt><dd>2rtk.com</dd></div>
-        <div class="kv-row"><dt>端口</dt><dd>2101</dd></div>
-        <div class="kv-row"><dt>挂载点</dt><dd>你的站点名（区分大小写）</dd></div>
-        <div class="kv-row"><dt>用户名 / 密码</dt><dd>创建挂载点时分配</dd></div>
-        <div class="kv-row"><dt>协议</dt><dd>NTRIP 2.0（兼容 1.0 源推送）</dd></div>
-        <div class="kv-row"><dt>开通方式</dt><dd class="plain">邮件 <a href="mailto:i@jia.im">i@jia.im</a> 说明站点位置与设备型号</dd></div>
-      </dl>
-
-      <h3>方式一：接收机内置 NTRIP Server（最简单）</h3>
-      <p>
-        测绘型接收机一般在 Web 界面里有「NTRIP 推流 / NTRIP Server / 数据转发」页面，
-        填入上面五个参数、勾选自动重连即可。设置完看一眼状态灯或日志，出现「已连接 / 发送中」就成功了。
-      </p>
-
-      <h3>方式二：树莓派或路由器用 RTKLIB 转发</h3>
-      <p>
-        接收机只能吐串口、或者你想在中间做一层缓冲时，用 RTKLIB 的 <code>str2str</code> 把串口流推到 Caster：
-      </p>
-      <div class="code-block">
-        <div class="code-head"><span>shell · 串口 → NTRIP Caster</span></div>
-        <pre><span class="cmt"># -in  串口读入，115200 波特率，1 Hz，强制按 rtcm3 解析</span>
-<span class="cmt"># -out 推到 Caster，格式：ntrips://用户名:密码@主机:端口/挂载点</span>
-str2str -in  serial://ttyACM0:115200:1#rtcm3 \
-        -out "ntrips://用户名:密码@2rtk.com:2101/你的挂载点"</pre>
-      </div>
-      <div class="note">
-        <p><b>版本差异：</b>较早的 RTKLIB 只支持 <code>ntrips://:密码@主机:端口/挂载点</code>（不带用户名）。
-        如果报协议错误，先去掉用户名试一次。</p>
-      </div>
-      <p>让它开机自启，最简单的办法是 systemd：</p>
-      <div class="code-block">
-        <div class="code-head"><span>/etc/systemd/system/rtk-push.service</span></div>
-        <pre><span class="key">[Unit]</span>
-<span class="key">Description</span>=<span class="val">Push RTCM to 2RTK Server</span>
-<span class="key">After</span>=<span class="val">network-online.target</span>
-
-<span class="key">[Service]</span>
-<span class="key">ExecStart</span>=<span class="val">/usr/local/bin/str2str -in serial://ttyACM0:115200:1#rtcm3 -out "ntrips://用户名:密码@2rtk.com:2101/你的挂载点"</span>
-<span class="key">Restart</span>=<span class="val">always</span>
-<span class="key">RestartSec</span>=<span class="val">10</span>
-
-<span class="key">[Install]</span>
-<span class="key">WantedBy</span>=<span class="val">multi-user.target</span></pre>
-      </div>
-
-      <h2 id="verify">验证：三看一听</h2>
       <ol class="steps">
         <li>
-          <h3>看源表</h3>
-          <p>Caster 会把所有挂载点列在源表里。用浏览器或 curl 访问 <code>http://2rtk.com:2101/</code>，
-          搜你的挂载点。出现 <code>STR;你的挂载点;…</code> 这一行，说明 Caster 已经收到你的流。</p>
+          <h3>确认型号，找对镜像</h3>
+          <p>
+            拆开看主控丝印，或查盒子型号对应的 SoC。拿到 SoC 后去 Armbian 官网的
+            <em>Download</em> 页找对应板型；玩客云（OneCloud，S805）这类没有官方板型的，
+            用社区维护的 Armbian 镜像。树莓派最简单——直接装官方的 Raspberry Pi OS 64-bit 也行，
+            2RTK Server 只要求 Debian 系 + Python 3.8 以上。
+          </p>
         </li>
         <li>
-          <h3>看电文</h3>
-          <p>用 RTKLIB 的 <code>strsvr</code> 或 <code>str2str</code> 把流拉到本地存成文件，
-          确认 1005 和观测电文都在，间隔正常、没有大段空洞。</p>
+          <h3>烧录到 SD 卡或 U 盘</h3>
+          <p>
+            用 balenaEtcher 或 Rufus 把 <code>.img</code> 写进去，比命令行 <code>dd</code> 少踩坑。
+            部分 Amlogic 盒子需要用厂商的 USB 烧录工具走线刷，或者先短接进入刷机模式——
+            这一步看社区帖子，同一型号的教程基本都通用。
+          </p>
         </li>
         <li>
-          <h3>看地图</h3>
-          <p>回到 <a href="/">基准站地图</a>，如果你的挂载点已被收录，会以站点形式出现。
-          地图每 6 小时刷新一次，刚建好的站点不会立刻显示。</p>
+          <h3>首次启动：只插网线，别急着折腾</h3>
+          <p>
+            网线接到路由器，通电，等两三分钟，在路由器后台找新出现的设备 IP，然后
+            <code>ssh root@&lt;盒子IP&gt;</code>。Armbian 首次登录会强制改 root 密码并建一个普通用户，
+            顺手把时区设成 <code>Asia/Shanghai</code>。
+          </p>
         </li>
         <li>
-          <h3>听流动站</h3>
-          <p>最终判据只有一个：流动站能不能稳定拿到 <span class="tag tag-ok">Fixed</span>。
-          在基线上取 3 个点复测，平面较差应在 2 厘米以内。</p>
+          <h3>固定 IP，别让它变</h3>
+          <p>
+            基站是要长期跑的，IP 一变你所有书签和监控都失效。用 <code>nmtui</code>（或
+            <code>armbian-config</code> → Network）把有线网卡设成静态地址，或者在路由器里做 DHCP 绑定。
+            两个都做也不冲突。
+          </p>
+        </li>
+        <li>
+          <h3>系统收尾：更新、对时、装 Python</h3>
+          <div class="code-block">
+            <div class="code-head"><span>shell · 系统初始化</span></div>
+            <pre><span class="cmt"># 换源 + 更新（国内盒子建议先换清华或中科大源，armbian-config 里有现成菜单）</span>
+sudo apt update &amp;&amp; sudo apt full-upgrade -y
+
+<span class="cmt"># 时间必须准：NTP 同步不上，RTCM 的时间戳就是错的</span>
+sudo timedatectl set-ntp true
+timedatectl status
+
+<span class="cmt"># 装 Python 与 venv（安装脚本会自己补，但先装好省得它报错）</span>
+sudo apt install -y python3 python3-venv python3-pip</pre>
+          </div>
+          <p>
+            顺便把没用的桌面、蓝牙、HDMI 输出关掉能省一点电，也少几个出问题的环节。
+            <strong>散热片一定要贴</strong>——机顶盒金属壳本来就闷，跑久了降频，串口会开始丢字节。
+          </p>
         </li>
       </ol>
 
-      <h2 id="rover">流动站怎么用</h2>
-      <p>手簿、App 或接收机 Web 界面里选「NTRIP / 网络 RTK」，填四项：</p>
+      <h2 id="install">第二步：装 2RTK NTRIP Server</h2>
+      <p>
+        这是我自己写的一个开源项目（GPLv3），专门做「把串口 RTCM 变成 NTRIP 流」这一件事：
+        读模块、标定坐标、往三个出口分发，全在浏览器里配。
+        源码在 <a href="https://gitcode.com/rampump/NTRIPserver" target="_blank" rel="noopener">gitcode.com/rampump/NTRIPserver</a>，
+        国内访问比 GitHub 稳，脚本里也做了 GitHub 回退。
+      </p>
+
+      <p>装的时候只需要一行，直接在盒子的终端里粘贴：</p>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 一键安装（GitCode 优先，失败回退 GitHub）</span></div>
+        <pre>sudo apt-get install -y git &amp;&amp; sudo rm -rf /tmp/2rtk-install &amp;&amp; (sudo git clone --depth 1 https://gitcode.com/rampump/NTRIPserver.git /tmp/2rtk-install || (sudo rm -rf /tmp/2rtk-install &amp;&amp; sudo git clone --depth 1 https://github.com/Rampump/2RTKserver.git /tmp/2rtk-install)) &amp;&amp; sudo bash /tmp/2rtk-install/install.sh</pre>
+      </div>
+      <div class="note">
+        <p><b>从 Windows 浏览器复制时不要手抄。</b>这一行是纯 ASCII、没有换行，粘过去就能跑；
+        但记事本补的 <code>CR LF</code>、中文全角标点、终端自动折行插进去的空格，都会让它当场失败。</p>
+      </div>
+
+      <p>安装脚本会建虚拟环境、装依赖、注册 systemd 服务，装完就能访问：</p>
+      <dl class="kv">
+        <div class="kv-row"><dt>Web 界面</dt><dd><code>http://&lt;盒子IP&gt;:5757</code></dd></div>
+        <div class="kv-row"><dt>固定地址（mDNS）</dt><dd><code>http://2rtk.local:5757</code>，重名时自动退成 <code>2rtk-2.local</code></dd></div>
+        <div class="kv-row"><dt>默认账号</dt><dd><code>admin</code> / <code>admin</code> —— <span class="tag tag-bad">登录后立刻改</span></dd></div>
+        <div class="kv-row"><dt>安装目录</dt><dd><code>/opt/2RTKserver/</code></dd></div>
+        <div class="kv-row"><dt>登录限速</dt><dd>同一 IP 连续失败 5 次，锁 300 秒</dd></div>
+      </dl>
+      <div class="warn">
+        <p><b>安卓手机不解析 <code>.local</code></b>，用 IP 访问；浏览器打开 <code>2rtk.local</code> 报 502
+        但 IP 能开，是本机代理（Clash、v2rayN、公司 VPN）劫走了 <code>.local</code>，把 <code>*.local</code>
+        加进直连列表即可。</p>
+      </div>
+
+      <h2 id="module">第三步：把 RTK 模块接上</h2>
+      <p>
+        模块通过 USB 转串口接到盒子上。插上之后先确认系统认到了设备，再谈别的：
+      </p>
+      <div class="code-block">
+        <div class="code-head"><span>shell · 确认串口设备</span></div>
+        <pre><span class="cmt"># 看插入记录，找 ch341 / cp210x / ftdi_sio 之类的驱动名</span>
+dmesg | tail -20
+
+<span class="cmt"># 两种常见命名：USB 转串口是 ttyUSB0，原生 USB CDC 是 ttyACM0</span>
+ls -l /dev/serial/by-id/
+ls /dev/ttyUSB* /dev/ttyACM*</pre>
+      </div>
+      <p>
+        然后在 2RTK Server 的 <strong>运行设置（/config）</strong> 里把数据源选成 <code>serial</code>：
+        <strong>串口留空就会自动扫描</strong>，波特率留空则由程序从模块<strong>回读</strong>，
+        不用你翻手册猜是 115200 还是 460800。这是这个项目我最满意的一个小设计——换模块不用改配置。
+      </p>
+
+      <h3>模块本身必须先进入基准站模式</h3>
+      <p>
+        这一步软件替不了你。用厂家的上位机（u-center、QGNSS、Unicore 的工具）把模块设成
+        <strong>Base / 基准站</strong>模式，并打开 RTCM3 输出：至少要有
+        <code>1005</code>（或 <code>1006</code>）加四系统的 MSM 观测电文
+        （<code>1074/1084/1094/1124</code>，或 <code>1077/1087/1097/1127</code>）。
+        设完保存成模块的默认配置，掉电重启也不丢。
+      </p>
       <div class="table-wrap compact">
         <table>
-          <thead><tr><th>字段</th><th>填写</th></tr></thead>
+          <thead><tr><th>电文</th><th>作用</th><th>建议间隔</th></tr></thead>
           <tbody>
-            <tr><td>Caster IP / 域名</td><td><code>2rtk.com</code></td></tr>
-            <tr><td>端口</td><td><code>2101</code></td></tr>
-            <tr><td>挂载点</td><td>你创建的站点名（大小写敏感）</td></tr>
-            <tr><td>用户名 / 密码</td><td>与推流时一致或单独分配</td></tr>
+            <tr><td><code>1005 / 1006</code></td><td>基站坐标（1006 带天线高）</td><td>10 s</td></tr>
+            <tr><td><code>1074 / 1084 / 1094 / 1124</code></td><td>GPS / GLO / GAL / BDS 的 MSM4 观测</td><td>1 s</td></tr>
+            <tr><td><code>1230</code></td><td>GLONASS 码相位偏差，用 GLO 就得有</td><td>1 s</td></tr>
+            <tr><td><code>1033</code></td><td>接收机与天线型号描述</td><td>30 s</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>没有模块也能跑：中继模式</h3>
+      <p>
+        数据源选 <code>relay</code> 就能从别的 Caster 拉一路流再转发，适合两种情况：
+        一是先不买模块，拿别人的公开流把 Caster、防火墙、流动站这几段链路打通；
+        二是给已有基站做备份——主站挂了，中继这路顶上去。
+        填对方地址、端口、挂载点，必要时填账号密码，页面上还能一键拉取对方的源表来选挂载点。
+      </p>
+
+      <h2 id="calibrate">第四步：标定天线坐标（最关键的一步）</h2>
+      <p>
+        基准站坐标的误差会<strong>原样传给你所有的流动站</strong>。基站偏 30 cm，你用这套系统测的每一根桩都偏 30 cm，
+        而且事后没有任何软件能救回来。所以这一步值得多花半天。
+      </p>
+      <p>
+        2RTK Server 把标定做进了浏览器（<code>/calibrate</code>）：选方式、填参数、点开始，
+        程序会独占串口去驱动模块，最后把坐标写进模块，<strong>再从空口读回 1005/1006 逐项比对</strong>——
+        写进去的和发出去的不一致，就直接判失败，不给你一个「看起来成功」的假象。
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>方式</th><th>需要准备</th><th>能到的精度</th><th>适合谁</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CORS / VRS</td>
+              <td>一个可用的 CORS 账号（地址、端口、挂载点、账号密码）</td>
+              <td><span class="tag tag-ok">厘米级（固定解）</span></td>
+              <td>附近有 CORS 网、想一次到位</td>
+            </tr>
+            <tr>
+              <td>Survey-in 自测绘</td>
+              <td>什么都不用，但头顶必须开阔</td>
+              <td><span class="tag tag-warn">亚米级 / 分米级</span></td>
+              <td>只做相对测量、自家院子用</td>
+            </tr>
+            <tr>
+              <td>手动输入</td>
+              <td>已有静态测量 / PPP 解算结果（经纬度 + 椭球高）</td>
+              <td>取决于你给的坐标</td>
+              <td>做过控制点、要绝对精度</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <h3>读取模块信息</h3>
+          <p>
+            点页面上的「读取模块信息」，程序会扫波特率、识别型号。内置档案覆盖
+            u-blox ZED-F9P、Quectel LG290P、LC29H(BS)、UniCore N4 这些常见模块，
+            能全自动写坐标；UM980 / UM982 / Septentrio 这类没有档案的，<strong>仍然能当数据源用</strong>，
+            只是坐标得先用厂家工具写好，程序会从 1005/1006 里读出来显示。
+          </p>
+        </li>
+        <li>
+          <h3>选方式，等它跑完</h3>
+          <p>
+            标定期间数据面会被暂时挂起（串口被独占），页面实时显示当前阶段、已用时间、卫星数和解算状态。
+            天空被挡的时候它不会假装成功，而是老实给一个 <code>sub_meter</code> 或 <code>decimeter</code> 的等级。
+            中途断电也不会把程序卡死——标定租约 30 秒没心跳就自动放行。
+          </p>
+        </li>
+        <li>
+          <h3>看清天线相位中心（APC）</h3>
+          <p>
+            RTCM 里的坐标指的是<strong>天线相位中心</strong>，不是立杆底部、也不是天线外壳上的螺丝孔。
+            如果你的天线要重复拆装，做完标定后把立杆位置做上记号，下次装回同一个位置；
+            否则重新标定。这一条比选哪种标定方式重要得多。
+          </p>
+        </li>
+        <li>
+          <h3>记下来，存一份</h3>
+          <p>
+            结果会存进 <code>calibration.db</code>，历史列表里可以复用同一根天线的旧坐标。
+            自己也抄一份保存好——换盒子、重装系统时，这串数字比任何配置文件都值钱。
+          </p>
+        </li>
+      </ol>
+
+      <div class="danger">
+        <p><b>Survey-in 不等于已知点。</b>它只是让模块长时间平均自己的单点解，本质仍是米级精度往上收敛一点，
+        拿来当相对基准够用，拿来当控制点会出事。要做绝对坐标，老老实实走 PPP 或 CORS。</p>
+      </div>
+
+      <figure class="fig">
+        <div class="fig-ph"><b>截图待补</b><span>标定页：阶段进度与精度等级</span></div>
+        <figcaption>标定过程实时显示阶段、卫星数与解算等级，最后一步是回读比对</figcaption>
+      </figure>
+
+      <h2 id="outlets">第五步：差分送去哪（三个出口）</h2>
+      <p>
+        2RTK Server 最实用的地方是三个出口<strong>完全独立</strong>：勾哪个跑哪个，一个出口掉线不会拖死另外两个。
+        它们共用同一路串口数据，不需要装两套软件。
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>出口</th><th>填什么</th><th>典型用途</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>① 上传到上游 Caster</td>
+              <td>地址、端口（一般 2101）、挂载点、密码</td>
+              <td>推给<strong>自己搭的 Caster</strong>，或 RTK2GO 这类公共 Caster</td>
+            </tr>
+            <tr>
+              <td>② 本地 Caster</td>
+              <td>监听地址 <code>0.0.0.0</code>、端口 <code>2102</code>，挂载点固定 <code>2RTK</code>，账号 <code>2RTK / 2RTK</code></td>
+              <td>手簿、无人机地面站和盒子在同一个 Wi-Fi，直连不绕外网</td>
+            </tr>
+            <tr>
+              <td>③ USB 数传电台</td>
+              <td>电台串口、波特率（要 ≥ 电台空口速率）</td>
+              <td>野外没网，靠 433 / 410 MHz 电台给流动站发差分</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>为什么端口是 2101 和 2102 两个</h3>
+      <p>
+        很多人第一次看会以为冲突，其实不会：
+        <strong>2101 是对方 Caster 的端口</strong>，你只是往外连，不占本机任何端口；
+        <strong>2102 才是本机真正 <code>bind()</code> 的端口</strong>。所以两个同时开完全没问题。
+      </p>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>端口</th><th>属于谁</th><th>占本机？</th></tr></thead>
+          <tbody>
+            <tr><td><code>5757</code></td><td>本程序的 Web 界面</td><td>占</td></tr>
+            <tr><td><code>2101</code></td><td>上游 Caster（出站目标）</td><td><strong>不占</strong></td></tr>
+            <tr><td><code>2102</code></td><td>本地 Caster</td><td>占</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>推到自己的 Caster</h3>
+      <p>
+        自己搭 Caster 的好处是数据可控：想给谁开账号就给谁开，想收就收，挂载点名字自己定，
+        还能同时管好几台基站。搭建过程单独写了一页 → <a href="/caster/">NTRIP Caster 搭建</a>。
+        装好之后，把出口 ① 填成你那台服务器的地址、端口 2101、挂载点和密码即可。
+      </p>
+
+      <h3>推给公开 Caster：RTK2GO</h3>
+      <p>
+        不想维护服务器也不想花钱，就推 RTK2GO。它是免费社区 Caster，全球的流动站都能拉你的流，
+        代价是<strong>数据完全公开</strong>——谁都能用，包括你不想给的人。
+      </p>
+      <ol class="steps">
+        <li>
+          <h3>申请一个挂载点</h3>
+          <p>
+            打开 <a href="http://rtk2go.com/sample-page/new-reservation/" target="_blank" rel="noopener">RTK2go 的 New Base Station Reservation</a>
+            表单，填姓名、邮箱、挂载点名。格式选 <em>Auto Parse</em>，协议留 <em>NTRIP Rev1</em> 就行（95% 以上的连接都是 Rev1）。
+          </p>
+        </li>
+        <li>
+          <h3>两天内回一封邮件</h3>
+          <p>
+            提交后会收到一封确认邮件，<strong>48 小时内必须回复一次</strong>，不回复等于没注册。
+            之后会再来一封邮件，里面有分配给你的挂载点密码（密码自己填了就用你填的，别填 <code>1234</code> 这种）。
+            整个流程通常 8 小时内，周末慢一些。
+          </p>
+        </li>
+        <li>
+          <h3>在 2RTK Server 里填四行</h3>
+          <dl class="kv">
+            <div class="kv-row"><dt>出口 ①</dt><dd>勾上「上传到上游 Caster」</dd></div>
+            <div class="kv-row"><dt>地址 / 端口</dt><dd><code>rtk2go.com</code> / <code>2101</code></dd></div>
+            <div class="kv-row"><dt>挂载点</dt><dd>你申请到的名字，<strong>大小写敏感</strong></dd></div>
+            <div class="kv-row"><dt>密码</dt><dd>邮件里给的那个</dd></div>
+          </dl>
+        </li>
+        <li>
+          <h3>看它有没有真的上去</h3>
+          <p>
+            一两分钟后打开
+            <a href="http://monitor.use-snip.com/?hostUrl=rtk2go.com&amp;port=2101" target="_blank" rel="noopener">SNIP 的监控页</a>
+            或 <code>http://rtk2go.com:2101/SNIP::STATUS</code>，搜你的挂载点名。
+            出现在列表里，说明 RTK2GO 已经收到你的流了。
+          </p>
+        </li>
+      </ol>
+
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>挂载点命名规则</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>长度</td><td>4～20 个字符</td></tr>
+            <tr><td>允许字符</td><td>只允许 <code>[A-Za-z0-9-_]</code>，必须以字母开头</td></tr>
+            <tr><td>不能以 <code>A</code> 开头</td><td>RTK2GO 的规定，别问为什么，换一个字母</td></tr>
+            <tr><td>不能叫 <code>Base</code></td><td>太通用，会被拒</td></tr>
+            <tr><td>全球唯一</td><td>重名会被人工退回，起个带地名或呼号的名字</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="warn">
+        <p><b>推公开 Caster 前先想清楚三件事：</b>
+        ① 数据是公开的，你的天线位置等于公开了；
+        ② 坐标不准的基站会污染别人的测量，宁可不推也别推一个 Survey-in 出来的米级坐标；
+        ③ 流量异常、参数错误会被封 IP，先在本机确认电文正常再往外推。</p>
+      </div>
+
+      <h2 id="rover">流动站怎么连</h2>
+      <p>三种接法，看你人在哪：</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>场景</th><th>Caster 填</th><th>账号</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>和盒子在同一个 Wi-Fi</td>
+              <td><code>&lt;盒子IP&gt;:2102</code>，挂载点 <code>2RTK</code></td>
+              <td><code>2RTK / 2RTK</code></td>
+            </tr>
+            <tr>
+              <td>4G 公网（推到了上游）</td>
+              <td>上游 Caster 的地址和端口，挂载点用你申请的那个</td>
+              <td>上游分配的账号；RTK2GO 则用户名填邮箱、密码随便</td>
+            </tr>
+            <tr>
+              <td>野外电台</td>
+              <td>差分源选「内置电台 / 串口」，选接收电台的 COM 口</td>
+              <td>不需要账号，两端电台频点和空中速率一致即可</td>
+            </tr>
           </tbody>
         </table>
       </div>
       <p>
-        连上后注意两件事：一是<strong>天线高</strong>要按流动站自己的杆高填对；
-        二是等固定解<strong>稳定 10 秒以上</strong>再开始测，别抢那一两秒的假固定。
+        本地 Caster 最多同时带 16 个客户端，某个客户端不收数据、队列堆满后会被自动踢掉，不影响其他人。
+        连上之后别急着测：等固定解<strong>稳定 10 秒以上</strong>，再在基线上复测三个点，
+        平面较差 2 cm 以内才算这套站真的可用。
       </p>
 
-      <h2 id="ops">长期运维</h2>
+      <h2 id="ops">长期运维：让它自己活着</h2>
       <ul>
-        <li><strong>断电自恢复</strong>：接收机、路由器、树莓派全部设成上电自启；路由器加定时重启。</li>
-        <li><strong>断线重连</strong>：<code>str2str</code> 用 <code>Restart=always</code>；接收机内置推流勾选自动重连。</li>
-        <li><strong>坐标复核</strong>：板块每年移动几厘米，高精度应用建议每年复测一次。</li>
-        <li><strong>天线检查</strong>：台风、大雪后检查立杆垂直度和接头进水。</li>
-        <li><strong>监控</strong>：至少做到「掉线能收到通知」。可以定时 curl 源表，搜不到自己的挂载点就报警。</li>
-        <li><strong>备份配置</strong>：接收机配置导出一份存好，换设备时能快速恢复。</li>
+        <li><strong>开机自启</strong>：安装脚本已经注册了 systemd 服务，断电恢复后自己会起来。用 <code>sudo 2rtkserver status</code> 确认。</li>
+        <li><strong>看日志</strong>：<code>journalctl -u 2rtkserver -f</code> 跟 systemd 日志，或 <code>tail -f /opt/2RTKserver/server.log</code>（1 MB × 3 轮转）。</li>
+        <li><strong>升级</strong>：网页 <code>/upgrade</code> 点一下就行，拉代码、自检、换文件、失败自动回滚。
+          <strong>不要用 install.sh 升级</strong>——它结尾的 <code>systemctl start</code> 对已在跑的服务是空操作，文件换了旧代码还在内存里。</li>
+        <li><strong>备份</strong>：<code>calibration.db</code> 存的是你测出来的坐标，等于这套站的资产，定期拷走。</li>
+        <li><strong>时间</strong>：<code>timedatectl</code> 确认 NTP 同步正常。盒子时间飘几分钟，RTCM 时间戳跟着错。</li>
+        <li><strong>供电与散热</strong>：盒子 + 模块用一个质量好的 5 V 电源；夏天加个小风扇或散热片，降频会表现为「莫名丢星」。</li>
+        <li><strong>防雷</strong>：馈线进室前加同轴避雷器并接地。这条不做，一场雷雨就能换一套硬件。</li>
+        <li><strong>监控</strong>：最简单的办法是定时 curl 一次源表，搜不到自己的挂载点就发通知。掉线三天没人知道是常态。</li>
       </ul>
 
+      <div class="code-block">
+        <div class="code-head"><span>shell · 日常三条命令</span></div>
+        <pre><span class="cmt"># 服务状态 / 重启（改完配置没生效时用）</span>
+sudo 2rtkserver status
+sudo 2rtkserver restart
+
+<span class="cmt"># 实时日志</span>
+journalctl -u 2rtkserver -f</pre>
+      </div>
+
       <h2 id="trouble">常见故障速查</h2>
-      <div class="table-wrap">
+      <div class="table-wrap trouble">
         <table>
+          <colgroup><col class="c1" /><col class="c2" /><col class="c3" /></colgroup>
           <thead>
-            <tr><th>现象</th><th>原因</th><th>处理</th></tr>
+            <tr><th>现象</th><th>多半是</th><th>怎么处理</th></tr>
           </thead>
           <tbody>
-            <tr><td>源表里没有自己的挂载点</td><td>推流没连上，或挂载点名不一致</td><td>查账号密码、端口 2101 是否放行、名字大小写</td></tr>
-            <tr><td>源表有，但拉流没数据</td><td>接收机没输出 RTCM，或电文不全</td><td>先在本地用串口工具确认有二进制流输出</td></tr>
-            <tr><td>流动站一直 Single</td><td>端口/挂载点错误，或网络被墙</td><td>换手机热点交叉测试</td></tr>
-            <tr><td>一直 Float 不 Fixed</td><td>缺 1005、缺对应星座 MSM、基线太远</td><td>补齐电文；确认流动站在 10 km 内</td></tr>
-            <tr><td>固定解频繁掉</td><td>多路径、天线晃动、供电不稳</td><td>换位置、加固立杆、加 UPS</td></tr>
-            <tr><td>坐标整体偏几十厘米</td><td>基站坐标不准</td><td>重新用 PPP 或基线解算</td></tr>
-            <tr><td>每天固定时间掉线</td><td>4G 卡限速/断流、路由器过热</td><td>换有线、加散热、换物联网卡</td></tr>
+            <tr>
+              <td>网页打不开 <code>2rtk.local</code>，IP 能开</td>
+              <td>代理 / VPN 劫了 <code>.local</code></td>
+              <td>把 <code>*.local</code> 加进直连；或用 IP</td>
+            </tr>
+            <tr>
+              <td>本地 Caster 报 <code>Address already in use</code></td>
+              <td>2102 被别的程序占了</td>
+              <td><code>ss -lntp | grep :2102</code> 看是谁，改端口或停掉它</td>
+            </tr>
+            <tr>
+              <td>出口 ① 一直「连接中 / 认证失败」</td>
+              <td>地址、挂载点、密码不对，或指回了本机</td>
+              <td>核对四要素；上传指向自己会被直接拒绝（防自环）</td>
+            </tr>
+            <tr>
+              <td>状态页有数据，但一颗卫星都没有</td>
+              <td>模块没在发 MSM 观测电文</td>
+              <td>回厂家工具确认已进 Base 模式、MSM4/7 已打开</td>
+            </tr>
+            <tr>
+              <td><code>Permission denied: /dev/ttyUSB0</code></td>
+              <td>手动跑的时候用户不在 <code>dialout</code> 组</td>
+              <td><code>sudo usermod -aG dialout $USER</code> 后重新登录</td>
+            </tr>
+            <tr>
+              <td>「读取模块信息」转很久</td>
+              <td>正在逐档扫波特率</td>
+              <td>在下拉框直接指定型号，跳过扫描</td>
+            </tr>
+            <tr>
+              <td>流动站一直 Single，连不上</td>
+              <td>端口 / 挂载点错，或盒子没联网</td>
+              <td>先用手机热点 + 手簿交叉试；再看状态页出口状态</td>
+            </tr>
+            <tr>
+              <td>一直 Float 不 Fixed</td>
+              <td>缺 1005、缺对应星座 MSM、基线太远</td>
+              <td>补齐电文；确认流动站在 10 km 内、共用同一套星座</td>
+            </tr>
+            <tr>
+              <td>固定解频繁掉</td>
+              <td>多路径、天线晃、供电不稳</td>
+              <td>换位置、加固立杆、换电源或加 UPS</td>
+            </tr>
+            <tr>
+              <td>测出来的坐标整体偏几十厘米</td>
+              <td>基站坐标错了（Survey-in 当已知点用）</td>
+              <td>重新用 PPP 或 CORS 标定，改完所有历史数据要重测</td>
+            </tr>
+            <tr>
+              <td>登录被锁 300 秒</td>
+              <td>连错 5 次密码</td>
+              <td>等 5 分钟，或 <code>sudo systemctl restart 2rtkserver</code></td>
+            </tr>
+            <tr>
+              <td>忘记管理员密码</td>
+              <td>—</td>
+              <td><code>sudo /opt/2RTKserver/venv/bin/python /opt/2RTKserver/reset_config.py --yes --restart</code>（坐标保留）</td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <div class="next-up">
         <div class="label">Next</div>
-        <h3>想让更多人用你的站？</h3>
-        <p>把挂载点开放出来，或者自己搭一个 Caster 管多台基站、给团队分配账号。</p>
+        <h3>基站有了，下一步是把它分发出去</h3>
+        <p>想自己管数据、给团队分账号，就在 VPS 上搭一个 Caster；只想先验证链路，可以直接连我的测试服务器。</p>
         <p style="margin-top:12px">
           <a href="/caster/">→ NTRIP Caster 搭建</a> &nbsp;·&nbsp;
-          <a href="/test-caster/">→ 先用测试服务器验证一遍</a>
+          <a href="/test-caster/">→ 用测试服务器验证一遍</a> &nbsp;·&nbsp;
+          <a href="/what-is-rtk/">→ 先补一下 RTK 原理</a>
         </p>
       </div>
     </article>

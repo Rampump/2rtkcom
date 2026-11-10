@@ -7,8 +7,16 @@ from datetime import datetime, timezone
 from typing import List, Dict, Any, Tuple, Optional
 import requests
 
-def load_config(config_path: str = 'ntrip_servers.ini') -> List[Dict[str, Any]]:
-    """从配置文件加载NTRIP服务器信息"""
+def load_config(config_path: Optional[str] = None) -> List[Dict[str, Any]]:
+    """从配置文件加载NTRIP服务器信息
+
+    配置路径优先级：显式传入 > 环境变量 NTRIP_CONFIG > 默认 ntrip_servers.ini
+    本地/服务器用默认文件（含私有凭据，不入库）；
+    GitHub Actions 用 ntrip_servers.ci.ini（仅公开源）。
+    """
+    if config_path is None:
+        config_path = os.environ.get('NTRIP_CONFIG', 'ntrip_servers.ini')
+
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"配置文件不存在: {config_path}")
     

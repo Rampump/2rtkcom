@@ -1,0 +1,16 @@
+{
+  "last_update": "2026-10-28T21:21:00+08:00",
+  "igs_network": {
+    "ok": false,
+    "file": "IGSNetwork.json"
+  },
+  "sources": [
+    {
+      "name": "HongKong",
+      "file": "HongKong.json",
+      "ok": true,
+      "station_count": 5,
+      "message": "成功处理 5 个挂载点"
+    }
+  ]
+}

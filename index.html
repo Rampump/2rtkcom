@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2RTK GNSS Stations Viewer</title>
-  <!-- 添加Cesium官方CDN -->
-  <link href="https://cesium.com/downloads/cesiumjs/releases/1.107/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-  <script src="https://cesium.com/downloads/cesiumjs/releases/1.107/Build/Cesium/Cesium.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/satellite.js@3.0.0/dist/satellite.min.js"></script>
+  <!-- Cesium：改用 jsDelivr CDN 固定版本，全球可达性优于 cesium.com 源站 -->
+  <link href="https://cdn.jsdelivr.net/npm/cesium@1.107/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <!-- 必须显式声明：Cesium 会按此基址加载 Workers/Assets/ThirdParty，缺失将全部 404 -->
+  <script>window.CESIUM_BASE_URL = 'https://cdn.jsdelivr.net/npm/cesium@1.107/Build/Cesium/';</script>
+  <script src="https://cdn.jsdelivr.net/npm/cesium@1.107/Build/Cesium/Cesium.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/satellite.js@3.0.0/dist/satellite.min.js" crossorigin="anonymous"></script>
+  <!-- 运行时配置（构建时注入；文件不存在时静默降级为无 Ion 模式） -->
+  <script src="./config.js?v=__BUILD_ID__" onerror="window.__2RTK_CONFIG_MISSING = true"></script>
   <style>
     /* 原有样式保持不变 */
     html, body {
@@ -188,24 +192,62 @@
   <div class="bottom-mask"></div>
   <script>
     // 初始化Cesium视图
-    // 设置Cesium Ion的access token
-    Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2ZDhiODc5MC1kMjUyLTRjZjMtYmJkNy05ZGU0YWY5ZDFlNDEiLCJpZCI6MzY4MTg2LCJpYXQiOjE3NjUzMjczNTV9.llZsvGVy2iFSfybTmjvME9gU-niXjDyvMn6o7NHkhvM";
+    // Token 不再硬编码：由构建注入的 config.js 提供
+    // 底图优先级：Ion（WGS84）> 天地图（CGCS2000）> 纯色椭球（无底图但坐标仍准确）
+    // 注意：不使用高德/腾讯等 GCJ-02 瓦片，火星坐标会使 RTK 站点偏移数百米
+    const RUNTIME_CONFIG = window.__2RTK_CONFIG || {};
+    const ION_TOKEN = typeof RUNTIME_CONFIG.cesiumIonToken === 'string'
+      ? RUNTIME_CONFIG.cesiumIonToken.trim()
+      : '';
+    const TIANDITU_KEY = typeof RUNTIME_CONFIG.tiandituToken === 'string'
+      ? RUNTIME_CONFIG.tiandituToken.trim()
+      : '';
+    const HAS_ION = ION_TOKEN.length > 20;
+
+    if (HAS_ION) {
+      Cesium.Ion.defaultAccessToken = ION_TOKEN;
+    } else {
+      console.warn('[2RTK] 未配置 Cesium Ion Token，尝试天地图或纯色椭球底图');
+    }
 
     // 创建Viewer实例
-    const viewer = new Cesium.Viewer('cesiumContainer', {
+    const viewerOptions = {
       timeline: false,
       animation: false,
       shouldAnimate: true,
-      baseLayerPicker: true,
-      geocoder: true,
+      // baseLayerPicker / geocoder 的内置图层依赖 Ion 服务，无 Ion 时关闭
+      baseLayerPicker: HAS_ION,
+      geocoder: HAS_ION,
       homeButton: false,
       sceneModePicker: true,
       navigationHelpButton: false,
       selectionIndicator: true,
-      infoBox: true,
-      // 添加基础影像图层
-      imageryProvider: new Cesium.IonImageryProvider({ assetId: 2 })
-    });
+      infoBox: true
+    };
+
+    if (HAS_ION) {
+      viewerOptions.imageryProvider = new Cesium.IonImageryProvider({ assetId: 2 });
+    } else if (TIANDITU_KEY) {
+      viewerOptions.imageryProvider = new Cesium.WebMapTileServiceImageryProvider({
+        url: 'https://t{s}.tianditu.gov.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0'
+          + '&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}'
+          + '&style=default&format=tiles&tk=' + TIANDITU_KEY,
+        layer: 'img',
+        style: 'default',
+        format: 'image/jpeg',
+        tileMatrixSetID: 'w',
+        subdomains: ['0', '1', '2', '3', '4', '5', '6', '7'],
+        maximumLevel: 18
+      });
+      viewerOptions.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+    } else {
+      // 无任何底图凭证：保留纯色球体，站点与卫星仍按真实坐标绘制
+      viewerOptions.imageryProvider = false;
+      viewerOptions.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+      console.warn('[2RTK] 无可用底图（Ion / 天地图均未配置），仅显示站点与卫星');
+    }
+
+    const viewer = new Cesium.Viewer('cesiumContainer', viewerOptions);
 
     // 卫星按国家分类配置（保持不变）
     const countrySatellites = {

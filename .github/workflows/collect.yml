@@ -1,0 +1,76 @@
+name: Collect NTRIP Data
+
+on:
+  schedule:
+    # 每 6 小时采集一次（UTC 时间；GitHub 定时任务可能延迟数分钟）
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect-ntrip
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Prepare config
+        env:
+          HOST: ${{ secrets.NTRIP_2RTK_HOST }}
+          PORT: ${{ secrets.NTRIP_2RTK_PORT }}
+          USER: ${{ secrets.NTRIP_2RTK_USERNAME }}
+          PASS: ${{ secrets.NTRIP_2RTK_PASSWORD }}
+        run: |
+          cp ntrip_servers.ci.ini ntrip_servers.ini
+          if [ -n "$HOST" ]; then
+            cat >> ntrip_servers.ini <<EOF
+
+          [2rtk]
+          host = $HOST
+          port = ${PORT:-2101}
+          enabled = true
+          output_prefix = 2rtk
+          address = https://2rtk.com
+          username = $USER
+          password = $PASS
+          EOF
+            echo "已注入私有 caster 配置（2rtk）"
+          else
+            echo "未配置私有 caster secrets，跳过 2rtk 数据源"
+          fi
+
+      - name: Collect
+        env:
+          NTRIP_CONFIG: ntrip_servers.ini
+        run: python lary.py
+
+      - name: Refresh files.json
+        run: python scripts/build.py --files-json
+
+      - name: Commit data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "数据无变化，跳过提交"
+          else
+            git commit -m "data: auto update $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+          fi

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>免费 NTRIP Caster 测试服务器：自助注册挂载点，43.142.126.162:2101 | 2RTK</title>
-  <meta name="description" content="2RTK 自建的免费 NTRIP Caster 测试服务器，用于验证 RTK 基站推流与流动站拉流配置。无需申请，直接在 Web 后台自己添加用户名和挂载点（只能新增，不能修改删除）。含连接参数、注册步骤、自检命令与排查表。仅用于测试，不要用于生产。" />
+  <meta name="description" content="2RTK 自建的免费 NTRIP Caster 测试服务器，用于验证 RTK 基站推流与流动站拉流配置。无需申请，直接在 Web 后台自己添加用户名和挂载点（只能新增，不能修改删除）。推流用 2RTK_NTRIPserver 填一下 Caster 地址即可，含连接参数、注册步骤、自检命令与排查表。仅用于测试，不要用于生产。" />
   <meta name="keywords" content="免费NTRIP Caster,NTRIP测试服务器,NTRIP Caster 测试,自助注册挂载点,RTK测试,43.142.126.162 2101,RTCM推流测试" />
   <meta name="author" content="2RTK" />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
@@ -150,7 +150,44 @@
       </div>
 
       <h2 id="push">第一步：把基站的流推上来</h2>
-      <p>在接收机的「NTRIP 推流 / NTRIP Server」页面填写：</p>
+      <p>
+        最省事的推流方式就是用 <a href="/rtk-base/">2RTK_NTRIPserver</a>——它就是你照基站搭建页装在盒子里那个程序。
+        串口、RTCM 电文、重连它都替你处理了，你只要在它的设置页里把<strong>这个测试 Caster 的地址和账号填进去</strong>。
+      </p>
+
+      <h3>用 2RTK_NTRIPserver 推（推荐）</h3>
+      <p>
+        浏览器打开盒子的 Web 界面 <code>http://盒子的IP:5757</code>，登录后进 <strong>Settings（运行设置）</strong>，
+        拉到 <em>NTRIP Caster Upload</em> 这一块，照下面填：
+      </p>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>字段</th><th>填什么</th></tr></thead>
+          <tbody>
+            <tr><td>地址</td><td><code>43.142.126.162</code></td></tr>
+            <tr><td>端口</td><td><code>2101</code></td></tr>
+            <tr><td>挂载点</td><td>你在后台自己加的名字，<b>区分大小写</b></td></tr>
+            <tr><td>用户名 / 密码</td><td>你在后台自己加的账号</td></tr>
+            <tr><td>上传间隔</td><td>默认值就够，不用改</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">
+        <p><b>这一块的开关默认是关的。</b>填完把开关打开，再拉到底点保存，服务会重启一次。
+        开关没开的话地址填得再对也不会推流，这一步最容易漏。</p>
+      </div>
+      <p>
+        保存后回到状态页（<code>/</code>），10～20 秒内应该看到卫星数往上涨、RTCM 输出区开始滚报文、
+        Caster 那一栏的连接状态亮起来。三样齐了再往下走。
+      </p>
+      <p>
+        盒子还没装这个程序、或者不确定串口和波特率怎么选，
+        直接看 <a href="/rtk-base/#step4">基站搭建 → 第四步：打开网页，配串口和 Caster</a>，
+        那里从扫描串口到填 Caster 每一项都有截图。
+      </p>
+
+      <h3>用接收机自带的推流功能（没有盒子时）</h3>
+      <p>测绘型接收机一般内置 NTRIP Server，在它的「NTRIP 推流」页面填同样这几项：</p>
       <div class="table-wrap compact">
         <table>
           <thead><tr><th>字段</th><th>值</th></tr></thead>
@@ -164,12 +201,17 @@
           </tbody>
         </table>
       </div>
-      <p>如果接收机没有推流功能，用树莓派或 PC 跑 RTKLIB 转发：</p>
+
+      <h3>用 RTKLIB 手动转发（临时验证）</h3>
+      <p>手边只有电脑、想快速试一下链路通不通，用 <code>str2str</code> 直接串口转发：</p>
       <div class="code-block">
         <div class="code-head"><span>shell · 串口推到测试 Caster</span></div>
         <pre>str2str -in  serial://ttyACM0:115200:1#rtcm3 \
         -out "ntrips://用户名:密码@43.142.126.162:2101/你的挂载点"</pre>
       </div>
+      <p>
+        这种方式关掉终端就断了，只适合临时验证。长期跑还是用 2RTK_NTRIPserver，它有自动重连和状态页。
+      </p>
 
       <h2 id="check">第二步：查源表，确认流已上线</h2>
       <p>

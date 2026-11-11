@@ -75,7 +75,9 @@ Cesium 运行时需要动态加载 `Workers/`、`Assets/`、`ThirdParty/`。一�
 ├── ntrip_servers.ci.ini        # CI 用公开源配置（入库）
 ├── config.js                   # 构建生成的运行时配置（不入库）
 ├── scripts/
-│   └── build.py                # 构建脚本
+│   ├── build.py                # 构建脚本（含 data/files.json 生成）
+│   ├── fetch_tle.py            # GNSS 卫星 TLE 抓取（带本地缓存）
+│   └── summarize.py            # 采集结果汇总（Actions 运行摘要）
 ├── .github/workflows/
 │   └── collect.yml             # 定时采集工作流
 ├── data/                       # 采集数据（入库，随 Actions 更新）
@@ -173,34 +175,56 @@ Custom domains → 添加 `2rtk.com`，同时把 `www.2rtk.com` 也加上（Clou
 
 ### 5.1 工作流逻辑（`.github/workflows/collect.yml`）
 
+每轮采集 **4 类数据**，全部写入 `data/`：
+
+| 数据 | 来源 | 产物 | 前端用途 |
+| --- | --- | --- | --- |
+| CRTK | `crtk.net:2101` 源表 | `data/France.json` | 地图「CRTK」图层 |
+| RTK2GO | `rtk2go.com:2101` 源表 | `data/rtk2go.json` | 地图「RTK2GO」图层 |
+| 2RTK | `2rtk.net:2101` 源表（账号走 Secrets） | `data/2rtk.json` | 地图「2RTK」图层 |
+| IGS 坐标 | `files.igs.org/…/IGSNetworkWithFormer.json` | `data/IGSNetwork.json` | 地图「IGS」图层 |
+| 卫星坐标 | `celestrak.org` GNSS TLE | `data/tle-gnss.txt` | 卫星轨道（Cesium） |
+
 ```
-每 6 小时（cron: 0 */6 * * *）+ 支持手动触发
+每 6 小时（cron: 0 */6 * * *，即 UTC 00/06/12/18 = 北京 08/14/20/02）+ 支持手动触发
   ↓
 checkout → setup-python 3.11 → pip install requests
   ↓
-cp ntrip_servers.ci.ini ntrip_servers.ini
-  ↓（若配置了 secrets，追加私有 caster 段）
-python lary.py    （NTRIP_CONFIG=ntrip_servers.ini）
+cp ntrip_servers.ci.ini ntrip_servers.ini     只含 rtk2go + crtk 两路公开源
+  ↓（若配置了 secrets，追加 [2rtk] 段）
+python lary.py                              → 三路源表 + IGS 坐标 + meta.json
   ↓
-python scripts/build.py --files-json   刷新 files.json
+python scripts/fetch_tle.py                → tle-gnss.txt（带 1 小时缓存，失败不中断）
   ↓
-git commit data/ && git push          触发 Pages 自动重建
+python scripts/build.py --files-json       刷新 files.json
+  ↓
+git commit data/ && git push               触发 Pages 自动重建
+  ↓
+python scripts/summarize.py --github       把本轮结果写进 Actions 运行摘要
 ```
 
-### 5.2 私有 caster（自建 2rtk.com:2101）接入
+**失败处理**：任一路抓取失败时，`lary.py` 不会覆盖旧的 JSON，前端继续用上一轮数据，
+`meta.json` 里该源的 `ok:false` + `stale:true`，地图左上角显示为「失败 N 个数据源」。
+TLE 步骤设了 `continue-on-error: true`，CelesTrak 限流时保留旧文件，不影响站点图层的其余数据。
+
+> 抓取三路源表实测约 10 秒；全流程含依赖安装通常 1 分钟内跑完。
+
+### 5.2 私有 caster（2rtk.net:2101）接入
 
 在仓库 Settings → Secrets and variables → Actions 添加：
 
 | Secret | 示例值 |
 |--------|--------|
-| `NTRIP_2RTK_HOST` | `你的服务器公网IP` |
-| `NTRIP_2RTK_PORT` | `2101` |
+| `NTRIP_2RTK_HOST` | `2rtk.net`（或服务器公网 IP） |
+| `NTRIP_2RTK_PORT` | `2101`（NTRIP 数据流端口，不是 5757 管理端口） |
 | `NTRIP_2RTK_USERNAME` | 你的 caster 账号 |
 | `NTRIP_2RTK_PASSWORD` | 你的 caster 密码 |
 
-配置后工作流会自动追加 `[2rtk]` 段并生成 `data/2rtk.json`。未配置则跳过，不影响其他源。
+配置后工作流会自动追加 `[2rtk]` 段并生成 `data/2rtk.json`。未配置时打印一条 warning 并跳过，不影响其他源。
 
-> 注意：GitHub Actions 的 runner 在境外，若你的 caster 在国内且只监听内网/防火墙限制境外 IP，将采集失败。此时应改为把数据文件直接从服务器 `git push`。
+> 注意 1：GitHub Actions 的 runner 在境外，若 caster 在国内且只监听内网/限制境外 IP，将采集失败。此时应改为把数据文件直接从服务器 `git push`。
+>
+> 注意 2：`2rtk.net:2101` 需要**匿名可读源表**（不加账号也能 `GET /` 拿到 SOURCETABLE），或者 Secrets 里填的账号有源表读权限。当前 `2rtk.net` 域名尚未解析到 Caster，脚本会记为失败并沿用旧数据——这不影响其他三路。
 
 ### 5.3 定时任务的两个已知特性
 
@@ -243,27 +267,37 @@ localhost
 ```bash
 # 1. 构建
 python scripts/build.py
-# → data/files.json 27 项，dist/ 生成
+# → content 页 5 个 + files.json + robots/sitemap，dist/ 生成
 
 # 2. 本地预览
 cd dist && python -m http.server 8092
 # 打开 http://127.0.0.1:8092/index.html
 
-# 3. CI 配置解析
-NTRIP_CONFIG=ntrip_servers.ci.ini python -c "import lary; print(len(lary.load_config()))"
-# → 29
+# 3. CI 配置解析（三路：rtk2go / France(crtk) / 2rtk 由 Secrets 追加）
+NTRIP_CONFIG=ntrip_servers.ci.ini python -c "import lary; print([s['name'] for s in lary.load_config()])"
+# → ['rtk2go', 'France']
 
-# 4. 端到端采集
-NTRIP_CONFIG=ntrip_servers.ci.ini python -c "
-import lary
-s=[x for x in lary.load_config() if x['name']=='HongKong'][0]
-print(lary.fetch_mountpoints(s))"
-# → (True, '成功处理 5 个挂载点')
+# 4. 端到端采集（2026-11-11 19:00 实测）
+cp ntrip_servers.ci.ini ntrip_servers.ini
+NTRIP_CONFIG=ntrip_servers.ini python lary.py
+# → [✓ 成功] rtk2go: 成功处理 755 个挂载点
+# → [✓ 成功] France: 成功处理 1328 个挂载点   ← crtk.net
+# → IGS网络信息已保存至 data/IGSNetwork.json
+
+# 5. 卫星 TLE
+python scripts/fetch_tle.py
+# → [tle] CelesTrak 成功：169 颗，写入 data/tle-gnss.txt（26.5 KB）
+
+# 6. 采集结果汇总
+python scripts/summarize.py
+# → markdown 表格：各源状态 + 站点数 + 更新时间
 ```
 
-实测结果（有 Ion Token）：Bing 影像正常、826 个 rtk2go 站点渲染、168 颗 GNSS 卫星带国旗图标、数据更新时间正常显示。
+实测结果（有 Ion Token）：Bing 影像正常、755 个 rtk2go 站点渲染、169 颗 GNSS 卫星带国旗图标、数据更新时间正常显示。
 
 实测结果（无任何 Token）：纯色椭球 + 站点橙色覆盖圈 + 卫星，页面无报错。
+
+静态托管下 `/`、`/about/`、`/test-caster/`、`/data/{files,meta,2rtk,rtk2go,France}.json`、`/data/tle-gnss.txt` 全部 200。
 
 ---
 

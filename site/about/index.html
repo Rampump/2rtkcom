@@ -121,15 +121,17 @@
         <table>
           <thead><tr><th>数据源</th><th>取自</th><th>目前站点数</th></tr></thead>
           <tbody>
-            <tr><td><strong>2RTK</strong></td><td>本站自建 Caster 与收录的长期公开站</td><td>持续增加</td></tr>
-            <tr><td><strong>CRTK</strong></td><td>crtk.net 公开源表</td><td>约 1000</td></tr>
-            <tr><td><strong>RTK2</strong></td><td>rtk2go.com 公开源表</td><td>约 800</td></tr>
+            <tr><td><strong>2RTK</strong></td><td>2rtk.net 测试 Caster 的源表</td><td>持续增加</td></tr>
+            <tr><td><strong>CRTK</strong></td><td>crtk.net 公开源表</td><td>约 1300</td></tr>
+            <tr><td><strong>RTK2</strong></td><td>rtk2go.com 公开源表</td><td>约 750</td></tr>
             <tr><td><strong>IGS</strong></td><td>IGS 站日志（station log）</td><td>约 770</td></tr>
+            <tr><td><strong>卫星</strong></td><td>CelesTrak GNSS 轨道根数（TLE）</td><td>约 170 颗</td></tr>
           </tbody>
         </table>
       </div>
       <p>
-        源表每 6 小时抓一次，抓失败的那一路会单独标出来，地图左上角能看到每个源的成功和失败数量。
+        <strong>每 6 小时</strong>自动抓一轮：CRTK、RTK2GO、2rtk.net 三路源表，外加 IGS 站点坐标和 GNSS 卫星轨道根数。
+        某一轮抓失败的那一路会保留上一轮的数据并单独标出来，地图左上角能看到每个源的成功和失败数量。
         源表里消失的站点，下一轮就会从地图上消失——我不做历史存档，也不保留已经下线的点。
       </p>
       <div class="note">

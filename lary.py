@@ -265,16 +265,18 @@ host = rtk2go.com
 port = 2101
 enabled = true
 output_prefix = rtk2go
-username = your_username  # 可选
-password = your_password  # 可选
-address = https://example.com/register  # 注册地址
+username = mail
+password = none
+address = https://www.rtk2go.com/
 
-[crtk]
+[France]
 host = crtk.net
 port = 2101
 enabled = true
-output_prefix = crtk
-address = https://example.com/crtk_register""")
+output_prefix = France
+address = https://map.centipede-rtk.org/
+username = centipede
+password = centipede""")
         return
     
     print(f"发现 {len(servers)} 个已启用的NTRIP服务器配置")
@@ -304,7 +306,9 @@ address = https://example.com/crtk_register""")
             'file': f"{server['output_prefix']}.json",
             'ok': success,
             'station_count': count,
-            'message': message
+            'message': message,
+            # 本轮失败时，上一次的 successful 文件被保留下来充当备用数据
+            'stale': not success,
         })
     
     # 写入元数据

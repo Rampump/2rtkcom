@@ -1,8 +1,14 @@
 name: Collect NTRIP Data
 
+# 每 6 小时跑一轮：CRTK（crtk.net）+ RTK2GO（rtk2go.com）+ 2rtk.net 自建 Caster
+#                   + IGS 站点坐标 + GNSS 卫星 TLE
+# 采集结果直接提交到本仓库 data/，Cloudflare Pages 检测到提交后自动重建发布，
+# 前端只读同域 ./data/*.json，所以整个站不需要任何后端 API。
+
 on:
   schedule:
-    # 每 6 小时采集一次（UTC 时间；GitHub 定时任务可能延迟数分钟）
+    # 每 6 小时一次（UTC；cron 用 UTC，北京时间 = UTC+8）
+    # 00/06/12/18 UTC = 北京 08/14/20/02 点
     - cron: '0 */6 * * *'
   workflow_dispatch:
 
@@ -30,6 +36,7 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
+      # 公开源（rtk2go / crtk）写在 ci.ini 里；2rtk.net 的账号密码走 Secrets，不进仓库
       - name: Prepare config
         env:
           HOST: ${{ secrets.NTRIP_2RTK_HOST }}
@@ -38,7 +45,7 @@ jobs:
           PASS: ${{ secrets.NTRIP_2RTK_PASSWORD }}
         run: |
           cp ntrip_servers.ci.ini ntrip_servers.ini
-          if [ -n "$HOST" ]; then
+          if [ -n "$HOST" ] && [ -n "$USER" ]; then
             cat >> ntrip_servers.ini <<EOF
 
           [2rtk]
@@ -50,15 +57,22 @@ jobs:
           username = $USER
           password = $PASS
           EOF
-            echo "已注入私有 caster 配置（2rtk）"
+            echo "已注入 2rtk.net Caster 配置（$HOST:${PORT:-2101}）"
           else
-            echo "未配置私有 caster secrets，跳过 2rtk 数据源"
+            echo "::warning::未配置 NTRIP_2RTK_* secrets，本轮跳过 2rtk.net 源，data/2rtk.json 保持上一轮内容"
           fi
 
-      - name: Collect
+      # 1) 三路 NTRIP 源表 + IGS 站点坐标（失败的那一路保留上次文件，不清空）
+      - name: Collect NTRIP sources
         env:
           NTRIP_CONFIG: ntrip_servers.ini
         run: python lary.py
+
+      # 2) GNSS 卫星 TLE（带本地缓存，1 小时内不重复拉，避免被 CelesTrak 限流）
+      #    失败不中断整条流水线，保留上一次的 data/tle-gnss.txt
+      - name: Collect GNSS TLE
+        continue-on-error: true
+        run: python scripts/fetch_tle.py
 
       - name: Refresh files.json
         run: python scripts/build.py --files-json
@@ -74,3 +88,7 @@ jobs:
             git commit -m "data: auto update $(date -u '+%Y-%m-%d %H:%M UTC')"
             git push
           fi
+
+      - name: Summary
+        if: always()
+        run: python scripts/summarize.py --github

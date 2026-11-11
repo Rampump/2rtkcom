@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>搭一台 RTK 基准站：材料、接线、一键安装、推流（2RTK Server v3.1.3） | 2RTK</title>
-  <meta name="description" content="用一台旧电视盒子 + RTK 模块 + 室外天线搭自己的 RTK 基准站。四步搭完：备料、接线固定天线、盒子上一条命令装好 2RTK Server、网页里选串口填 Caster 地址保存重启，流动站就能收到差分。刷系统、坐标标定、中继、本地 Caster、数传电台单独成篇。" />
+  <meta name="description" content="用一台旧电视盒子 + RTK 模块 + 室外天线搭自己的 RTK 基准站。四步搭完：备料、接线固定天线、盒子上一条命令装好 2RTK Server、网页里选串口填 Caster 地址保存重启，流动站就能收到差分。刷系统、坐标标定、中继、本地 Caster、数传电台放在附篇。" />
   <meta name="keywords" content="RTK基准站,自建RTK基准站,RTK基站搭建,Armbian,机顶盒刷Armbian,玩客云,树莓派,2RTK Server,LG290P,RTCM,NTRIP,Caster,基准站标定,数传电台" />
   <meta name="author" content="2RTK" />
   <meta name="robots" content="noindex,follow" />
@@ -18,11 +18,10 @@
 
   <link rel="stylesheet" href="/assets/site.css?v=__BUILD_ID__" />
   <style>
-    /* 本页专用：章节分组标题（主线 / 单独成篇） */
+    /* 本页专用：章节分组横幅（主线 / 附篇） */
     .band { margin: 56px 0 8px; padding-top: 26px; border-top: 1px solid var(--border); }
     .band .band-kicker { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
-    .band h2 { border: 0; padding: 0; margin: 0 0 10px; }
-    .band-lead { margin: 0 0 22px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .band h2 { border: 0; padding: 0; margin: 0; }
   </style>
 </head>
 <body>
@@ -172,8 +171,8 @@
 
         <div class="tip">
           <p>
-            <b>模块和天线的钱别省错地方。</b>天线比模块更影响结果——几十块的陶瓷片天线做基准站，
-            数据看着能出，精度就是上不去。几十块省下来，换来的是几十厘米的系统误差。
+            <b>模块和天线的钱别省错地方。</b>天线比模块更影响结果，同价位的模块换一个差别不大，
+            天线从陶瓷片换成测量天线，结果完全是两回事。
           </p>
         </div>
 
@@ -193,26 +192,35 @@
 
       <section id="s-step2">
         <h2 id="step2">第二步：连起来，把天线放到室外</h2>
-        <p>连线只有一根主线，先接好再上电：</p>
+        <p>连线只有一根主线，先接好再上电。模块自带 Type-C 口的，一根 USB 数据线直接捅到盒子上就行：</p>
 
         <div class="code-block">
-          <div class="code-head"><span>接线顺序</span></div>
-          <pre>  ┌──────────────┐   USB    ┌───────────────┐   UART    ┌─────────────┐
-  │  Armbian 盒  │ ───────► │ USB 转串口    │ ────────► │ GNSS 模块   │
-  │              │          │ (CH340 等)    │           │  (LG290P)   │
-  └──────────────┘          └───────────────┘           └──────┬──────┘
-                                                               │ SMA
-                                                               ▼
-                                                        ┌─────────────┐
-                                                        │  室外天线   │
-                                                        │ 窗外 / 楼顶 │
-                                                        └─────────────┘</pre>
+          <div class="code-head"><span>接线顺序（模块自带 USB 口）</span></div>
+          <pre>  ┌──────────────┐   USB 数据线   ┌─────────────┐
+  │  Armbian 盒  │ ─────────────► │ GNSS 模块   │
+  │              │                │  (LG290P)   │
+  └──────────────┘                └──────┬──────┘
+                                         │ SMA
+                                         ▼
+                                  ┌─────────────┐
+                                  │  室外天线   │
+                                  │ 窗外 / 楼顶 │
+                                  └─────────────┘</pre>
+        </div>
+
+        <div class="note">
+          <p>
+            <b>模块没有 USB 口怎么办？</b>那就需要一个 USB 转串口（CH340、CP2102、FT232 都行）：
+            模块断电状态下接线，<code>TX → RX</code>、<code>RX → TX</code>、<code>GND → GND</code>，
+            <code>VCC</code> 供电按模块数据手册来，接好再把转接头插进盒子的 USB 口。
+            买转接板的时候顺手确认一下它是 3.3 V 电平，别把模块的串口烧了。
+          </p>
         </div>
 
         <figure class="fig">
           <img src="/images/base/hw-03-wiring.jpg" alt="实物图：机顶盒、USB 线、RTK 模块、天线连好并加电，右侧拼接了螺旋天线放在窗外的画面" loading="lazy" decoding="async" width="960" height="720" />
           <figcaption>
-            连好加电的样子：机顶盒 → USB 线 → RTK 模块 → 天线馈线。右边拼的那张是<strong>临时测试</strong>的做法——
+            连好加电的样子：机顶盒 → USB 数据线 → RTK 模块 → 天线馈线。右边拼的那张是<strong>临时测试</strong>的做法——
             四臂螺旋天线带磁吸底座，吸在窗外，抬头就是天。
           </figcaption>
         </figure>
@@ -232,8 +240,12 @@
           <li>
             <h3>USB 线接模块，模块接盒子</h3>
             <p>
-              模块断电状态下插好 USB 转串口（<code>TX → RX</code>、<code>RX → TX</code>、<code>GND → GND</code>，
-              供电按模块数据手册），再把转接头插进盒子的 USB 口。天线馈线拧到模块的 SMA 座上。
+              模块自带 Type-C 或 Micro-USB 口的，找一根<strong>数据线</strong>，一头插模块、一头插盒子的 USB 口，
+              就这么简单。天线馈线拧到模块的 SMA 座上，拧到底，别只搭上。
+            </p>
+            <p>
+              模块<strong>没有</strong> USB 口的（只有排针或 GH 座），才需要 USB 转串口板，
+              接线见上面那个注记。
             </p>
             <p>顺手在盒子上确认系统认得这个口：</p>
             <div class="code-block">
@@ -245,8 +257,12 @@
               <pre>crw-rw---- 1 root dialout 188, 0 Nov 11 05:20 /dev/ttyUSB0</pre>
             </div>
             <p>
-              有 <code>ttyUSB0</code> 就对了（CH340 这类转接芯片）；原生 USB 的模块会出现 <code>ttyACM0</code>。
-              什么都没有，先换根数据线、换个 USB 口再来。
+              <code>ttyUSB0</code> 是 USB 转串口芯片（CH340、CP2102 这类）；<code>ttyACM0</code> 是模块自己带 USB 接口、
+              直接枚举出来的。两个名字都正常，记住是哪个。
+            </p>
+            <p>
+              什么都没有，按顺序排查：换根<strong>数据线</strong>（很多充电线只有电源两根芯）、换个 USB 口、
+              用 <code>dmesg | tail -20</code> 看插上那一刻系统有没有反应。
             </p>
           </li>
           <li>
@@ -260,8 +276,12 @@
 
         <div class="warn">
           <p>
-            <b>天线放窗外只是临时办法。</b>磁吸底座夹在窗框上，风一吹就挪位置，玻璃和墙体还会挡掉一大片低仰角卫星，
-            卫星数上不去、固定解时有时无。验证完就搬到楼顶或开阔地带固定住。
+            <b>放窗外只用来验证程序通不通，不能当长期方案。</b>磁吸底座夹在窗框上，风一吹就挪位置，
+            玻璃和墙体还会挡掉一大片低仰角卫星，卫星数上不去、固定解时有时无。
+          </p>
+          <p>
+            长期使用必须把天线挪到楼顶或开阔地带，立杆固定死。换位置以后，<strong>之前标定的坐标全部作废</strong>，
+            要在新位置重新测一次，见<a href="#calibrate">附篇三：坐标怎么定准</a>。
           </p>
         </div>
       </section>
@@ -448,10 +468,7 @@
 
       <div class="band">
         <span class="band-kicker">Reference · 后半篇</span>
-        <h2 id="manual">以下都是单独成篇，不影响前面四步</h2>
-        <p class="band-lead">
-          这些内容放在搭建流程里只会把读者绕晕，所以单独拎出来。哪天真需要了再翻，顺序无所谓。
-        </p>
+        <h2 id="manual">附篇</h2>
       </div>
 
       <section id="s-antenna-outdoor">

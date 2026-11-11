@@ -635,35 +635,122 @@ free -m                  <span class="cmt"># 512 MB 也能跑，1 GB 更稳</spa
           <img src="/images/base/cal-04-methods.png" alt="标定页面截图：四种标定方式的选项" loading="lazy" decoding="async" width="2200" height="836" />
           <figcaption>标定页（<code>/calibrate</code>）的四种方式。选完点开始，程序自己跑完整个流程。</figcaption>
         </figure>
+        <p>
+          四种方式的差别，说到底是<strong>「坐标从哪儿来」</strong>：从 CORS 来、从模块自己长时间平均来、
+          从别人测好的结果来，还是你自己写进去。走完动作都一样——把坐标写进模块，再把模块切回基准站。
+        </p>
 
         <div class="table-wrap compact">
           <table>
-            <thead><tr><th>你的情况</th><th>用哪种</th><th>说明</th></tr></thead>
+            <thead><tr><th>方式</th><th>坐标来源</th><th>适用</th><th>精度</th></tr></thead>
             <tbody>
-              <tr><td>附近有 CORS 服务，模块能切流动站</td><td><strong>CORS 一键固定</strong></td><td>最准，几分钟出厘米级坐标。LG290P 实测走的就是这条</td></tr>
-              <tr><td>手头有已经测好的坐标</td><td><strong>手动写入</strong></td><td>直接把坐标填进去，顺便存一条记录</td></tr>
-              <tr><td>什么都没有，只想比自收敛准一点</td><td><strong>仅测量 Survey-in</strong></td><td>在屋外等十几分钟到一小时，得到分米级</td></tr>
-              <tr><td>单基准站模块（切不了流动站）</td><td>手动写入，或用自收敛</td><td>这种模块没法自动标定，只能这样</td></tr>
+              <tr><td><strong>① CORS 一键固定</strong></td><td>已知 CORS / NTRIP 服务的差分解</td><td>模块支持 Rover + Base 双模式（如 LG290P）</td><td>厘米级，精度与坐标系由 CORS 决定</td></tr>
+              <tr><td><strong>② 仅测量 Survey-in</strong></td><td>模块自己长时间静态平均</td><td>任何能单独做流动站的模块，没有 CORS 账号</td><td>分米级，秒到十几分钟</td></tr>
+              <tr><td><strong>③ 外部坐标</strong></td><td>别的模块、别的站已经标定好的结果</td><td>手上有同点多测的已知坐标，或多台模块共用一点</td><td>等于所引用坐标的精度</td></tr>
+              <tr><td><strong>④ 手动写入</strong></td><td>你自己填的数</td><td>坐标来自测绘图、控制点成果表</td><td>取决于数据本身，填错就全错</td></tr>
             </tbody>
           </table>
         </div>
 
-        <div class="warn">
+        <h4>① CORS 一键固定：程序替你走完一整轮</h4>
+        <p>
+          这是最准的方式，也是本程序跑得最完整的一条路。前提是<strong>模块同时支持流动站和基准站两种工作模式</strong>，
+          LG290P 就是这种，也是目前唯一做过真机验证的型号。程序实际做的动作是这样的：
+        </p>
+        <div class="flow flow-5">
+          <div class="node"><b>① 切流动站</b><span>模块当 Rover<br>准备吃差分</span></div>
+          <div class="arrow">→</div>
+          <div class="node"><b>② 连 CORS</b><span>登录 NTRIP<br>订阅挂载点</span></div>
+          <div class="arrow">→</div>
+          <div class="node"><b>③ 等固定解</b><span>单点解<br>收敛到 Fixed</span></div>
+          <div class="arrow">→</div>
+          <div class="node"><b>④ 测坐标</b><span>Fixed 下平均<br>厘米级点位</span></div>
+          <div class="arrow">→</div>
+          <div class="node"><b>⑤ 写回切 Base</b><span>坐标写进模块<br>开始发 RTCM</span></div>
+        </div>
+        <p>
+          所以要你准备的只有一样东西：<strong>一个能用的 CORS 账号，或者一个 NTRIP Caster 的站点信息</strong>——
+          地址、端口、账号、密码、挂载点。<strong>测出来的精度和坐标系，完全由这套校准数据决定</strong>：
+          连的是 CGCS2000 的省级 CORS，结果就是 CGCS2000 的厘米级坐标；连的是某个虚拟参考站服务，
+          结果跟着那个服务走。程序不参与判断，它只是把 CORS 给的答案搬进模块。
+        </p>
+        <p>
+          没有 CORS 账号也能曲线救国：第四步里配置的那个云端 Caster，如果上游本来就是差分源，同样可以拿来当校准参考。
+          不过最省事的还是本地或省级 CORS，账号申请一次能用很久。
+        </p>
+
+        <h4>② 仅测量 Survey-in：不连任何服务，靠自己熬时间</h4>
+        <p>
+          没有 CORS 账号、或者模块只能当流动站不能切基准站的时候用这个。思路和 ① 前半段一样——
+          也是把模块当流动站、在固定点上做静态观测——区别是<strong>没有外部差分数据</strong>，
+          模块靠自己的载波相位长时间平均，一点点把随机误差压下去。
+        </p>
+        <p>
+          程序做的事少一些：让模块进入 Survey-in 模式，等它跑够时长、达到收敛门限，把结果坐标<strong>记录到本地</strong>，
+          然后写进配置。这里的关键是「记录到本地」——这份坐标存下来以后，
+          <strong>可以给别的模块直接用</strong>，也就是下面第 ③ 种方式的数据来源。
+        </p>
+        <div class="note">
           <p>
-            <b>只有 LG290P 做过真机验证。</b>用其他型号时，建议先用流动站模式把天线坐标测出来、存进系统，
-            再拿这个坐标把模块设成 RTK 基准站。这样即使自动标定在某个型号上不灵，你手上也有一份真坐标。
+            <b>时间换精度。</b>几分钟出的是米级到分米级，想稳到分米以内，得让它安静地跑十几分钟到一小时以上，
+            中间天线不能动、不能断电。这也是为什么它排在 ① 后面——同样的等待，连上 CORS 早就 Fixed 了。
           </p>
         </div>
 
-        <h3>CORS 一键固定怎么跑</h3>
-        <p>先看一个前提：这一步要求<strong>天线已经固定好，并且模块能看见天空</strong>。中途不要碰天线。</p>
+        <h4>③ 外部坐标：一次测量，多台模块共用</h4>
+        <p>
+          这个点是给「已经有人替你测过」的情况准备的。基站天线位置一旦定死，坐标就是个常量，
+          没必要每换一台模块就重新测一遍——把上一次的结果拿来用就行。典型场景：
+        </p>
+        <ul>
+          <li>先用 ① 或 ② 把这一点测准（比如拿一台 LG290P 走 CORS 固定），结果存在系统里；</li>
+          <li>之后换模块、换机器，甚至拿一台只能当基准站、切不了流动站的模块来顶班，直接引用这条已有坐标；</li>
+          <li>同一根立杆上装了两套设备做冗余，共用一份坐标，不会出现两个基准站报出两个点的情况。</li>
+        </ul>
+        <p>
+          程序会读出本地已保存的坐标记录，你确认用哪一条，它写进模块并切基准站，不再走扫描、收敛那一套。
+          代价也很清楚：<strong>精度就等于那条被引用的坐标</strong>，天线只要挪过位置，这条记录立刻作废，
+          必须回到 ① 或 ② 重测。
+        </p>
+
+        <h4>④ 手动写入：你说了算</h4>
+        <p>
+          坐标已经在手上，就别绕圈子了——测绘图上的控制点、成果表里的已知点、甲方给的点位，
+          直接填进去最快。程序只做两件事：校验格式、写进模块并切基准站，顺手存一条记录备查。
+        </p>
+        <p>
+          它是四种方式里的兜底：模块不被支持、CORS 连不上、Survey-in 收敛不了，最后都能落到这里。
+          但也是唯一一种<strong>没有任何校验</strong>的方式——填错一个数字，站照样正常出数据，
+          只是每个流动站的结果都跟着错，而且错得很安静。填之前把度分秒和十进制小数确认一遍，别混着用。
+        </p>
+
+        <div class="warn">
+          <p>
+            <b>只有 LG290P 做过真机验证。</b>用其他型号时，建议先用流动站模式把天线坐标测出来、存进系统（②或③），
+            再拿这个坐标把模块设成基准站。这样即使自动标定在某个型号上不灵，你手上也有一份真坐标。
+          </p>
+        </div>
+
+        <h3>实际操作：点几下就完事</h3>
+        <p>
+          先重申那个前提：<strong>天线已经固定牢、能看见天空，整个过程中不能动</strong>。坐标就是天线的位置，
+          天线一动，测出来的数立刻不是这个点的了。
+        </p>
+        <p>
+          四种方式的界面流程一样，只在「方式」和参数卡上有差别。以 CORS 为例，从头到尾是这几下：
+        </p>
+        <ol>
+          <li>打开 <code>/calibrate</code>，点<strong>扫描串口</strong>，等它列出 <code>/dev/ttyUSB0</code> 或 <code>/dev/ttyACM0</code>；</li>
+          <li>点<strong>识别模块</strong>，程序读出型号、固件、当前模式，确认认得出这颗模块；</li>
+          <li>选<strong>CORS 一键固定</strong>，填服务商给的地址、端口、账号、密码、挂载点；</li>
+          <li>点<strong>开始</strong>，剩下的交给它——扫描、切模式、等固定解、取平均、写回、切 Base。</li>
+        </ol>
+        <p>换成 ② ③ ④，区别只是第 3 步换成对应选项、参数卡少填几项。全程不用干预。</p>
 
         <figure class="fig ui wide">
           <img src="/images/base/cal-05-cors.png" alt="标定页面：CORS 方式的参数填写区域" loading="lazy" decoding="async" width="2200" height="902" />
-          <figcaption>CORS 方式要填服务商给的地址、端口、账号、密码和挂载点。</figcaption>
+          <figcaption>CORS 方式的参数卡：地址、端口、账号、密码、挂载点，都是服务商给的那几项。</figcaption>
         </figure>
-
-        <p>点开始之后，页面会依次显示扫描串口、识别到模块、收到固定解、取平均、写回坐标。全程不用干预。</p>
 
         <figure class="fig-grid">
           <figure class="fig ui">

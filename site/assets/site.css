@@ -661,6 +661,42 @@ td code { white-space: nowrap; }
 .next-up h3 { margin: 6px 0 4px; font-size: 17px; color: var(--text-strong); }
 .next-up p { margin: 0; font-size: 13.5px; color: var(--muted); }
 
+/* 主行动按钮：用于「打开后台」这类一步到位的入口 */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 16px 34px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: rgba(0, 255, 136, 0.12);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.cta:hover {
+  background: var(--accent);
+  color: #04120a;
+}
+
+.cta .cta-arrow { font-size: 18px; line-height: 1; }
+
+@media (max-width: 620px) {
+  .cta {
+    display: flex;
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 15px;
+  }
+}
+
 /* ============================ 页脚 ============================ */
 .site-footer {
   border-top: 1px solid var(--border);

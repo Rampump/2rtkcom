@@ -535,6 +535,8 @@ td code { white-space: nowrap; }
 .fig img {
   display: block;
   width: 100%;
+  /* 必须显式 height:auto：img 标签带了 width/height 属性，只写 width 会按属性比例之外的框拉伸变形 */
+  height: auto;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: #05070a;

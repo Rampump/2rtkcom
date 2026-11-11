@@ -60,7 +60,7 @@
       <span class="chip">512 MB 内存够用</span>
       <span class="chip">2RTK Server v3.1.3</span>
       <span class="chip">RTCM 3.x</span>
-      <span class="chip">34 张实拍截图</span>
+      <span class="chip">29 张实拍截图</span>
     </div>
   </div>
 
@@ -102,6 +102,108 @@
         <li><strong>数传电台</strong> —— 通过第二个串口把差分推给 UHF 电台，野外没网也能用。</li>
       </ol>
 
+      <h2 id="outline">先看整条主线：六步动作，顺序不能乱</h2>
+      <p>
+        这套东西最容易踩的坑<strong>不是软件装不上，而是顺序错了</strong>。
+        不少人先装程序、再上屋顶架天线，结果装完才发现天线被墙挡着收不到星，或者模块没配成基准站，盒子里的程序一条数据也读不到。
+        正确顺序只有一条：
+      </p>
+
+      <div class="flow flow-6">
+        <div class="node"><b>① 架天线</b><span>室外<br>无遮挡</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>② 测相位中心</b><span>量天线<br>到底在哪</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>③ 原厂软件设基准站</b><span>模块切成<br>Base</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>④ 模块插盒子</b><span>USB<br>接上</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>⑤ 网页配串口</b><span>数据<br>流动起来</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>⑥ 分发差分</b><span>Caster<br>电台</span></div>
+      </div>
+
+      <p>
+        这六步是<strong>不做就出不来结果</strong>的主线。②③ 两步在屋外和电脑上完成，④～⑥ 在盒子里完成，
+        ① 则要提前定下来。对应到本页的章节：
+      </p>
+      <div class="table-wrap compact">
+        <table>
+          <colgroup><col style="width:26%" /><col style="width:40%" /><col style="width:34%" /></colgroup>
+          <thead><tr><th>主线动作</th><th>本页章节</th><th>在哪做</th></tr></thead>
+          <tbody>
+            <tr><td>刷系统 + 装程序</td><td>第一步</td><td>盒子（终端）</td></tr>
+            <tr><td>① 架天线 + ② 测相位中心</td><td>第二步</td><td>屋顶 / 室外</td></tr>
+            <tr><td>③ 原厂软件设基准站</td><td>第三步</td><td>室内电脑</td></tr>
+            <tr><td>④ 模块插盒子</td><td>第四步</td><td>盒子旁</td></tr>
+            <tr><td>首次登录（顺手把程序跑起来）</td><td>第五、六步</td><td>浏览器</td></tr>
+            <tr><td>⑤ 网页配串口</td><td>第七步</td><td>浏览器</td></tr>
+            <tr><td>把坐标定准（标定）</td><td>第八步</td><td>浏览器</td></tr>
+            <tr><td>⑥ 分发差分</td><td>第九～十二步</td><td>浏览器</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        顺序里唯一容易违背的一条：<strong>别在天线还没上屋顶的时候就去配串口</strong>。
+        配串口会让模块开始出数据，你会看到「有卫星、没固定解」，然后误以为是软件问题。
+      </p>
+
+      <div class="tip">
+        <p><b>为什么必须先架天线？</b>因为模块要「看见」卫星才能自己算出高精度的位置。
+        天线放在窗台上，卫星只收到七八颗、还都在一个方向，模块永远进不了固定解；
+        等你在网页里点标定卡住的时候，再回屋顶重新架一次，前面的工作全得重做。</p>
+      </div>
+
+      <h3>标定这件事，有两种完全不同的走法</h3>
+      <p>
+        坐标怎么来，取决于你手头有什么、以及模块能不能自己切换成流动站。
+        这也是本页最容易写错的地方——很多教程默认「所有模块都能自动标定」，实际并非如此。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <colgroup><col style="width:22%" /><col style="width:26%" /><col style="width:52%" /></colgroup>
+          <thead><tr><th>走法</th><th>适合谁</th><th>具体怎么做</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>走法 A<br>原厂软件先设基准站</strong></td>
+              <td>手头有模块官方配置工具；单频 / 单基准站模块；不想在屋外开电脑</td>
+              <td>
+                在<strong>室内电脑</strong>上把模块接 USB，用模块厂商的配置程序（LG290P 用 Quectel 的工具、u-blox 用 u-center）
+                直接设成 <code>Base</code> 模式并固定坐标。然后再把模块插进盒子，盒子只负责把 RTCM 搬出去。
+              </td>
+            </tr>
+            <tr>
+              <td><strong>走法 B<br>程序自动标定</strong></td>
+              <td>模块支持在 Base / Rover 之间切换（双模）；或是系统预留的型号</td>
+              <td>
+                模块插好、天线架好，直接在网页的「一键标定」里选<strong>CORS 一键固定</strong>，
+                程序自己把模块切成流动站、连 CORS 拿固定解、取平均，再写回基准站坐标。
+              </td>
+            </tr>
+            <tr>
+              <td><strong>走法 C<br>已知坐标直接写</strong></td>
+              <td>这个点位以前测过（控制点、老基站），天线<strong>从来没挪过</strong></td>
+              <td>
+                把已知的坐标填进去即可，不用测量。单基准站模块只能这么干，或者退一步用自收敛。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <p>
+          <strong>本页的测试机情况，供你对号入座。</strong>实测用的是 Quectel LG290P（固件
+          <code>LG290P03AANR01A03S</code>），它是目前系统里<strong>唯一做过真机验证</strong>的型号，
+          走法 B 的自动标定能完整跑通。系统里还预留了 u-blox ZED-F9P、Unicore UM960 / UM980、Quectel LC29H(BS) 等型号档案，
+          但这些<strong>没有在真机上验证过</strong>。
+        </p>
+        <p>
+          <strong>非 LG290P 的模块，建议走法 A 或走法 C：</strong>先用流动站模式把天线坐标测准，把坐标存进系统；
+          再用这个坐标把模块设成基准站模式。这样即使自动切换不成功，坐标也是对的。
+        </p>
+      </div>
+
       <h2 id="arch">整套系统长什么样</h2>
       <p>把链路摊开只有五段，每段都是现成零件，你做的是把它们接起来、配好、钉在墙上。</p>
       <div class="flow flow-5">
@@ -119,6 +221,10 @@
         最容易被误解的一点：<strong>算坐标的是模块，盒子只负责搬字节。</strong>
         RTCM 里的基站坐标（<code>1005</code> 电文）由模块自己广播，盒子既不改也不猜。
         所以主机要求低到离谱——1 GHz ARM、512 MB 内存就够，一台十年前闲置的机顶盒完全能胜任。
+      </p>
+      <p>
+        也正因为如此，<strong>把模块设成基准站这件事，可以完全在电脑上先做完</strong>，
+        再插进盒子——盒子根本不参与坐标计算。这就是主线的第 ③ 步。
       </p>
 
       <h2 id="prepare">开始前需要准备什么</h2>
@@ -200,7 +306,7 @@
         天线别省，几十块的陶瓷片天线做基准站是自找麻烦，几十块省下来会导致几十厘米的误差。</p>
       </div>
 
-      <h2 id="host">第一步：把盒子刷成一台 Linux 主机</h2>
+      <h2 id="host">第一步：把盒子刷成一台 Linux 主机，并装好程序</h2>
       <p>
         机顶盒出厂是安卓，我们要的是 Armbian（Debian 系）。这一步是整篇里唯一可能卡住的地方，
         因为不同型号盒子差别很大——但只要刷成功了，后面全是点鼠标。
@@ -260,10 +366,153 @@ sudo apt install -y python3 python3-venv python3-pip</pre>
         </li>
       </ol>
 
-      <h2 id="wire">第二步：把模块接上，先确认系统认得它</h2>
-      <p>接线就这么几根：</p>
+      <h2 id="antenna">第二步：在室外把天线固定好</h2>
+      <p>
+        这一步和软件一点关系都没有，但它决定了整套基站能不能成。
+        <strong>盒子那边先跑到「装好程序」就停下来，回来架完天线再继续</strong>——顺序反了，
+        你会在装完、配完、标定卡住的时候才发现天线位置不行，白忙一场。
+      </p>
+      <div class="tip">
+        <p><b>为什么插在这一步？</b>这四步（架天线 → 测相位中心 → 原厂软件设基准站 → 插回盒子）
+        彼此咬得很紧：天线位置决定了坐标，坐标要由模块在<strong>能看见天空的状态下</strong>测出来。
+        所以它们必须连着做完，中途不要跳去写配置页。</p>
+      </div>
+
+      <h3>选位置：三个硬条件</h3>
+      <div class="table-wrap">
+        <table>
+          <colgroup><col style="width:22%" /><col style="width:40%" /><col style="width:38%" /></colgroup>
+          <thead><tr><th>条件</th><th>要求</th><th>不满足会怎样</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>天空视野</strong></td>
+              <td>朝上的半球基本无遮挡，尤其<strong>南向低仰角</strong>要开阔（北半球卫星主要在南方）</td>
+              <td>卫星数上不去、PDOP 变差，永远进不了固定解</td>
+            </tr>
+            <tr>
+              <td><strong>刚性固定</strong></td>
+              <td>膨胀螺栓打进承重墙 / 立柱，或专用立杆 + 三脚架配重压牢</td>
+              <td>风吹就晃，坐标永远在漂；标定完了等于白标</td>
+            </tr>
+            <tr>
+              <td><strong>远离干扰</strong></td>
+              <td>离开大功率发射天线、金属水箱、太阳能板、微波炉这一类的设备</td>
+              <td>信号被压制或多路径反射，采集出的坐标有系统偏差</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="danger">
+        <p><b>天线一旦固定，就不要再动它。</b>哪怕只是拧松一点转个角度，仰角一变，相位中心的位置就变了，
+        之前写进模块的坐标全部作废——而模块不会报任何错，只是所有流动站的结果都整体偏了一个固定量。
+        <strong>这是自建基站最常见、也最难发现的错误。</strong></p>
+      </div>
+
+      <div class="fig-grid">
+        <figure class="fig">
+          <div class="fig-ph"><b>实物图</b><span>天线 + 立杆 + 膨胀螺栓固定</span></div>
+          <figcaption>天线装在立杆顶端，立杆固定到承重结构上，整体不晃</figcaption>
+        </figure>
+        <figure class="fig">
+          <div class="fig-ph"><b>实物图</b><span>馈线走线、接头防水</span></div>
+          <figcaption>接头缠防水胶带，再套热缩管；室内侧留一段滴水弯</figcaption>
+        </figure>
+      </div>
+
+      <h3>测天线相位中心：模块要的是这个点</h3>
+      <p>
+        这里有个概念必须先说清：RTCM 里的坐标<strong>不是</strong>立杆底部、不是螺丝孔、不是楼顶地面，
+        而是天线的<strong>相位中心（Antenna Phase Centre，APC）</strong>——一个在天线内部、
+        跟着卫星信号入射角变化的小区域。
+      </p>
+      <p>
+        你在测量或者填坐标时，<strong>目标点永远是天线的相位中心</strong>。
+        如果手上的已知坐标是从地面控制点量出来的，就要把「天线高」加上去，换算到相位中心。
+      </p>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>你手上的坐标</th><th>怎么换算到相位中心</th></tr></thead>
+          <tbody>
+            <tr><td>地面控制点（标石中心）</td><td>加<strong>天线高</strong>：从控制点到天线参考点（ARP）的垂直距离，再加天线自身的相位中心偏移</td></tr>
+            <tr><td>立杆顶端（天线底面）</td><td>加天线厂家给出的<strong>相位中心高度</strong>（通常几厘米，写在规格书里）</td></tr>
+            <tr><td>已经是相位中心（别人用流动站测的）</td><td>直接用，不用换算</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warn">
+        <p><b>天线高要用垂直高，别用斜高。</b>量斜高再乘余弦，多一步换算就多一个出错机会。
+        量两次、换人复核一次，几厘米的差错在 RTK 里就是几厘米的系统误差。</p>
+      </div>
+
+      <div class="fig-grid">
+        <figure class="fig">
+          <div class="fig-ph"><b>实物图</b><span>量天线高的位置</span></div>
+          <figcaption>从固定基准面量到天线参考点（ARP），垂直测量</figcaption>
+        </figure>
+        <figure class="fig">
+          <div class="fig-ph"><b>截图占位</b><span>模块原厂软件里的天线高设置</span></div>
+          <figcaption>在厂商配置工具里填写天线高与相位中心偏移</figcaption>
+        </figure>
+      </div>
+
+      <h2 id="preset">第三步：在电脑上用原厂软件，把模块设成基准站</h2>
+      <p>
+        天线架好之后，<strong>先别急着把模块插进盒子</strong>。拿一台电脑，把模块接上 USB，
+        用模块厂商自己的配置工具把它设成基准站模式——这一步做完，模块自己就会往外吐 RTCM 3 数据了。
+      </p>
+      <p>各家工具不一样，但要做的事情是同一件：</p>
+      <div class="table-wrap">
+        <table>
+          <colgroup><col style="width:20%" /><col style="width:30%" /><col style="width:50%" /></colgroup>
+          <thead><tr><th>模块</th><th>配置工具</th><th>设成基准站要做的事</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Quectel LG290P</strong></td>
+              <td>Quectel 官方配置工具（PQTM 指令集）</td>
+              <td>把工作模式设为 <code>Base</code>；填入坐标（已知坐标，或先让它自收敛）；打开 RTCM 3 输出</td>
+            </tr>
+            <tr>
+              <td><strong>u-blox ZED-F9P</strong></td>
+              <td>u-center</td>
+              <td><em>TMODE3</em> 设为 <code>Fixed</code> 或 <code>Survey-in</code>，填坐标；在 <em>RTCM3</em> 里勾选 1005 / MSM4 系列</td>
+            </tr>
+            <tr>
+              <td><strong>Unicore UM980 / UM960</strong></td>
+              <td>Unicore 控制台</td>
+              <td>输出 <code>MODE BASE</code> 指令，设置坐标与 RTCM 输出，保存配置</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <p>
+          <strong>坐标从哪来？</strong>如果这一步你还没有精确坐标，两种做法：
+          一是让模块先做自收敛（Survey-in）——在屋外架着等十几分钟到一小时，得到分米级坐标，够用但不精确；
+          二是接一台流动站、或者等盒子装好之后用 CORS 一键标定把坐标测准，再回来改。
+          <strong>建议后一种</strong>：先让模块以自收敛坐标跑起来，等整套系统通了，再用标定把坐标换成厘米级的。
+        </p>
+      </div>
+
+      <h3>必须确认模块真的在输出 RTCM</h3>
+      <p>设完之后别急着拔，先在电脑上看一眼输出。任何一个串口工具都能看：</p>
+      <ul>
+        <li>串口参数：一般是 <code>115200 8N1</code>（以模块规格书为准）。</li>
+        <li>你会看到一串<strong>不全是可读文字</strong>的数据——那是 RTCM 二进制报文，正常。</li>
+        <li>如果主要是 <code>$GNGGA</code>、<code>$GNRMC</code> 这种以 <code>$</code> 开头的可读行，说明模块还在 NMEA 模式，RTCM 没打开。</li>
+      </ul>
+      <div class="tip">
+        <p><b>这一步验证过，后面省很多事。</b>模块在原厂软件里就已经能吐 RTCM，
+        插进盒子之后只要串口对上，数据立刻就有；否则你会分不清是模块没配好，还是盒子的串口配错了。</p>
+      </div>
+
+      <h2 id="wire">第四步：把模块插进盒子，确认系统认得它</h2>
+      <p>
+        模块已经在电脑上配成基准站了，现在把它插进 Armbian 盒子。接线就这么几根：
+      </p>
       <div class="code-block">
-        <div class="code-head"><span>接线示意</span></div>
+        <div class="code-head"><span>接线示意（模块已配好，盒子里不再修改模块）</span></div>
         <pre>  ┌──────────────┐   USB    ┌───────────────┐   UART    ┌─────────────┐
   │   Linux 盒   │ ───────► │ USB 转串口    │ ────────► │ GNSS 模块   │
   │              │          │ (CH340 等)    │           │  (LG290P)   │
@@ -271,14 +520,22 @@ sudo apt install -y python3 python3-venv python3-pip</pre>
                                                                │ SMA
                                                                ▼
                                                         ┌─────────────┐
-                                                        │    天线     │
+                                                        │  室外天线   │
+                                                        │ 已固定不动  │
                                                         └─────────────┘</pre>
       </div>
       <ol>
-        <li>把 GNSS 模块接到 USB 转串口：<code>TX → RX</code>、<code>RX → TX</code>、<code>GND → GND</code>。供电按模块数据手册来。</li>
-        <li>把转接头插到主机 USB 口，系统里会出现 <code>/dev/ttyUSB0</code>（CH340）或 <code>/dev/ttyACM0</code>（原生 USB CDC）。</li>
-        <li>天线拧到模块的 SMA 座上，<strong>放到能看见天空的地方</strong>。别放铁皮屋顶下、别贴墙——收不到卫星，基站没法自己标定。</li>
+        <li>模块先断电，再接 USB 转串口：<code>TX → RX</code>、<code>RX → TX</code>、<code>GND → GND</code>。供电按模块数据手册来。</li>
+        <li>把转接头插到盒子 USB 口，系统里会出现 <code>/dev/ttyUSB0</code>（CH340）或 <code>/dev/ttyACM0</code>（原生 USB CDC）。</li>
+        <li>天线馈线接到模块的 SMA 座上。天线<strong>已经在屋顶固定好了</strong>，盒子和模块放在室内即可。</li>
       </ol>
+
+      <div class="note">
+        <p>
+          <strong>模块放室内、天线放室外，是正常配置。</strong>可以买一根长一点的 50 Ω 馈线（LMR400 一类），
+          也可以选那种「模块装在室外防水盒、USB 线进屋」的做法——后者馈线损耗最小，但模块要能扛住温度变化。
+        </p>
+      </div>
 
       <p>装程序之前，先确认系统能看到设备：</p>
       <div class="code-block">
@@ -296,7 +553,7 @@ ls -l /dev/ttyUSB* /dev/ttyACM* 2&gt;/dev/null</pre>
       </div>
       <p>如果什么都没有，说明转接头没被识别。先换个 USB 口或换根线，再往下走。</p>
 
-      <h2 id="install">第三步：安装 2RTK Server</h2>
+      <h2 id="install">第五步：安装 2RTK Server</h2>
       <p>
         项目开源在 <a href="https://gitcode.com/rampump/NTRIPserver" target="_blank" rel="noopener">gitcode.com/rampump/NTRIPserver</a>，
         国内访问比 GitHub 稳，脚本里也做了 GitHub 回退。
@@ -368,7 +625,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         只是想升级的话用 <code>update.sh</code>，不要用 <code>install.sh</code>。</p>
       </div>
 
-      <h2 id="login">第四步：首次登录与状态页</h2>
+      <h2 id="login">第六步：首次登录与状态页</h2>
       <p>在同一个网络的任意设备上，浏览器打开：</p>
       <dl class="kv">
         <div class="kv-row"><dt>Web 界面</dt><dd><code>http://&lt;主机IP&gt;:5757</code></dd></div>
@@ -377,8 +634,8 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         <div class="kv-row"><dt>安装目录</dt><dd><code>/opt/2RTKserver/</code></dd></div>
       </dl>
 
-      <figure class="fig narrow">
-        <img src="/images/base/web-01-login.png" alt="登录页截图：用户名与密码输入框" loading="lazy" decoding="async" width="1400" height="875" />
+      <figure class="fig ui">
+        <img src="/images/base/web-01-login.png" alt="登录页截图：用户名与密码输入框" loading="lazy" decoding="async" width="2800" height="2000" />
         <figcaption>登录页。默认账号密码都是 <code>admin</code>——<strong>登录后立刻改</strong>。</figcaption>
       </figure>
 
@@ -394,8 +651,8 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
 
       <h3>状态页：日常运维的主视图</h3>
       <figure class="fig ui">
-        <img src="/images/base/web-02-status-index.png" alt="状态页截图：还没配置时，各项指标为空" loading="lazy" decoding="async" width="1400" height="1544" />
-        <figcaption>还没配置时的状态页——没有数据在流动。</figcaption>
+        <img src="/images/base/web-03-status-overview.png" alt="状态页截图：还没配置时，模式未设置、卫星数为 0、没有 RTCM 输出" loading="lazy" decoding="async" width="2800" height="1640" />
+        <figcaption>刚装好、还没配置的状态页：模式为空、卫星数 0、没有任何 RTCM 在输出。</figcaption>
       </figure>
       <div class="table-wrap compact">
         <table>
@@ -411,17 +668,27 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
           </tbody>
         </table>
       </div>
+      <div class="fig-grid">
+        <figure class="fig ui">
+          <img src="/images/base/web-04-satellites.png" alt="状态页卫星卡片：已跟踪卫星数、可见卫星数与各星座分布" loading="lazy" decoding="async" width="740" height="746" />
+          <figcaption>卫星卡片：按星座列出已跟踪 / 可见数量。</figcaption>
+        </figure>
+        <figure class="fig ui">
+          <img src="/images/base/web-05-caster-cards.png" alt="状态页出口卡片：上游 Caster 与本地 Caster 的连接状态" loading="lazy" decoding="async" width="740" height="594" />
+          <figcaption>出口卡片：每个出口一个状态灯。</figcaption>
+        </figure>
+      </div>
       <figure class="fig ui">
-        <img src="/images/base/web-06-status-live.png" alt="状态页截图：有实时数据，卫星、位置与 RTCM 报文都在流动" loading="lazy" decoding="async" width="1400" height="2705" />
-        <figcaption>状态页有实时数据了——卫星在跟踪、位置已解算、RTCM 报文在流动。</figcaption>
+        <img src="/images/base/web-06-log.png" alt="状态页系统日志：显示最近的事件与错误" loading="lazy" decoding="async" width="2280" height="516" />
+        <figcaption>下方是系统日志。出问题先看这里，它按时间顺序写下了每一次连接、断开和报错。</figcaption>
       </figure>
       <p>状态页走 WebSocket 推送，卫星数和位置会持续刷新，不需要手动刷新页面。</p>
 
-      <h2 id="serial">第五步：串口配置，让数据流动起来</h2>
+      <h2 id="serial">第七步：串口配置，让数据流动起来</h2>
       <p>进入 <strong>Settings（运行设置）</strong>，页面是 <code>/config</code>。</p>
-      <figure class="fig ui">
-        <img src="/images/base/web-03-config-serial.png" alt="运行设置页截图：此时模式还是 none" loading="lazy" decoding="async" width="1400" height="1676" />
-        <figcaption>配置页。此时模式还是 <code>none</code>，接下来要改成 <code>serial</code>。</figcaption>
+      <figure class="fig">
+        <img src="/images/base/web-05-config-serial.png" alt="运行设置页截图：Mode 与 Serial 两块，此时模式还是 none" loading="lazy" decoding="async" width="1628" height="398" />
+        <figcaption>运行设置页最上方就是 Mode 和 Serial 两块。此时模式还是 <code>none</code>。</figcaption>
       </figure>
 
       <ol class="steps">
@@ -432,8 +699,8 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         <li>
           <h3>找到串口</h3>
           <p><strong>方式一 —— 扫描。</strong>点「扫描串口」，程序会枚举系统里的串口设备并填进下拉框：</p>
-          <figure class="fig narrow">
-            <img src="/images/base/web-04-scan-ports.png" alt="扫描串口截图：识别到的端口出现在下拉框里" loading="lazy" decoding="async" width="1400" height="1776" />
+          <figure class="fig">
+            <img src="/images/base/web-06-scan-ports.png" alt="扫描串口截图：识别到的端口出现在下拉框里" loading="lazy" decoding="async" width="1628" height="398" />
             <figcaption>扫描后，识别到的端口出现在下拉框里。</figcaption>
           </figure>
           <p><strong>方式二 —— 手填。</strong>已经知道端口就直接填 <code>/dev/ttyUSB0</code> 或 <code>/dev/ttyACM0</code>。</p>
@@ -445,9 +712,9 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         </li>
         <li>
           <h3>设置波特率</h3>
-          <figure class="fig narrow">
-            <img src="/images/base/web-05-serial-filled.png" alt="运行设置页截图：串口与波特率已填写" loading="lazy" decoding="async" width="1400" height="1776" />
-            <figcaption>端口和波特率填好。</figcaption>
+          <figure class="fig">
+            <img src="/images/base/web-07-serial-filled.png" alt="运行设置页截图：串口与波特率已填写" loading="lazy" decoding="async" width="1628" height="398" />
+            <figcaption>端口和波特率填好。本例是 <code>/dev/ttyUSB0</code> 配 115200——模块盒子上插的就是这个口。</figcaption>
           </figure>
           <div class="table-wrap compact">
             <table>
@@ -499,76 +766,223 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         先不买模块、拿公开流把 Caster / 防火墙 / 流动站这几段链路打通；给已有基站做备份；把一路流分发给多个消费方。
       </p>
 
-      <h2 id="calibrate">第六步：坐标标定（最关键的一步）</h2>
+      <h2 id="calibrate">第八步：坐标标定（最关键的一步）</h2>
       <p>
         基站只有<strong>非常精确地知道自己的位置</strong>，才能产出有用的差分数据。
-        基站坐标差一米，每个流动站的输出就差一米，而且事后没有任何软件能救回来。所以这一步值得多花半天。
+        基站坐标差一米，每个流动站的输出就差一米，而且事后没有任何软件能救回来。
       </p>
-      <p>点顶部导航的 <strong>Calibrate（一键标定）</strong>，页面是 <code>/calibrate</code>。</p>
-
-      <figure class="fig ui">
-        <img src="/images/base/cal-01-hardware.png" alt="标定页截图：第一步确认硬件连接" loading="lazy" decoding="async" width="1400" height="2054" />
-        <figcaption>标定页。第一步是确认硬件连接。</figcaption>
-      </figure>
 
       <div class="note">
         <p>
-          <strong>模块档案是内置的，界面上改不了。</strong>标定页里每个型号（比如 u-blox ZED-F9P）对应的串口参数、
-          初始化命令和能力位都写在程序自带的档案里，是<strong>只读</strong>的——你在 Web 界面上改不了，也不会因为误操作被破坏。
-          需要新增型号或调整命令，只能改源码里的档案文件再重启服务。
-        </p>
-        <p>
-          这样设计的好处是：同一台盒子换模块时，只要型号在支持列表里，选一下就能用，不用记一堆 UBX / NMEA 配置命令。
+          <strong>先分清两件事。</strong>「把模块设成基准站」是<strong>模式</strong>问题——模块是 Base 还是 Rover；
+          「标定」是<strong>坐标</strong>问题——基准站对外宣称自己站在哪个点上。
+          走法 A 在电脑上已经把模式设好了，但坐标可能只是个粗测值，这一步就是要把坐标弄准。
+          走法 B 则是一次把模式和坐标都办掉。
         </p>
       </div>
 
-      <h3>四种标定方式，选一个</h3>
-      <p>
-        标定页最多提供四种方式。<strong>能看到哪几种取决于你的模块支持什么</strong>——只能当流动站的接收机做不了自收敛，依此类推。
-      </p>
+      <h3>先确认你要走哪条路</h3>
+      <p>回到前文的三种走法，这里给一个更直接的判断方式：</p>
       <div class="table-wrap">
         <table>
-          <colgroup><col style="width:21%" /><col style="width:33%" /><col style="width:14%" /><col style="width:13%" /><col style="width:19%" /></colgroup>
-          <thead><tr><th>方式</th><th>做什么</th><th>精度</th><th>耗时</th><th>前提条件</th></tr></thead>
+          <colgroup><col style="width:30%" /><col style="width:34%" /><col style="width:36%" /></colgroup>
+          <thead><tr><th>你的情况</th><th>该走哪条路</th><th>在本页做什么</th></tr></thead>
           <tbody>
             <tr>
-              <td><strong>CORS 一键固定</strong></td>
-              <td>从公共 CORS 网络把差分注入模块，等固定解，再对位置取平均</td>
-              <td><span class="tag tag-ok">厘米级</span></td>
-              <td>5～10 分钟</td>
-              <td>双模模块、CORS 账号、网络</td>
+              <td>模块是 LG290P（或别的双模模块），手头有 CORS 账号</td>
+              <td><strong>走法 B</strong>：CORS 一键固定</td>
+              <td>往下看到「方式一」</td>
             </tr>
             <tr>
-              <td><strong>仅测量</strong></td>
-              <td>原理同上，但位置取自<strong>外部流动站</strong>而不是模块自己</td>
-              <td><span class="tag tag-ok">厘米级</span></td>
-              <td>5～10 分钟</td>
-              <td>双模模块、外部流动站、CORS 账号</td>
+              <td>模块只能当基准站（切不了流动站），坐标已知</td>
+              <td><strong>走法 C</strong>：手动写入</td>
+              <td>跳到「方式三」</td>
             </tr>
             <tr>
-              <td><strong>自收敛<br>（Survey-in）</strong></td>
-              <td>模块对自己的单点位置做长时间平均</td>
-              <td><span class="tag tag-warn">分米级</span></td>
-              <td>15～60 分钟</td>
-              <td>单模模块也行</td>
+              <td>模块只能当基准站，坐标不知道</td>
+              <td>先用<strong>另一台流动站</strong>测坐标，再走法 C</td>
+              <td>见「方式二」，或直接在电脑上用原厂软件测</td>
             </tr>
             <tr>
-              <td><strong>手动写入</strong></td>
-              <td>你自己填已知坐标</td>
-              <td>取决于你的测量</td>
-              <td>立即</td>
-              <td>一个已测定的点</td>
+              <td>没有 CORS 账号，也没有流动站，只要能相对定位</td>
+              <td>自收敛（Survey-in）</td>
+              <td>见「方式四」，<strong>精度只有米级</strong></td>
             </tr>
           </tbody>
         </table>
       </div>
+
       <div class="tip">
-        <p><b>该用哪个？</b>有 CORS 账号又有双模模块，就用 <strong>CORS 一键固定</strong>——最准、也最自动。
-        模块切不了流动站模式，用<strong>自收敛</strong>。点位坐标已经测过了，用<strong>手动写入</strong>。</p>
+        <p><b>非 LG290P 模块的建议路径。</b>系统里预留了 u-blox ZED-F9P、Unicore UМ960 / UM980、Quectel LC29H(BS) 等型号档案，
+        但<strong>只有 LG290P 做过真机验证</strong>。对这些模块，更稳的做法是：先用流动站模式把天线坐标测准（可以用本程序的「仅测量」，
+        也可以用手机 / 手簿上的 CORS App），把坐标存进系统；然后再用这个坐标把模块设成基准站模式。
+        也就是<strong>先用走法 B 测、再用走法 C 写</strong>。</p>
       </div>
 
-      <h3>程序内部到底在干什么</h3>
-      <p>先讲清流程，你就知道该期待什么、卡在哪一步算异常：</p>
+      <p>点顶部导航的 <strong>Calibrate（一键标定）</strong>，页面是 <code>/calibrate</code>。</p>
+
+      <figure class="fig">
+        <img src="/images/base/cal-01-device.png" alt="标定页截图：顶部是硬件连接检查与串口选择" loading="lazy" decoding="async" width="2200" height="952" />
+        <figcaption>标定页最上方：确认串口和设备。这里选的口可以跟运行设置里的不同，标定会独占它。</figcaption>
+      </figure>
+
+      <p>点「扫描」，程序枚举系统里的串口并逐个探测。</p>
+
+      <div class="fig-grid">
+        <figure class="fig">
+          <img src="/images/base/cal-02-scan-done.png" alt="标定页截图：扫描完成，列出识别到的串口设备" loading="lazy" decoding="async" width="2200" height="1224" />
+          <figcaption>扫描结果。带 RTCM / Quectel 标记的那个就是 GNSS 模块。</figcaption>
+        </figure>
+        <figure class="fig">
+          <img src="/images/base/cal-03-detected.png" alt="标定页截图：模块识别完成，显示型号、固件版本并锁定型号下拉框" loading="lazy" decoding="async" width="2200" height="1324" />
+          <figcaption>识别完成后型号自动锁定——「only this model is queried」。</figcaption>
+        </figure>
+      </div>
+
+      <div class="note">
+        <p>
+          <strong>型号下拉框会自动锁死，这是正常的。</strong>扫描阶段程序已经把串口里应答的模块问出来了，
+          于是把型号固定成实际识别到的那个（本例是 Quectel LG290P），避免你手选错型号、用错指令集。
+          换模块时重新扫描一次，锁定值会跟着变。
+        </p>
+        <p>
+          <strong>模块档案是内置的，界面上改不了。</strong>每个型号对应的串口参数、初始化命令和能力位都写在程序自带的档案里，
+          是<strong>只读</strong>的——误操作也改不坏。需要新增型号只能改源码里的档案文件再重启服务。
+        </p>
+      </div>
+
+      <p>识别完成后，四种方式才会解锁可选。此时页面长这样：</p>
+
+      <figure class="fig">
+        <img src="/images/base/cal-04-methods.png" alt="标定页截图：四种标定方式可选，当前选中手动写入" loading="lazy" decoding="async" width="2200" height="836" />
+        <figcaption>四种方式：CORS 一键固定、仅测量、手动写入、自收敛。默认停在「手动写入」。</figcaption>
+      </figure>
+
+      <h3>方式一（走法 B）：CORS 一键固定</h3>
+      <p>
+        最准、也最自动。程序会把模块临时切成流动站，连上 CORS 挂载点拿固定解，稳住之后取平均，
+        再把平均坐标写回模块并切回基准站模式。整个过程不需要你动手。
+      </p>
+
+      <figure class="fig">
+        <img src="/images/base/cal-05-cors.png" alt="标定页截图：CORS 一键固定方式的参数表单，含服务商地址、端口、账号、密码与挂载点" loading="lazy" decoding="async" width="2200" height="902" />
+        <figcaption>选中 CORS 一键固定后展开的表单。</figcaption>
+      </figure>
+
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>字段</th><th>填什么</th></tr></thead>
+          <tbody>
+            <tr><td>服务器地址</td><td>服务商给的地址，例如 <code>120.253.239.161</code></td></tr>
+            <tr><td>端口</td><td>你要用的坐标系对应的端口——见下面说明</td></tr>
+            <tr><td>用户名 / 密码</td><td>CORS 账号</td></tr>
+            <tr><td>挂载点</td><td>点「获取挂载点」从服务商拉列表，再挑一个</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="warn">
+        <p><b>端口和坐标系是配对的。</b>常见的国内 CORS 服务商会在多个端口上提供<em>同一批</em>挂载点，
+        一个基准对应一个端口：<code>8002</code> → WGS84，<code>8001</code> → CGCS2000。</p>
+        <p>端口选错时，你往往照样能连上、照样能收到数据——但位置永远到不了固定解，因为差分基准和模块预期的不一致。
+        <strong>如果一直卡在浮动解，先查这一项。</strong></p>
+      </div>
+
+      <p>挑挂载点时看两点：</p>
+      <ul>
+        <li><strong>覆盖你的区域</strong>——挂载点名字一般带地区或网络标识。</li>
+        <li><strong>播发多星座多频</strong>——名字里带 <code>RTCM33</code>、<code>5G16F</code>（五星十六频）之类的就是这个意思。</li>
+      </ul>
+
+      <div class="danger">
+        <p><b>点开始之前：天线必须固定牢靠，整个标定期间不能动。</b>
+        标定页自带的那段说明写得很清楚——测的是<strong>天线相位中心</strong>，而且天线一旦开始移动，测出来的就是废数。
+        程序会丢弃跳变超过 500 米的样本，但天线本身在晃时，固定解压根出不来。</p>
+      </div>
+
+      <h3>方式二（走法 B 的变体）：仅测量</h3>
+      <p>
+        针对一种特定情形：你想测定基站坐标，但基站模块本身当不了流动站；或者你手头已经有一台在基站位置拿到固定解的流动站。
+        和 CORS 一键固定的区别是：
+      </p>
+      <ul>
+        <li>基站模块<strong>不会</strong>被切成流动站模式。</li>
+        <li>差分数据<strong>不会</strong>灌进基站模块。</li>
+        <li>位置由<strong>另一台流动站</strong>提供——手机、手簿，或者另一台接收机。</li>
+      </ul>
+      <p>对于只能当基准站的模块，这是<em>唯一</em>能自动测出坐标的方式，测完再回去用走法 C 把坐标写进模块。</p>
+
+      <h3>方式三（走法 C）：手动写入坐标</h3>
+      <p>
+        这个点位以前测过——控制点、老基站、上次标定过的同一个天线位置——就直接填。
+        走法 A 里用原厂软件设基准站时填的坐标，也在这里补录一份，好让程序记住。
+      </p>
+
+      <figure class="fig">
+        <img src="/images/base/cal-07-manual.png" alt="标定页截图：手动写入坐标表单，含纬度、经度、椭球高三个输入框" loading="lazy" decoding="async" width="2200" height="700" />
+        <figcaption>手动写入：纬度、经度、椭球高，都是十进制度 / 米。</figcaption>
+      </figure>
+
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>输入</th><th>格式</th></tr></thead>
+          <tbody>
+            <tr><td>纬度</td><td>十进制度，例如 <code>25.203523</code></td></tr>
+            <tr><td>经度</td><td>十进制度，例如 <code>110.277483</code></td></tr>
+            <tr><td>椭球高</td><td>米，例如 <code>138.316</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>务必确认坐标系和你的流动站一致</strong>——常用 WGS84，国内某些场景用 CGCS2000。弄错了，每个流动站的输出都会带一个固定偏移。</p>
+
+      <div class="danger">
+        <p>
+          <b>「天线没挪过」是这条路的前提。</b>已知坐标之所以能直接用，是因为天线相位中心还在原来那个点上。
+          天线拆过、挪过、立杆换过位置，这个坐标就作废了——继续用会让所有流动站一起偏。拿不准就去测一次。
+        </p>
+        <p>
+          <b>只能当基准站的模块（单基准站模块）只能走这条路，或者退一步用自收敛。</b>
+          它不是「不会用自动标定」，而是物理上切不成流动站，程序也没法替它测坐标。
+        </p>
+      </div>
+
+      <h3>方式四（兜底）：自收敛 Survey-in</h3>
+      <p>不依赖外部条件的选项——不用 CORS 账号，不用网络。模块对自己的单点位置做长时间平均。</p>
+
+      <figure class="fig">
+        <img src="/images/base/cal-06-survey.png" alt="标定页截图：自收敛参数，观测次数、精度限值、最短时长" loading="lazy" decoding="async" width="2200" height="660" />
+        <figcaption>自收敛的三个参数。跑多久、精度到多少算完、最快多久才允许结束。</figcaption>
+      </figure>
+
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>参数</th><th>含义</th><th>常见取值</th></tr></thead>
+          <tbody>
+            <tr><td>观测次数</td><td>平均多少个定位结果</td><td>2000～5000</td></tr>
+            <tr><td>精度限值</td><td>估计精度优于这个值就提前结束</td><td>2.0 米</td></tr>
+            <tr><td>最短时长</td><td>至少跑多久才允许结束</td><td>5～15 分钟</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="danger">
+        <p><b>自收敛不等于已知点。</b>它受限于模块的单点精度，一般只有 1～2 米，<strong>不是 CORS 标定的替代品</strong>。
+        拿来做相对基准够用，拿来当控制点会出事。要做绝对坐标，老老实实走 PPP 或 CORS。</p>
+      </div>
+      <p>程序会持续监控收敛情况，只在位置稳定时才收尾——滚动 3σ 离散度低于 2 厘米并保持 60 秒。</p>
+
+      <h3>启动之后：它会自己跑完</h3>
+      <p>
+        方式选好、参数填完，点「开始」，确认对话框会再强调一次天线不能动。之后程序按固定阶段往下走，
+        你只需要看阶段指示器。
+      </p>
+
+      <figure class="fig">
+        <img src="/images/base/cal-08-run.png" alt="标定页截图：标定进行中，显示阶段指示器与实时指标" loading="lazy" decoding="async" width="2200" height="1192" />
+        <figcaption>跑起来的样子：左边是阶段、右边是实时指标，底部是日志。</figcaption>
+      </figure>
+
+      <p>程序内部按这九步走，卡在哪一步就能直接定位问题：</p>
       <ol>
         <li><strong>让数据面让出串口。</strong>一边推流一边标定是做不到的。</li>
         <li><strong>识别模块</strong>——发版本查询、读回应答。</li>
@@ -580,127 +994,6 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         <li><strong>把平均后的坐标写进模块</strong>，作为固定基站坐标。</li>
         <li><strong>把模块恢复成基站模式</strong>，回放报文配置，重启并核验。</li>
       </ol>
-
-      <h3>第一步 —— 识别模块</h3>
-      <p>点「识别模块」。</p>
-      <figure class="fig narrow">
-        <img src="/images/base/cal-02-detect-running.png" alt="标定页截图：正在识别模块" loading="lazy" decoding="async" width="1400" height="1833" />
-        <figcaption>识别进行中——程序正在探测串口。</figcaption>
-      </figure>
-      <figure class="fig narrow">
-        <img src="/images/base/cal-03-detect-done.png" alt="标定页截图：模块已识别，显示固件版本与能力位" loading="lazy" decoding="async" width="1400" height="2257" />
-        <figcaption>模块识别出来了，连同固件版本和能力位。</figcaption>
-      </figure>
-      <p>识别失败最常见的原因：串口还攥在主程序的数据线程手里（等几秒重试）、波特率不对、或者模块没供电。</p>
-
-      <h3>第二步 —— 选择方式</h3>
-      <figure class="fig narrow">
-        <img src="/images/base/cal-04-method-cors.png" alt="标定页截图：方式选择，已选中 CORS 一键固定" loading="lazy" decoding="async" width="1400" height="2337" />
-        <figcaption>方式选择。已选中 <strong>CORS 一键固定</strong>。</figcaption>
-      </figure>
-
-      <h3>第三步 —— 填写 CORS 账号</h3>
-      <figure class="fig narrow">
-        <img src="/images/base/cal-05-cors-account.png" alt="标定页截图：填写 CORS 服务商地址、端口、用户名、密码" loading="lazy" decoding="async" width="1400" height="2337" />
-        <figcaption>填写 CORS 服务商信息。</figcaption>
-      </figure>
-      <div class="table-wrap compact">
-        <table>
-          <thead><tr><th>字段</th><th>填什么</th></tr></thead>
-          <tbody>
-            <tr><td>服务器地址</td><td>服务商给的地址，例如 <code>120.253.239.161</code></td></tr>
-            <tr><td>端口</td><td>你要用的坐标系对应的端口——见下面说明</td></tr>
-            <tr><td>用户名</td><td>CORS 账号</td></tr>
-            <tr><td>密码</td><td>CORS 密码</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="warn">
-        <p><b>端口和坐标系是配对的。</b>常见的国内 CORS 服务商会在多个端口上提供<em>同一批</em>挂载点，
-        一个基准对应一个端口：<code>8002</code> → WGS84，<code>8001</code> → CGCS2000。</p>
-        <p>端口选错时，你往往照样能连上、照样能收到数据——但位置永远到不了固定解，因为差分基准和模块预期的不一致。
-        <strong>如果一直卡在浮动解，先查这一项。</strong></p>
-      </div>
-
-      <h3>第四步 —— 获取并选择挂载点</h3>
-      <p>点「获取挂载点」。</p>
-      <figure class="fig narrow">
-        <img src="/images/base/cal-06-mounts-loaded.png" alt="标定页截图：从 CORS 服务商拉回的挂载点列表" loading="lazy" decoding="async" width="1400" height="2337" />
-        <figcaption>从服务商拉回来的挂载点列表。</figcaption>
-      </figure>
-      <p>挑挂载点时看两点：</p>
-      <ul>
-        <li><strong>覆盖你的区域</strong>——挂载点名字一般带地区或网络标识。</li>
-        <li><strong>播发多星座多频</strong>——名字里带 <code>RTCM33</code>、<code>5G16F</code>（五星十六频）之类的就是这个意思。</li>
-      </ul>
-      <figure class="fig narrow">
-        <img src="/images/base/cal-07-mount-selected.png" alt="标定页截图：挂载点已选定" loading="lazy" decoding="async" width="1400" height="2337" />
-        <figcaption>挂载点选好。</figcaption>
-      </figure>
-      <p>信息填完，页面会把任务汇总出来：</p>
-      <figure class="fig narrow">
-        <img src="/images/base/cal-08-ready.png" alt="标定页截图：参数都填好了，开始前可最后核对" loading="lazy" decoding="async" width="1400" height="2337" />
-        <figcaption>参数都填好了，开始前再核对一遍。</figcaption>
-      </figure>
-
-      <h3>第五步 —— 启动并确认</h3>
-      <figure class="fig narrow">
-        <img src="/images/base/cal-09-confirm.png" alt="标定页截图：确认对话框，明确要求天线不能动" loading="lazy" decoding="async" width="1400" height="2337" />
-        <figcaption>确认对话框。请认真读——它明确要求天线不能动。</figcaption>
-      </figure>
-      <div class="danger">
-        <p><b>点开始之前：天线必须固定牢靠，整个标定期间不能动。</b>
-        程序会丢弃跳变超过 500 米的样本，但天线要是本身在晃，固定解压根出不来。</p>
-      </div>
-      <p>点「开始」。</p>
-
-      <h3>第六步 —— 让它自己跑</h3>
-      <figure class="fig narrow">
-        <img src="/images/base/cal-10-running.png" alt="标定页截图：标定进行中，阶段指示器显示当前进度" loading="lazy" decoding="async" width="1400" height="2046" />
-        <figcaption>标定进行中——阶段指示器显示程序走到哪一步了。</figcaption>
-      </figure>
-      <figure class="fig narrow">
-        <img src="/images/base/cal-11-fix-wait.png" alt="标定页截图：FIX_WAIT 阶段，实时显示质量、卫星数、PDOP、已固定时长" loading="lazy" decoding="async" width="1400" height="2271" />
-        <figcaption>在 <code>FIX_WAIT</code>：实时指标面板显示质量、卫星数、PDOP，以及固定解已经稳住多久。</figcaption>
-      </figure>
-
-      <p><code>FIX_WAIT</code> 是最需要耐心的阶段。面板里两个数字告诉你顺不顺：</p>
-      <ul>
-        <li><strong>质量（Quality）</strong>——必须爬到 <code>4</code>。停在 <code>1</code> 或 <code>2</code>，说明差分没送进模块，或者天空视野太差。</li>
-        <li><strong>已固定（Fixed for）</strong>——必须连续到 30 秒。如果一直清零，说明固定解在反复掉，有东西不稳定。</li>
-      </ul>
-
-      <figure class="fig narrow">
-        <img src="/images/base/cal-12-collect.png" alt="标定页截图：COLLECT 阶段，样本数与离散度实时变化" loading="lazy" decoding="async" width="1400" height="2271" />
-        <figcaption>在 <code>COLLECT</code>：样本不断进来，实时显示已采集数、离散度、收敛情况。</figcaption>
-      </figure>
-      <p>采集比等待短得多。样本离散度收敛后程序会提前结束；顺利时远不到一分钟。</p>
-
-      <figure class="fig narrow">
-        <img src="/images/base/cal-13-done.png" alt="标定页截图：DONE，给出最终坐标与精度" loading="lazy" decoding="async" width="1400" height="2433" />
-        <figcaption><code>DONE</code>。结果面板出现，给出最终坐标与精度。</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="/images/base/cal-14-summary.png" alt="标定结果摘要卡片：样本数、标准差、写入模块的坐标" loading="lazy" decoding="async" width="1400" height="262" />
-        <figcaption>摘要卡片：样本数、标准差，以及写进模块的坐标。</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="/images/base/cal-15-timeline.png" alt="标定阶段时间线：每个阶段耗时多少" loading="lazy" decoding="async" width="1400" height="150" />
-        <figcaption>阶段时间线——每个阶段耗时多少。某次跑得慢时，用它判断时间花在哪。</figcaption>
-      </figure>
-
-      <p>摘要卡片这样读：</p>
-      <div class="table-wrap compact">
-        <table>
-          <thead><tr><th>字段</th><th>说明什么</th></tr></thead>
-          <tbody>
-            <tr><td>样本数</td><td>参与平均的定位样本数。越多越好，但 60 以上已经很扎实。</td></tr>
-            <tr><td>标准差</td><td>水平方向上样本聚得有多紧。<strong>5 cm 以内算好</strong>；超过 20 cm 就该查天线和 CORS 质量。</td></tr>
-            <tr><td>坐标</td><td>写进模块的值。流动站就是相对这个位置定位的。</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>把记录下来的离散度和实时指标对比一下：实时固定解很紧、但最终样本离散度很大，通常是天线动了，或者模块在采集期间掉过固定解又重新固定。</p>
 
       <h3>阶段指示器都代表什么</h3>
       <div class="table-wrap compact">
@@ -728,6 +1021,14 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
           </tbody>
         </table>
       </div>
+
+      <p><code>FIX_WAIT</code> 是最需要耐心的阶段。面板里两个数字告诉你顺不顺：</p>
+      <ul>
+        <li><strong>质量（Quality）</strong>——必须爬到 <code>4</code>。停在 <code>1</code> 或 <code>2</code>，说明差分没送进模块，或者天空视野太差。</li>
+        <li><strong>已固定（Fixed for）</strong>——必须连续到 30 秒。如果一直清零，说明固定解在反复掉，有东西不稳定。</li>
+      </ul>
+      <p>进入 <code>COLLECT</code> 之后采集很快，样本离散度收敛后程序会提前结束；顺利时远不到一分钟。</p>
+
       <div class="danger">
         <p><b>不要关页面、不要重启服务、不要碰天线。</b>程序自己会跑完，不需要任何干预。</p>
       </div>
@@ -773,51 +1074,18 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         偏差很大，说明没写进去——通常是模块拒绝执行命令，或者还没应用就重启了。
       </p>
 
-      <h3>另外三种方式</h3>
-
-      <h4>仅测量（外部流动站）</h4>
-      <p>
-        针对一种特定情形：你想测定基站坐标，但基站模块本身当不了流动站；
-        或者你手头已经有一台在基站位置拿到固定解的流动站。和 CORS 一键固定的区别是：
-      </p>
-      <ul>
-        <li>基站模块<strong>不会</strong>被切成流动站模式。</li>
-        <li>差分数据<strong>不会</strong>灌进基站模块。</li>
-        <li>位置由<strong>另一台流动站</strong>提供——手机、手簿，或者另一台接收机。</li>
-      </ul>
-      <p>对于只能当流动站的模块，这是<em>唯一</em>被提供的方式。</p>
-
-      <h4>自收敛（Survey-in）</h4>
-      <p>不依赖外部条件的选项——不用 CORS 账号，不用网络。模块对自己的单点位置做长时间平均。需要配置：</p>
+      <h3>结果卡片怎么读</h3>
       <div class="table-wrap compact">
         <table>
-          <thead><tr><th>参数</th><th>含义</th><th>常见取值</th></tr></thead>
+          <thead><tr><th>字段</th><th>说明什么</th></tr></thead>
           <tbody>
-            <tr><td>观测次数</td><td>平均多少个定位结果</td><td>2000～5000</td></tr>
-            <tr><td>精度限值</td><td>估计精度优于这个值就提前结束</td><td>2.0 米</td></tr>
-            <tr><td>最短时长</td><td>至少跑多久才允许结束</td><td>5～15 分钟</td></tr>
+            <tr><td>样本数</td><td>参与平均的定位样本数。越多越好，但 60 以上已经很扎实。</td></tr>
+            <tr><td>标准差</td><td>水平方向上样本聚得有多紧。<strong>5 cm 以内算好</strong>；超过 20 cm 就该查天线和 CORS 质量。</td></tr>
+            <tr><td>坐标</td><td>写进模块的值。流动站就是相对这个位置定位的。</td></tr>
           </tbody>
         </table>
       </div>
-      <div class="danger">
-        <p><b>自收敛不等于已知点。</b>它受限于模块的单点精度，一般只有 1～2 米，<strong>不是 CORS 标定的替代品</strong>。
-        拿来做相对基准够用，拿来当控制点会出事。要做绝对坐标，老老实实走 PPP 或 CORS。</p>
-      </div>
-      <p>程序会持续监控收敛情况，只在位置稳定时才收尾——滚动 3σ 离散度低于 2 厘米并保持 60 秒。</p>
-
-      <h4>手动写入坐标</h4>
-      <p>已经用专业设备测过这个点位，就直接填：</p>
-      <div class="table-wrap compact">
-        <table>
-          <thead><tr><th>输入</th><th>格式</th></tr></thead>
-          <tbody>
-            <tr><td>纬度</td><td>十进制度，例如 <code>25.203523</code></td></tr>
-            <tr><td>经度</td><td>十进制度，例如 <code>110.277483</code></td></tr>
-            <tr><td>椭球高</td><td>米，例如 <code>138.316</code></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p><strong>务必确认坐标系和你的流动站一致</strong>——常用 WGS84，国内某些场景用 CGCS2000。弄错了，每个流动站的输出都会带一个固定偏移。</p>
+      <p>把记录下来的离散度和实时指标对比一下：实时固定解很紧、但最终样本离散度很大，通常是天线动了，或者模块在采集期间掉过固定解又重新固定。</p>
 
       <h3>标定到底往模块里写了什么</h3>
       <p>标定成功后，模块里保存的是：</p>
@@ -827,12 +1095,12 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         <li><strong>基站模式</strong>——模块留在基站状态，不会停在流动站。</li>
       </ul>
       <p>程序还会在数据库里记一条<strong>标定历史</strong>：用的哪种方式、采了多少样本、最终离散度、得到的坐标。状态页显示的基站位置就来自这里。</p>
+
       <div class="note">
         <p><b>天线相位中心（APC）：</b>RTCM 里的坐标指的是<strong>天线相位中心</strong>，不是立杆底部、也不是天线外壳上的螺丝孔。
         你的天线如果要重复拆装，做完标定后把立杆位置做上记号，下次装回同一个位置；否则重新标定。
         这一条比选哪种标定方式重要得多。</p>
       </div>
-
       <h2 id="trouble-cal">标定失败了怎么排查</h2>
       <p>程序失败时话很多——它会告诉你哪一项检查没过、观测到了什么。下面按症状分。</p>
 
@@ -916,7 +1184,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
       <p>手动坐标必须和标定记录里存档的坐标一致，否则程序拒绝写入。检查一下是不是抄错了小数点，或者把纬度经度写反了——这是最常见的两件事。</p>
 
     <section id="caster">
-      <h2 id="caster">第七步：把 RTCM 推到云端 NTRIP Caster</h2>
+      <h2 id="caster">第九步：把 RTCM 推到云端 NTRIP Caster</h2>
       <p class="lead">基站标定完、模式进了 <code>serial</code>，它才刚刚开始产出 RTCM 数据。这些数据现在只在本机里打转，得有一个出口把它送出去，流动站才收得到。</p>
 
       <p>2RTK Server 设计上给了三个互相独立的出口，可以只开一个，也可以同时开：</p>
@@ -951,22 +1219,22 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         </tbody>
       </table>
 
-      <figure class="fig ui">
-        <img src="/images/base/web-07-caster-upload.png" alt="Settings 页面中的 NTRIP Caster Upload 配置区域" loading="lazy" decoding="async" width="1400" height="860" />
-        <figcaption>Settings 页面的上游 Caster 上传配置。这一块默认是关的，填完记得把开关打开。</figcaption>
+      <figure class="fig">
+        <img src="/images/base/web-08-output-caster.png" alt="Settings 页面中的上游 NTRIP Caster 配置区域" loading="lazy" decoding="async" width="1628" height="467" />
+        <figcaption>Settings 页面的出口 ①：上游 Caster。这一块默认是关的，填完记得把开关打开。</figcaption>
       </figure>
 
       <p>填完点保存，<strong>一定要回到开关那里确认它是打开的</strong>。这一步漏掉的人很多——参数全对，但开关还停在关闭状态，然后开始怀疑人生。</p>
 
       <figure class="fig ui">
-        <img src="/images/base/web-15-outlets.png" alt="三个出口的总览，可以看到每个出口的启用状态" loading="lazy" decoding="async" width="1400" height="860" />
+        <img src="/images/base/web-15-outlets.png" alt="三个出口的总览，可以看到每个出口的启用状态" loading="lazy" decoding="async" width="1400" height="435" />
         <figcaption>Status 页的出口总览。三个出口各有一个状态灯，哪个没亮就说明哪个没通。</figcaption>
       </figure>
 
       <p>保存后回 <strong>Status</strong> 页面，出口 ① 的状态应该从「未连接」变成已连接，并且能看到已经推送出去的字节数在涨。只要这个数字在动，你的基站就已经在线了。</p>
 
       <figure class="fig ui">
-        <img src="/images/base/web-13-caster-filled.png" alt="填好参数并开启后的 Caster 上传界面" loading="lazy" decoding="async" width="1400" height="860" />
+        <img src="/images/base/web-13-caster-filled.png" alt="填好参数并开启后的 Caster 上传界面" loading="lazy" decoding="async" width="1400" height="875" />
         <figcaption>填好并启用的样子。注意 Caster 地址、端口、挂载点三项要和 Caster 后台完全一致，一个字符都不能差。</figcaption>
       </figure>
 
@@ -1018,7 +1286,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
     </section>
 
     <section id="relay">
-      <h2 id="relay">第八步（可选）：中继模式，把别人的基站搬过来</h2>
+      <h2 id="relay">第十步（可选）：中继模式，把别人的基站搬过来</h2>
       <p class="lead">如果你手边没有很好的架站位置，但附近已经有一个信号不错的 Caster 挂载点，那你可以不架基站，只用 2RTK Server 做一台「中继」——从上游拉流，再转给自己的流动站或者另一个 Caster。</p>
 
       <p><code>relay</code> 模式不读串口，也不做任何标定。它做的事只有一件：连上指定的上游挂载点，把 RTCM 原样接下来，然后走你配置的出口分发出去。相当于给你的 RTK 数据流加了一站。</p>
@@ -1043,7 +1311,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
       <p>进 <strong>Settings</strong>，最上方的运行模式一栏，把 <code>serial</code> 改成 <code>relay</code>，保存。</p>
 
       <figure class="fig ui">
-        <img src="/images/base/web-16-relay-mode.png" alt="Settings 页面中把运行模式切换为 relay" loading="lazy" decoding="async" width="1400" height="860" />
+        <img src="/images/base/web-16-relay-mode.png" alt="Settings 页面中把运行模式切换为 relay" loading="lazy" decoding="async" width="1400" height="875" />
         <figcaption>切换模式后页面会刷新，原来串口那一块会被中继的配置项替换掉。</figcaption>
       </figure>
 
@@ -1055,7 +1323,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
       <p>填好上游 Caster 的地址和端口，点「获取挂载点列表」。程序会连上去把 sourcetable 拉下来，解析成一个可选的下拉列表——比手抄挂载点名字靠谱得多。</p>
 
       <figure class="fig ui">
-        <img src="/images/base/web-17-relay-mounts-loaded.png" alt="拉取成功的上游挂载点列表" loading="lazy" decoding="async" width="1400" height="860" />
+        <img src="/images/base/web-17-relay-mounts-loaded.png" alt="拉取成功的上游挂载点列表" loading="lazy" decoding="async" width="1400" height="875" />
         <figcaption>列表拉下来之后会出现每个挂载点的格式、导航系统、覆盖区域等元信息，挑一个本地用得上的。</figcaption>
       </figure>
 
@@ -1072,7 +1340,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
       <p>从上一步的列表里选中你要转的那个，然后把上游 Caster 给你的<strong>源账号</strong>填进去。注意是中继在扮演「流动站」去拉流，所以要的是能读这个挂载点的账号——很多 Caster 允许匿名读，那就不用填。</p>
 
       <figure class="fig ui">
-        <img src="/images/base/web-18-relay-filled.png" alt="中继配置填好后的界面" loading="lazy" decoding="async" width="1400" height="860" />
+        <img src="/images/base/web-18-relay-filled.png" alt="中继配置填好后的界面" loading="lazy" decoding="async" width="1400" height="875" />
         <figcaption>填好上游挂载点与账号的样子。下面还有中继自己的出口配置，跟 <code>serial</code> 模式下的三个出口完全一样。</figcaption>
       </figure>
 
@@ -1080,7 +1348,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
       <p>保存后回 <strong>Status</strong>。中继模式的状态页会显示上游连接状态、收到的字节数、以及往每个出口转发的字节数。数字在涨就是通了。</p>
 
       <figure class="fig ui">
-        <img src="/images/base/web-19-relay-live.png" alt="中继运行中的状态页" loading="lazy" decoding="async" width="1400" height="860" />
+        <img src="/images/base/web-19-relay-live.png" alt="中继运行中的状态页" loading="lazy" decoding="async" width="1400" height="435" />
         <figcaption>中继运行中。上游字节数和下游转发字节数应该大致同步增长，如果只进不出，检查出口那边的账号和开关。</figcaption>
       </figure>
 
@@ -1094,7 +1362,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
     </section>
 
     <section id="local-caster">
-      <h2 id="local-caster">第九步（可选）：打开内置本地 Caster</h2>
+      <h2 id="local-caster">第十一步（可选）：打开内置本地 Caster</h2>
       <p class="lead">不想依赖任何外部服务？2RTK Server 自己就是一台 NTRIP Caster。打开之后，局域网里的流动站直连你的盒子就能拿到差分数据，全程不出内网。</p>
 
       <p>这台内置 Caster 的参数是固定的，不用配置：</p>
@@ -1109,16 +1377,16 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         </tbody>
       </table>
 
-      <figure class="fig ui">
-        <img src="/images/base/web-10-local-caster.png" alt="Settings 页面中的内置本地 Caster 配置区" loading="lazy" decoding="async" width="1400" height="860" />
-        <figcaption>内置本地 Caster 的配置区。唯一要动的就是一个开关，其余参数都是只读的。</figcaption>
+      <figure class="fig">
+        <img src="/images/base/web-09-output-local-caster.png" alt="Settings 页面中的内置本地 Caster 配置区" loading="lazy" decoding="async" width="1628" height="869" />
+        <figcaption>出口 ②：内置本地 Caster。要动的只有一个开关，端口、挂载点、账号都是固定只读的。</figcaption>
       </figure>
 
       <h3>打开开关</h3>
       <p>进 <strong>Settings</strong>，找到 <em>Local Caster</em> 那一块，把开关打开并保存。程序会立刻在 2102 端口起一个 NTRIP 服务。</p>
 
       <figure class="fig ui">
-        <img src="/images/base/web-21-local-caster-on.png" alt="内置本地 Caster 已开启" loading="lazy" decoding="async" width="1400" height="860" />
+        <img src="/images/base/web-21-local-caster-on.png" alt="内置本地 Caster 已开启" loading="lazy" decoding="async" width="1400" height="875" />
         <figcaption>开启后状态变成运行中。如果提示端口被占用，检查是不是有别的东西占了 2102。</figcaption>
       </figure>
 
@@ -1130,7 +1398,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
       <p>状态页会列出当前连进来的客户端——IP、连上的时间、已经收到的字节数。用来判断「到底有没有人连上我」很直观。</p>
 
       <figure class="fig ui">
-        <img src="/images/base/web-22-lc-live.png" alt="内置本地 Caster 的运行状态与客户端列表" loading="lazy" decoding="async" width="1400" height="860" />
+        <img src="/images/base/web-22-lc-live.png" alt="内置本地 Caster 的运行状态与客户端列表" loading="lazy" decoding="async" width="1400" height="435" />
         <figcaption>有客户端连进来时，这里会出现它们的 IP 和流量。空着就是没人连。</figcaption>
       </figure>
 
@@ -1156,7 +1424,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
     </section>
 
     <section id="radio">
-      <h2 id="radio">第十步（可选）：接数传电台</h2>
+      <h2 id="radio">第十二步（可选）：接数传电台</h2>
       <p class="lead">完全没网的地方，或者队里本来就用电台，那就把 RTCM 打到空中。2RTK Server 支持通过 USB 接一台透传电台，把 RTCM 流原样送出去。</p>
 
       <p>「透传」是关键：电台不解析 RTCM，只把它当成一串字节发给对端。所以电台本身不需要懂 RTK，只要带宽够、延迟小。9600 波特的老电台也能跑——只是 RTCM 报文要精简一些。</p>
@@ -1168,7 +1436,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
       <p>在 <strong>Settings</strong> 的出口 ③ 区域填电台的串口、波特率，然后打开开关。</p>
 
       <figure class="fig ui">
-        <img src="/images/base/web-23-radio-config.png" alt="数传电台出口的配置界面" loading="lazy" decoding="async" width="1400" height="860" />
+        <img src="/images/base/web-23-radio-config.png" alt="数传电台出口的配置界面" loading="lazy" decoding="async" width="1400" height="875" />
         <figcaption>电台出口配置。波特率必须和电台本身、以及流动站那边的电台三项完全一致。</figcaption>
       </figure>
 

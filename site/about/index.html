@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>关于我 · 2RTK 是谁做的、数据从哪来 | 2RTK</title>
-  <meta name="description" content="2RTK 是一个个人维护的免费 RTK 基准站地图与 NTRIP Caster 测试服务。这里说明我是谁、站上有什么、数据从哪来（2RTK / CRTK / RTK2 / IGS 四路公开源表）、边界在哪，以及收录、纠错、申请测试 Caster 的联系方式。" />
+  <meta name="description" content="2RTK.COM 是我个人出于兴趣和学习目的搭建的站，不以盈利为目的。因为初学自建 RTK 踩了很多坑，才有了 2RTK_NTRIPserver 和 2RTK_NTRIPcaster 两个项目。这里说明我是谁、站上有什么、数据从哪来（2RTK / CRTK / RTK2 / IGS 四路公开源表）、边界在哪，以及收录与纠错的联系方式。" />
   <meta name="keywords" content="关于2RTK,2RTK是谁,RTK基准站地图,数据来源,联系方式,NTRIP Caster" />
   <meta name="author" content="2RTK" />
   <meta name="robots" content="index,follow" />
@@ -14,7 +14,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="2RTK" />
   <meta property="og:title" content="关于我 · 2RTK" />
-  <meta property="og:description" content="一个个人维护的免费 RTK 基准站地图：站上有什么、数据从哪来、边界在哪。" />
+  <meta property="og:description" content="2RTK.COM 是个人出于兴趣搭建的站，不以盈利为目的。这里说明我是谁、站上有什么、数据从哪来、边界在哪。" />
   <meta property="og:url" content="__SITE_ORIGIN__/about/" />
   <meta property="og:image" content="__SITE_ORIGIN__/images/2rtk.png" />
   <meta property="og:locale" content="zh_CN" />
@@ -45,16 +45,17 @@
     <span class="eyebrow">About</span>
     <h1>关于我，和这个站</h1>
     <p class="lead">
-      2RTK 是我自己维护的站，不挂靠任何公司。做它只为一件事：
-      想在用 RTK 的时候，打开地图就知道<strong>附近有没有能用的基准站</strong>；
-      如果想自己搭一个，也有一条照着做就能跑起来的路。
+      2RTK.COM 是我个人出于兴趣和学习的目的自己搭建的，<strong>不以盈利为目的</strong>。
+      因为最初我接触自建 RTK 踩了很多坑，所以才自己学着做了两个项目
+      ——<strong>2RTK_NTRIPserver</strong> 和 <strong>2RTK_NTRIPcaster</strong>，
+      并且搭建了这个网站，以方便更多的人。
     </p>
     <p class="lead" style="margin-top:10px">
-      站上所有东西都免费，没有广告，也没有付费排名。数据是公开源表，教程是我自己踩过坑之后写的。
+      网站和程序接受捐赠，全部用于服务器费用维持。
     </p>
     <div class="chips">
       <span class="chip">个人维护</span>
-      <span class="chip">免费 · 无广告</span>
+      <span class="chip">兴趣 · 非营利</span>
       <span class="chip">只读公开源表</span>
       <span class="chip">i@jia.im</span>
     </div>
@@ -65,36 +66,17 @@
 
       <h2 id="who">我是谁</h2>
       <p>
-        我是做 GNSS / RTK 的，日常打交道的是接收机、天线、串口日志和 RTCM 电文。
-        自己搭过基站，也在「屏幕上是 Fixed、坐标就是不对」这种事上耗过整晚。
+        我是<strong>文七</strong>，来自中国。一个精神很富裕、物质很贫乏的人～（俗称穷）。
       </p>
       <p>
-        一开始卡住我的不是 RTK 怎么用，是<strong>附近到底有没有能用的源</strong>。
-        各省 CORS、公益网络、国外的公共 Caster 散在几十个网站里，得一个个翻源表、核对坐标、试账号。
-        技术上没什么可讲的，就是费时间。
+        我对很多事情感兴趣，所以会去研究、去学它们——虽然我不是专业的。
+        RTK 就是这么一步步学过来的：先是好奇，然后是踩坑，最后索性自己写了两个程序，
+        把坑填平了，顺便分享出来。
       </p>
       <p>
-        所以先有了地图：把公开的源表抓下来画在球上，覆盖范围一眼可见。
-        后来发现光有地图不够——知道附近有站，和自己手上那台机器动不起来，是两回事。
-        于是又补了搭建教程和一个免费测试 Caster。
+        到现在我也不觉得自己是这行的专业出身。<strong>站上的东西是按我自己踩过的坑写的</strong>，
+        不是教科书，也不是厂商文档的转述。有写错的地方，直接发邮件骂我就行。
       </p>
-
-      <h2 id="why">我在解决哪几件事</h2>
-      <p>这个站一共就干三件事，每件都对应一个具体的卡点：</p>
-      <ul>
-        <li>
-          <strong>选站看不见。</strong>「某省有 CORS」和「离我八公里那个站现在活着吗」不是一个问题。
-          地图能回答后一个：站点位置、覆盖圈、支持哪些卫星系统、推的什么电文，都能在地图上点开看。
-        </li>
-        <li>
-          <strong>新手缺一条能走通的路。</strong>讲原理的文章很多，从买硬件一直写到出固定解的很少。
-          我把整套流程写下来了，包括说明书里不会写的那些坑——比如模块默认是流动站、不切过来盒子读到的全是位置报文。
-        </li>
-        <li>
-          <strong>不知道自己的站在不在线。</strong>很多人卡在「我推上去了没有」这一步，因为没有第二台设备可以验证。
-          一个免费的公共 Caster 能把这个环节省掉。
-        </li>
-      </ul>
 
       <h2 id="what">站上有什么</h2>
       <div class="table-wrap compact">
@@ -162,7 +144,7 @@
         <li>这是一个<strong>索引</strong>，不是基准站服务商。站点能不能用、账号怎么申请，以源表里给出的注册地址为准。</li>
         <li>地图上的<strong>覆盖圈是估算值</strong>，只用来表达量级。实际能覆盖多远，取决于地形、天线高度和当时的电离层。</li>
         <li><strong>测试 Caster 是尽力而为的服务</strong>，不承诺可用性，别拿它跑生产作业。</li>
-        <li>本站不卖数据、不做付费排名、不接与内容无关的广告。</li>
+        <li>本站<strong>不以盈利为目的</strong>：不卖数据、不做付费排名、不接商业广告。服务器费用靠捐赠维持。</li>
         <li>教程里的命令和参数按通用环境写，执行前请确认和你的型号对得上。照做造成的损失我承担不了。</li>
       </ul>
 
@@ -175,7 +157,6 @@
             <tr><td>站点被收录了，想下架</td><td>挂载点名 + 所属网络</td></tr>
             <tr><td>站点信息有误</td><td>挂载点名 + 正确的坐标或电文格式</td></tr>
             <tr><td>想把自己的站加进地图</td><td>站名、坐标、挂载点、是否长期公开</td></tr>
-            <tr><td>申请测试 Caster</td><td>大致位置、接收机型号、大概用几天</td></tr>
             <tr><td>教程纠错或补充</td><td>小节标题 + 你遇到的问题</td></tr>
           </tbody>
         </table>
@@ -187,6 +168,7 @@
 
       <h2 id="timeline">怎么走到现在的</h2>
       <ul>
+        <li><strong>2024</strong>：做了第一版 server，一个单页文件。</li>
         <li><strong>2025</strong>：做出第一版地图，只接了 rtk2go 一个源。</li>
         <li><strong>2025</strong>：接入 CRTK、IGS，加上覆盖圈和卫星轨道。</li>
         <li><strong>2026</strong>：重写底图与交互；教程改成四步主线加附篇；开放自建 Caster 的免费测试。</li>

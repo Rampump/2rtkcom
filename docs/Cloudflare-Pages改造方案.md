@@ -19,7 +19,7 @@
 | Cesium 加载 | `cesium.com` 源站（实测 20s） | jsDelivr CDN 固定版本（当前 `1.147.0`） |
 | 静态资源基址 | 未声明（源站相对路径可用） | `CESIUM_BASE_URL` 显式指向 CDN |
 | Ion Token | 硬编码在 HTML | 构建时注入 `config.js`，不入库 |
-| 底图 | 无 | 多图源自动探测（Ion → Esri → CARTO → 天地图 → OSM），见配置说明文档 |
+| 底图 | 无 | 多图源自动探测（Esri → Ion → NASA GIBS → OSM），见配置说明文档 |
 | `files.json` | 手工维护，易漏 | 构建脚本扫描 `data/` 自动生成 |
 | 数据采集 | 本地/服务器 scheduler.py | GitHub Actions cron，每 6 小时 |
 | 部署产物 | 仓库根目录直接托管 | `dist/` 构建产物 |
@@ -59,7 +59,7 @@ Cesium 运行时需要动态加载 `Workers/`、`Assets/`、`ThirdParty/`。一�
 - `tile.openstreetmap.org`、`services.arcgisonline.com`、`a.basemaps.cartocdn.com`：国内实测**不可达**（连接超时）
 - 高德/腾讯瓦片：国内可达，但使用 **GCJ-02 火星坐标**，与 RTK 站点使用的 WGS84 偏差数百米 —— 对厘米级定位展示是灾难性错误
 
-实测可用且坐标兼容的公共源：**`server.arcgisonline.com`（Esri）**、**`basemaps.cartocdn.com`（CARTO，注意不要带子域）**、**天地图**（CGCS2000）。
+实测可用且坐标兼容的公共源：**`server.arcgisonline.com`（Esri）**。CARTO 现已强制 API Key、天地图已停止使用，两者均不再作为候选。
 
 
 ---
@@ -91,8 +91,6 @@ Cesium 运行时需要动态加载 `Workers/`、`Assets/`、`ThirdParty/`。一�
 // 旧实现（1.107 时期，已废弃，且 imageryProvider 参数在新版中已移除）
 if (HAS_ION) {
   viewerOptions.imageryProvider = new Cesium.IonImageryProvider({ assetId: 2 });
-} else if (TIANDITU_KEY) {
-  viewerOptions.imageryProvider = new Cesium.WebMapTileServiceImageryProvider({ /* 天地图 */ });
 } else {
   viewerOptions.imageryProvider = false;
 }
@@ -116,7 +114,7 @@ python scripts/build.py --files-json # 仅刷新 data/files.json（Actions 用�
 4. 由环境变量生成 `dist/config.js`：
 
 ```js
-window.__2RTK_CONFIG = { "cesiumIonToken": "...", "tiandituToken": "..." };
+window.__2RTK_CONFIG = { "cesiumIonToken": "...", "siteOrigin": "...", "homeOrigin": "..." };
 ```
 
 ---
@@ -141,11 +139,10 @@ Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git
 | 变量名 | 值 | 说明 |
 |--------|-----|------|
 | `CESIUM_ION_TOKEN` | 你的 Ion Token（可选） | 不填则走公共图源 |
-| `TIANDITU_TOKEN` | 天地图 **浏览器端** Key（可选） | [申请](https://console.tianditu.gov.cn/api/key)，务必选「浏览器端」，不要复用小程序 Key |
 | `SITE_ORIGIN` | `https://map.2rtk.com` | 地图站域名，用于 canonical / sitemap |
 | `HOME_ORIGIN` | `https://2rtk.com` | 首页站域名，用于导航链接 |
 
-> 全部可选。一个都不配也能正常出图（自动用 Esri / CARTO 公共源）。
+> 全部可选。一个都不配也能正常出图（默认 Esri 影像 / Esri 街道，海外回退 OSM）。
 > 环境变量只在构建期使用，不会出现在客户端代码里——除了被写进 `config.js` 的那一个，这是静态站无法避免的。
 
 ### 4.4 绑定域名

@@ -579,8 +579,6 @@ Free RTK Base Station Map</p>
     var RUNTIME_CONFIG = window.__2RTK_CONFIG || {};
     var ION_TOKEN = typeof RUNTIME_CONFIG.cesiumIonToken === 'string'
       ? RUNTIME_CONFIG.cesiumIonToken.trim() : '';
-    var TIANDITU_KEY = typeof RUNTIME_CONFIG.tiandituToken === 'string'
-      ? RUNTIME_CONFIG.tiandituToken.trim() : '';
     var HAS_ION = ION_TOKEN.length > 20;
 
     if (HAS_ION) {
@@ -767,6 +765,7 @@ Free RTK Base Station Map</p>
     //   · 高德（AMap）：免 key、国内最快，但瓦片是 GCJ-02（火星坐标），
     //     与基准站的 WGS84 坐标差 300~700 米，只能手动选择，绝不做默认
     //   · NASA GIBS：免 key 全球可达，但是静态蓝地球，最高 8 级
+    //   · 天地图：需要「浏览器端」Key，已停止使用（2026-11 移除）
     var BASEMAPS = [
       {
         id: 'esri-imagery',
@@ -799,34 +798,6 @@ Free RTK Base Station Map</p>
         },
         create: function () {
           return Cesium.IonImageryProvider.fromAssetId(2);
-        }
-      },
-      {
-        id: 'tianditu',
-        priority: 3,
-        name: '天地图影像',
-        tooltip: '需要「浏览器端」Key · CGCS2000 · 国内最稳',
-        category: '影像 · Imagery',
-        icon: svgIcon('#d3503c', '#7d1c12', GLYPH_SAT),
-        needKey: function () { return !TIANDITU_KEY; },
-        probe: function () {
-          return probeImage('https://t0.tianditu.gov.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0'
-            + '&LAYER=img&tileMatrixSet=w&TileMatrix=2&TileRow=1&TileCol=2&style=default&format=tiles&tk='
-            + encodeURIComponent(TIANDITU_KEY));
-        },
-        create: function () {
-          return new Cesium.WebMapTileServiceImageryProvider({
-            url: 'https://t{s}.tianditu.gov.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0'
-              + '&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}'
-              + '&style=default&format=tiles&tk=' + encodeURIComponent(TIANDITU_KEY),
-            layer: 'img',
-            style: 'default',
-            format: 'image/jpeg',
-            tileMatrixSetID: 'w',
-            subdomains: ['0', '1', '2', '3', '4', '5', '6', '7'],
-            maximumLevel: 18,
-            credit: new Cesium.Credit('天地图 · Tianditu', false)
-          });
         }
       },
       {
@@ -1047,7 +1018,7 @@ Free RTK Base Station Map</p>
     // 关闭 Cesium 自带版权区默认显示位置冲突（保留版权合规展示）
     viewer.cesiumWidget.creditContainer.style.display = 'none';
 
-    // 单独的版权容器，保证 Esri/CARTO/天地图的署名可见（合规要求）
+    // 单独的版权容器，保证 Esri 等图源的署名可见（合规要求）
     var creditDiv = document.createElement('div');
     creditDiv.id = 'creditBox';
     creditDiv.className = 'credit-box';

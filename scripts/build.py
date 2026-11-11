@@ -1,7 +1,7 @@
 """Cloudflare Pages 构建脚本。
 
 职责：
-1. 由环境变量生成 dist/config.js（Ion / 天地图 token 不进代码库）
+1. 由环境变量生成 dist/config.js（Ion token 不进代码库）
 2. 扫描 data/*.json 生成 data/files.json（避免手工维护遗漏）
 3. 替换 index.html 与 site/ 下内容页中的 __SITE_ORIGIN__ / __BUILD_ID__ 占位符
 4. 生成 robots.txt 与 sitemap.xml（SEO，收录地图页与全部内容页）
@@ -9,7 +9,6 @@
 
 环境变量（均为可选）：
     CESIUM_ION_TOKEN   Cesium Ion 访问令牌
-    TIANDITU_TOKEN     天地图「浏览器端」Key
     SITE_ORIGIN        站点域名，默认 https://map.2rtk.com
     HOME_ORIGIN        首页站域名，默认 https://2rtk.com（内容页已并入本站，暂仅保留配置）
 
@@ -91,21 +90,17 @@ def write_files_json():
 
 def write_config_js(dist_dir):
     ion_token = os.environ.get('CESIUM_ION_TOKEN', '').strip()
-    tdt_token = os.environ.get('TIANDITU_TOKEN', '').strip()
     origin = get_site_origin()
     home = get_home_origin()
 
     if ion_token:
         print("[ok] 已注入 CESIUM_ION_TOKEN")
-    if tdt_token:
-        print("[ok] 已注入 TIANDITU_TOKEN")
-    if not ion_token and not tdt_token:
-        print("[info] 未配置 Ion / 天地图凭证，将使用公共图源（Esri 影像 / Esri 街道 / OSM）")
+    else:
+        print("[info] 未配置 Ion 凭证，将使用公共图源（Esri 影像 / Esri 街道 / OSM）")
     print(f"[info] 地图站: {origin} | 首页站: {home}")
 
     payload = {
         'cesiumIonToken': ion_token,
-        'tiandituToken': tdt_token,
         'siteOrigin': origin,
         'homeOrigin': home,
     }
@@ -245,6 +240,16 @@ def build():
     for name in os.listdir(DATA_DIR):
         if name.endswith('.json'):
             shutil.copy2(os.path.join(DATA_DIR, name), os.path.join(dst_data, name))
+
+    # 清理 dist/data 中源目录已不存在的残留（数据源停用后旧 json 不应继续发布）
+    stale = [
+        name for name in os.listdir(dst_data)
+        if name.endswith('.json') and not os.path.exists(os.path.join(DATA_DIR, name))
+    ]
+    for name in stale:
+        os.remove(os.path.join(dst_data, name))
+    if stale:
+        print(f"[ok] 已清理 dist/data 残留 {len(stale)} 个：{', '.join(sorted(stale))}")
 
     # 卫星 TLE（前端优先读这份本地文件，避免被 CelesTrak 限流时画不出卫星）
     tle_src = os.path.join(DATA_DIR, 'tle-gnss.txt')

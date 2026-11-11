@@ -80,4 +80,37 @@
       }
     });
   });
+
+  /* ---------- 3. 截图点开放大（灯箱） ---------- */
+  var figs = [].slice.call(document.querySelectorAll('.fig img'));
+  if (figs.length) {
+    var box = document.createElement('div');
+    box.className = 'lightbox';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.innerHTML = '<img alt="" /><span class="lightbox-tip">点击任意位置关闭</span>';
+    document.body.appendChild(box);
+
+    var big = box.querySelector('img');
+
+    function close() {
+      box.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    figs.forEach(function (img) {
+      img.classList.add('is-zoomable');
+      img.addEventListener('click', function () {
+        big.src = img.getAttribute('src');
+        big.alt = img.getAttribute('alt') || '';
+        box.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    box.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+  }
 })();

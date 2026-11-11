@@ -175,6 +175,9 @@ def render_pages(dist_dir, build_id, origin):
         os.makedirs(out_dir, exist_ok=True)
 
         for name in filenames:
+            # 备份 / 草稿不进产物：*.bak、*.old、以 . 开头
+            if name.endswith(('.bak', '.old', '.orig')) or name.startswith('.'):
+                continue
             src = os.path.join(dirpath, name)
             dst = os.path.join(out_dir, name)
             if name.endswith(('.html', '.js', '.css', '.xml', '.txt')):

@@ -133,21 +133,39 @@ Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git
 | Framework preset | None |
 | Build command | `python3 scripts/build.py` |
 | Build output directory | `dist` |
+| Root directory | 留空（仓库根） |
+
+> 仓库已带 `.python-version`（3.11），Cloudflare 会据此选 Python 版本。
+> 不要把命令写成 `python scripts/build.py`——Pages 镜像里通常只有 `python3`。
 
 ### 4.3 环境变量（Settings → Environment variables）
 
 | 变量名 | 值 | 说明 |
 |--------|-----|------|
+| `SITE_ORIGIN` | `https://2rtk.com` | 站点域名，用于 canonical / og:url / sitemap |
+| `HOME_ORIGIN` | `https://2rtk.com` | 同上（地图与内容页已同站） |
 | `CESIUM_ION_TOKEN` | 你的 Ion Token（可选） | 不填则走公共图源 |
-| `SITE_ORIGIN` | `https://map.2rtk.com` | 地图站域名，用于 canonical / sitemap |
-| `HOME_ORIGIN` | `https://2rtk.com` | 首页站域名，用于导航链接 |
 
-> 全部可选。一个都不配也能正常出图（默认 Esri 影像 / Esri 街道，海外回退 OSM）。
-> 环境变量只在构建期使用，不会出现在客户端代码里——除了被写进 `config.js` 的那一个，这是静态站无法避免的。
+> `SITE_ORIGIN` / `HOME_ORIGIN` 其实可以**不配**：`build.py` 里的默认值已经是 `https://2rtk.com`。
+> 配了就必须和实际访问域名完全一致（含 `https://`、不带结尾斜杠），否则 canonical 与 sitemap 会指错。
+> `CESIUM_ION_TOKEN` 是唯一会被写进客户端 `config.js` 的值，静态站无法避免暴露，注意别用高权限主 token。
 
-### 4.4 绑定域名
+### 4.4 Cloudflare 专属配置文件
 
-Custom domains → 添加 `map.2rtk.com`（域名 NS 需已托管到 Cloudflare）。
+仓库里 `site/_redirects` 与 `site/_headers` 会在构建时被原样复制到 `dist/` 根目录：
+
+- **`_redirects`**：旧路径 301 跳转（`/rtk-base/v2.html`、`/rtkbase/*` 等），避免上线后旧链接 404
+- **`_headers`**：安全响应头、`/data/*` 允许跨域读取、静态资源缓存策略
+
+两个文件必须以 `_` 开头且位于产物根目录，Cloudflare 才会读取；放在子目录无效。
+
+### 4.5 绑定域名
+
+Custom domains → 添加 `2rtk.com`，同时把 `www.2rtk.com` 也加上（Cloudflare 会自动 301 到主域）。
+域名 NS 需已托管到 Cloudflare。
+
+> **2rtk.net 不要绑到这个 Pages 项目**：它是另一台云服务器上的 NTRIP Caster 后台（端口 5757），
+> 需要 WebSocket 长连接与原始 TCP 2101，Pages 只托管静态文件，不支持这两样。
 
 ---
 

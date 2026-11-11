@@ -1,0 +1,17 @@
+# Cloudflare Pages 重定向规则（https://developers.cloudflare.com/pages/configuration/redirects/）
+# 格式：来源  目标  状态码
+# 语法说明：:splat 匹配剩余路径；!! 表示 404 也返回该页
+
+# 旧版教程页（v2 上线前的单页地址）指向正式页
+/rtk-base/v2.html        /rtk-base/        301
+/v2.html                 /rtk-base/        301
+
+# 常见拼写与旧路径
+/rtkbase/*              /rtk-base/:splat  301
+/caster-setup/*         /caster/:splat    301
+
+# 尾斜杠统一：带 .html 的访问跳到干净路径
+/about.html             /about/           301
+/test-caster.html       /test-caster/     301
+/caster.html            /caster/          301
+/what-is-rtk.html       /what-is-rtk/     301

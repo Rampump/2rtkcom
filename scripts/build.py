@@ -9,8 +9,8 @@
 
 环境变量（均为可选）：
     CESIUM_ION_TOKEN   Cesium Ion 访问令牌
-    SITE_ORIGIN        站点域名，默认 https://map.2rtk.com
-    HOME_ORIGIN        首页站域名，默认 https://2rtk.com（内容页已并入本站，暂仅保留配置）
+    SITE_ORIGIN        站点域名，默认 https://2rtk.com
+    HOME_ORIGIN        首页站域名，默认 https://2rtk.com（地图与内容页同站）
 
 用法：
     python scripts/build.py                 # 完整构建到 dist/
@@ -30,7 +30,7 @@ SITE_DIR = os.path.join(ROOT, 'site')
 # files.json 不收录的自身元数据文件
 EXCLUDED = {'files.json', 'meta.json'}
 
-DEFAULT_SITE_ORIGIN = 'https://map.2rtk.com'
+DEFAULT_SITE_ORIGIN = 'https://2rtk.com'
 DEFAULT_HOME_ORIGIN = 'https://2rtk.com'
 
 # 内容页清单：目录名 -> (sitemap 权重, 更新频率)
@@ -113,8 +113,10 @@ def write_config_js(dist_dir):
     with open(os.path.join(dist_dir, 'config.js'), 'w', encoding='utf-8') as f:
         f.write(content)
     # 同步一份到根目录，便于本地直接 python -m http.server 预览（已在 .gitignore 中排除）
-    with open(os.path.join(ROOT, 'config.js'), 'w', encoding='utf-8') as f:
-        f.write(content)
+    # Cloudflare Pages 构建环境里不需要这份副本，跳过以免污染构建缓存
+    if not os.environ.get('CF_PAGES'):
+        with open(os.path.join(ROOT, 'config.js'), 'w', encoding='utf-8') as f:
+            f.write(content)
 
 
 def write_seo_files(dist_dir):
@@ -180,6 +182,12 @@ def render_pages(dist_dir, build_id, origin):
                 continue
             src = os.path.join(dirpath, name)
             dst = os.path.join(out_dir, name)
+            # Cloudflare Pages 专属配置：原样复制到产物根目录，不做占位符替换
+            #（_redirects / _headers 必须位于 dist 根，CF 才会读取）
+            if name in ('_redirects', '_headers', '_routes.json') and rel_dir == '.':
+                shutil.copy2(src, dst)
+                print(f"[ok] 已复制 Cloudflare 配置 {name}")
+                continue
             if name.endswith(('.html', '.js', '.css', '.xml', '.txt')):
                 with open(src, 'r', encoding='utf-8') as f:
                     text = f.read()

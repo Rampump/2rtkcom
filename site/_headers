@@ -1,0 +1,27 @@
+# Cloudflare Pages 响应头（https://developers.cloudflare.com/pages/configuration/headers/）
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(self), camera=(), microphone=()
+
+# 数据文件：允许跨域读取（别的站想直接引用你的源表也能用），但缓存时间要短
+/data/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=600, stale-while-revalidate=3600
+
+# 卫星 TLE 每几小时更新一次
+/data/tle-gnss.txt
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600
+
+# 静态资源长缓存（文件名不含 hash，所以给 7 天而不是 1 年）
+/assets/*
+  Cache-Control: public, max-age=604800
+
+/images/*
+  Cache-Control: public, max-age=604800
+
+# HTML 不缓存，保证每次发布立刻生效
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

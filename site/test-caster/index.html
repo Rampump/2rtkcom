@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>免费 NTRIP Caster 测试服务器：43.142.126.162:2101 连接参数与验证方法 | 2RTK</title>
-  <meta name="description" content="2RTK 自建的免费 NTRIP Caster 测试服务器，用于验证 RTK 基站推流与流动站拉流配置。含 Caster 地址、端口、挂载点、账号申请方式，以及 curl 源表自检、RTKLIB 拉流、手机 App 测试的完整步骤。" />
-  <meta name="keywords" content="免费NTRIP Caster,NTRIP测试服务器,NTRIP Caster 测试,RTK测试,43.142.126.162 2101,挂载点,RTCM推流测试" />
+  <title>免费 NTRIP Caster 测试服务器：自助注册挂载点，43.142.126.162:2101 | 2RTK</title>
+  <meta name="description" content="2RTK 自建的免费 NTRIP Caster 测试服务器，用于验证 RTK 基站推流与流动站拉流配置。无需申请，直接在 Web 后台自己添加用户名和挂载点（只能新增，不能修改删除）。含连接参数、注册步骤、自检命令与排查表。仅用于测试，不要用于生产。" />
+  <meta name="keywords" content="免费NTRIP Caster,NTRIP测试服务器,NTRIP Caster 测试,自助注册挂载点,RTK测试,43.142.126.162 2101,RTCM推流测试" />
   <meta name="author" content="2RTK" />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
   <meta name="theme-color" content="#080b10" />
@@ -13,8 +13,8 @@
 
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="2RTK" />
-  <meta property="og:title" content="免费 NTRIP Caster 测试服务器：43.142.126.162:2101" />
-  <meta property="og:description" content="验证基站推流与流动站拉流的最小可用环境，附连接参数与自检命令。" />
+  <meta property="og:title" content="免费 NTRIP Caster 测试服务器：自助注册挂载点" />
+  <meta property="og:description" content="无需申请，自己上去添加用户名和挂载点即可。验证基站推流与流动站拉流的最小可用环境。" />
   <meta property="og:url" content="__SITE_ORIGIN__/test-caster/" />
   <meta property="og:image" content="__SITE_ORIGIN__/images/2rtk.png" />
   <meta property="og:locale" content="zh_CN" />
@@ -48,27 +48,69 @@
       这是我自己搭的一台 NTRIP Caster，跑的就是<a href="/caster/">这一页介绍的开源项目</a>，作为公共测试环境开放。
       你可以在正式上线前，用它验证「基站能不能推上去」「流动站能不能拉下来」这两个最关键的环节——不用买服务器、不用配域名。
     </p>
+    <p class="lead" style="margin-top:10px">
+      <strong>不用向我申请。</strong>后台页面任何人都能打开，用户名和挂载点都<strong>由你自己上去添加</strong>。
+    </p>
     <div class="chips">
+      <span class="chip">自助注册 · 无需申请</span>
       <span class="chip">43.142.126.162:2101</span>
       <span class="chip">NTRIP 2.0</span>
-      <span class="chip">RTCM 3.x</span>
-      <span class="chip">限时测试</span>
+      <span class="chip">仅限测试</span>
     </div>
   </div>
 
   <div class="doc">
     <article class="prose">
 
+      <div class="warn">
+        <p><b>这是测试环境，不要用于生产。</b>服务器会<strong>不定期清理数据库、恢复到初始程序</strong>，
+        你添加的账号和挂载点随时可能消失。不承诺可用性，也不做数据留存。别拿它跑正在出成果的作业。</p>
+      </div>
+
+      <h2 id="register">怎么用：自己上去注册</h2>
+      <p>
+        没有申请流程，也不需要发邮件。打开后台，<strong>自己添加用户名和挂载点</strong>，加完就能立刻推流。
+      </p>
+      <div class="next-up" style="margin-top:18px">
+        <div class="label">Backend</div>
+        <h3>后台管理页面</h3>
+        <p>任何人都可以访问，自己添加挂载点和用户。默认登录账号已在服务器端预置。</p>
+        <p style="margin-top:12px">
+          <a href="http://43.142.126.162:5757/" target="_blank" rel="noopener">→ http://43.142.126.162:5757/</a>
+        </p>
+      </div>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>你能做的</th><th>你不能做的</th></tr></thead>
+          <tbody>
+            <tr><td>新增用户名（账号）</td><td>修改已有用户名</td></tr>
+            <tr><td>新增挂载点</td><td>修改已有挂载点</td></tr>
+            <tr><td>用自己加的账号推流、拉流</td><td>删除任何账号或挂载点</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        后台被刻意设成<strong>只增不改不删</strong>：你加错了不要紧，换个名字重新加一个就行，
+        旧的会在下次清理时一起消失。这样也保证了别人的挂载点不会被你误改。
+      </p>
+      <div class="note">
+        <p>
+          <b>服务器连不上？</b>大概率是这台测试机欠费停机了。发邮件到
+          <a href="mailto:i@jia.im">i@jia.im</a> 说一声，我看到会去续。这台机器是我自己掏钱维持的，
+          不保证一直在。
+        </p>
+      </div>
+
       <h2 id="params">连接参数</h2>
       <dl class="kv">
         <div class="kv-row"><dt>Caster 地址</dt><dd>43.142.126.162</dd></div>
         <div class="kv-row"><dt>NTRIP 端口</dt><dd>2101（推流、拉流都走这里）</dd></div>
-        <div class="kv-row"><dt>Web 管理端口</dt><dd><a href="http://43.142.126.162:5757/" target="_blank" rel="noopener">5757</a></dd></div>
+        <div class="kv-row"><dt>Web 管理端口</dt><dd><a href="http://43.142.126.162:5757/" target="_blank" rel="noopener">5757</a>（自助注册）</dd></div>
         <div class="kv-row"><dt>协议</dt><dd>NTRIP 2.0（兼容 NTRIP 1.0 源推送）</dd></div>
-        <div class="kv-row"><dt>挂载点</dt><dd>申请后分配，格式如 TEST01</dd></div>
-        <div class="kv-row"><dt>用户名 / 密码</dt><dd>申请后邮件发送</dd></div>
+        <div class="kv-row"><dt>挂载点</dt><dd>自己添加，格式如 TEST01</dd></div>
+        <div class="kv-row"><dt>用户名 / 密码</dt><dd>自己添加，默认登录账号见后台</dd></div>
         <div class="kv-row"><dt>数据保留</dt><dd>不落盘，仅实时转发</dd></div>
-        <div class="kv-row"><dt>服务状态</dt><dd><span class="tag tag-ok">运行中</span> 空闲挂载点定期回收</dd></div>
+        <div class="kv-row"><dt>服务状态</dt><dd><span class="tag tag-ok">运行中</span> 不定期清库重置</dd></div>
       </dl>
 
       <div class="note">
@@ -77,9 +119,9 @@
       </div>
 
       <div class="tip">
-        <p><b>怎么申请：</b>发邮件到 <a href="mailto:i@jia.im">i@jia.im</a>，写清三件事——
-        ① 你的基站大致位置（城市即可）；② 接收机型号；③ 打算用几天。
-        我一般当天回，给你一个临时挂载点和账号。</p>
+        <p><b>用之前先看这条：</b>账号和挂载点都是<strong>你自己加、自己负责</strong>。
+        名字尽量带上自己的标识（比如 <code>WENQI01</code>），别占用 <code>TEST</code>、<code>RTK</code> 这种公共感太强的名字，
+        方便别人区分，也方便你自己找。</p>
       </div>
 
       <h2 id="what">它能帮你验证什么</h2>
@@ -103,7 +145,7 @@
       </div>
 
       <div class="warn">
-        <p><b>这是测试环境，不是生产环境。</b>不承诺可用性、不做长期数据留存、可能随时重启。
+        <p><b>验证完就往自己机器上搬。</b>这台只适合确认「能不能通」，不适合长期挂着。
         商用或长期项目请自己搭 Caster，见 <a href="/caster/">NTRIP Caster 搭建</a>。</p>
       </div>
 
@@ -115,8 +157,8 @@
           <tbody>
             <tr><td>服务器 / Caster</td><td><code>43.142.126.162</code></td></tr>
             <tr><td>端口</td><td><code>2101</code></td></tr>
-            <tr><td>挂载点 / Mountpoint</td><td>邮件里给你的名字，<b>区分大小写</b></td></tr>
-            <tr><td>用户名 / 密码</td><td>邮件里给你的账号</td></tr>
+            <tr><td>挂载点 / Mountpoint</td><td>你在后台自己加的名字，<b>区分大小写</b></td></tr>
+            <tr><td>用户名 / 密码</td><td>你在后台自己加的账号</td></tr>
             <tr><td>数据格式</td><td>RTCM 3.x</td></tr>
             <tr><td>自动重连</td><td>打开</td></tr>
           </tbody>
@@ -144,7 +186,7 @@ curl -s http://43.142.126.162:2101/ | grep -i "STR;MOUNT"</pre>
       <p>能看到 <code>STR;你的挂载点;…</code> 这一行，说明 Caster 已经收到并登记了你的流。看不到的话，按这个顺序排查：</p>
       <ol>
         <li>接收机推送状态是不是「已连接 / 发送中」。</li>
-        <li>挂载点名是否和邮件里完全一致（大小写、有没有多余空格）。</li>
+        <li>挂载点名是否和你在后台添加的完全一致（大小写、有没有多余空格）。</li>
         <li>账号密码是否被复制进了空格。</li>
         <li>基站所在网络能不能访问外网 2101 端口（有些企业网会封非标端口）。</li>
       </ol>
@@ -176,7 +218,7 @@ rtkconv -r test.rtcm</pre>
             <tr><td>Caster / Host</td><td><code>43.142.126.162</code></td></tr>
             <tr><td>Port</td><td><code>2101</code></td></tr>
             <tr><td>Mountpoint</td><td>你的挂载点</td></tr>
-            <tr><td>User / Password</td><td>邮件里的账号</td></tr>
+            <tr><td>User / Password</td><td>你自己添加的账号</td></tr>
             <tr><td>天线高</td><td>按你的杆高如实填写</td></tr>
           </tbody>
         </table>
@@ -216,8 +258,10 @@ rtkconv -r test.rtcm</pre>
       <h2 id="rules">使用约定</h2>
       <ul>
         <li><strong>只用于功能测试</strong>：验证链路、电文、客户端配置，不做生产用途。</li>
+        <li><strong>账号和挂载点自己加</strong>：后台只增不改不删。加错了换个名字重加一个即可，不用找人处理。</li>
+        <li><strong>数据库会不定期清空</strong>：所有账号、挂载点随时可能被重置成初始状态，<strong>数据不保证保留</strong>。别把测试跑在重要作业上。</li>
+        <li><strong>服务器可能停机</strong>：这台机器由我个人出钱维持，欠费时会停。连不上就是这种情况，邮件说一声即可。</li>
         <li><strong>不保证可用性</strong>：可能随时重启、限流或关闭，不要用在依赖连续性的作业上。</li>
-        <li><strong>挂载点会回收</strong>：长期无数据的临时挂载点会被清理，需要时重新申请。</li>
         <li><strong>不做数据留存</strong>：流转发即走，不落盘、不分析、不转售。</li>
         <li><strong>禁止滥用</strong>：不要用它做大规模转播、压测或对外提供商业服务。</li>
         <li><strong>坐标自负</strong>：测试数据的精度与正确性由你自己的基站决定。</li>

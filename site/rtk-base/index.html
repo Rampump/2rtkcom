@@ -69,17 +69,15 @@
 
       <h2 id="what">这个程序到底在做什么</h2>
       <p>
-        一句话：<strong>把一块 GNSS 接收模块，变成一台独立运行的 RTK 基准站。</strong>
-        它从串口读模块吐出的 RTCM 3 差分数据，通过网络分发出去，让野外的流动站拿到厘米级定位。
+        一句话：<strong>把一块 GNSS 接收模块，变成一台能自己跑起来的 RTK 基准站。</strong>
+        它从串口读模块吐出的 RTCM 3 差分数据，通过网络分发出去，野外的流动站就能拿到厘米级定位。
       </p>
-      <p>
-        但它不只是个数据搬运工，还会自己动手：
-      </p>
+      <p>它顺手做了几件原本要人盯着的事：</p>
       <ul>
-        <li><strong>自动标定基站坐标到厘米级</strong>——自己驱动模块走完一整套命令序列，不用你背指令。</li>
-        <li><strong>失败自动回滚</strong>——任何一步出问题，都把模块恢复到标定前的状态，不会把它留在半残模式里。</li>
-        <li><strong>注入基站元信息</strong>，让流动站知道基站在哪、用的是哪个坐标系。</li>
-        <li><strong>提供 Web 界面</strong>，配置、实时监控、固件检查全在浏览器里点。</li>
+        <li><strong>自动标定基站坐标</strong>——自己驱动模块走完一整套命令，不用你背指令。</li>
+        <li><strong>失败自动回滚</strong>——哪一步出问题就把模块恢复到标定前的状态，不留半残配置。</li>
+        <li><strong>补充基站元信息</strong>，让流动站知道基站在哪、用的是哪个坐标系。</li>
+        <li><strong>一个网页界面</strong>，配置、监控、固件检查都在浏览器里点。</li>
       </ul>
 
       <h3>三种运行模式</h3>
@@ -97,49 +95,46 @@
       <h3>数据往哪里去</h3>
       <p>三个出口<strong>互相独立</strong>，勾哪个跑哪个，可以任意组合：</p>
       <ol>
-        <li><strong>云端 NTRIP Caster</strong> —— 把流推到公网服务器，别处的流动站就能用。</li>
-        <li><strong>内置本地 Caster</strong> —— 直接在盒子上对局域网提供服务，不依赖公网。</li>
-        <li><strong>数传电台</strong> —— 通过第二个串口把差分推给 UHF 电台，野外没网也能用。</li>
+        <li><strong>云端 NTRIP Caster</strong>：把流推到公网服务器，别处的流动站就能用。</li>
+        <li><strong>内置本地 Caster</strong>：直接在盒子上对局域网提供服务，不依赖公网。</li>
+        <li><strong>数传电台</strong>：通过第二个串口把差分推给 UHF 电台，野外没网也能用。</li>
       </ol>
 
-      <h2 id="outline">先看整条主线：六步动作，顺序不能乱</h2>
+      <h2 id="outline">先看整条主线：五步动作，顺序不能乱</h2>
       <p>
         这套东西最容易踩的坑<strong>不是软件装不上，而是顺序错了</strong>。
         不少人先装程序、再上屋顶架天线，结果装完才发现天线被墙挡着收不到星，或者模块没配成基准站，盒子里的程序一条数据也读不到。
-        正确顺序只有一条：
+        要跑通，顺序只有一条：
       </p>
 
-      <div class="flow flow-6">
+      <div class="flow flow-5">
         <div class="node"><b>① 架天线</b><span>室外<br>无遮挡</span></div>
         <div class="arrow">→</div>
-        <div class="node"><b>② 测相位中心</b><span>量天线<br>到底在哪</span></div>
+        <div class="node"><b>② 模块设基准站</b><span>原厂软件<br>或本程序</span></div>
         <div class="arrow">→</div>
-        <div class="node"><b>③ 原厂软件设基准站</b><span>模块切成<br>Base</span></div>
+        <div class="node"><b>③ 模块插盒子</b><span>USB<br>接上</span></div>
         <div class="arrow">→</div>
-        <div class="node"><b>④ 模块插盒子</b><span>USB<br>接上</span></div>
+        <div class="node"><b>④ 网页配串口</b><span>数据<br>流动起来</span></div>
         <div class="arrow">→</div>
-        <div class="node"><b>⑤ 网页配串口</b><span>数据<br>流动起来</span></div>
-        <div class="arrow">→</div>
-        <div class="node"><b>⑥ 分发差分</b><span>Caster<br>电台</span></div>
+        <div class="node"><b>⑤ 分发差分</b><span>Caster<br>电台</span></div>
       </div>
 
       <p>
-        这六步是<strong>不做就出不来结果</strong>的主线。②③ 两步在屋外和电脑上完成，④～⑥ 在盒子里完成，
-        ① 则要提前定下来。对应到本页的章节：
+        这五步是<strong>不做就出不来结果</strong>的主线。① 在屋外，② 在电脑上，
+        ③～⑤ 都在盒子里。对应到本页的章节：
       </p>
       <div class="table-wrap compact">
         <table>
-          <colgroup><col style="width:26%" /><col style="width:40%" /><col style="width:34%" /></colgroup>
+          <colgroup><col style="width:30%" /><col style="width:38%" /><col style="width:32%" /></colgroup>
           <thead><tr><th>主线动作</th><th>本页章节</th><th>在哪做</th></tr></thead>
           <tbody>
             <tr><td>刷系统 + 装程序</td><td>第一步</td><td>盒子（终端）</td></tr>
-            <tr><td>① 架天线 + ② 测相位中心</td><td>第二步</td><td>屋顶 / 室外</td></tr>
-            <tr><td>③ 原厂软件设基准站</td><td>第三步</td><td>室内电脑</td></tr>
-            <tr><td>④ 模块插盒子</td><td>第四步</td><td>盒子旁</td></tr>
+            <tr><td>① 架天线（含测天线高）</td><td>第二步</td><td>屋顶 / 室外</td></tr>
+            <tr><td>② 把模块设成基准站</td><td>第三步</td><td>室内电脑</td></tr>
+            <tr><td>③ 模块插盒子</td><td>第四步</td><td>盒子旁</td></tr>
             <tr><td>首次登录（顺手把程序跑起来）</td><td>第五、六步</td><td>浏览器</td></tr>
-            <tr><td>⑤ 网页配串口</td><td>第七步</td><td>浏览器</td></tr>
-            <tr><td>把坐标定准（标定）</td><td>第八步</td><td>浏览器</td></tr>
-            <tr><td>⑥ 分发差分</td><td>第九～十二步</td><td>浏览器</td></tr>
+            <tr><td>④ 网页配串口</td><td><strong>第七步</strong></td><td>浏览器</td></tr>
+            <tr><td>⑤ 分发差分</td><td><strong>第九～十二步</strong></td><td>浏览器</td></tr>
           </tbody>
         </table>
       </div>
@@ -147,17 +142,21 @@
         顺序里唯一容易违背的一条：<strong>别在天线还没上屋顶的时候就去配串口</strong>。
         配串口会让模块开始出数据，你会看到「有卫星、没固定解」，然后误以为是软件问题。
       </p>
+      <p>
+        第七步走完，主线就通了，直接跳第九步。中间那篇讲一键标定的<strong>不属于主线</strong>——
+        它是这台程序自带的额外本事，能把坐标从米级修到厘米级，什么时候回来做都不影响站能不能用。
+      </p>
 
       <div class="tip">
         <p><b>为什么必须先架天线？</b>因为模块要「看见」卫星才能自己算出高精度的位置。
-        天线放在窗台上，卫星只收到七八颗、还都在一个方向，模块永远进不了固定解；
+        天线放在窗台上，卫星只收到七八颗、还都朝同一个方向，模块永远进不了固定解；
         等你在网页里点标定卡住的时候，再回屋顶重新架一次，前面的工作全得重做。</p>
       </div>
 
-      <h3>标定这件事，有两种完全不同的走法</h3>
+      <h3>坐标从哪来：三种走法</h3>
       <p>
-        坐标怎么来，取决于你手头有什么、以及模块能不能自己切换成流动站。
-        这也是本页最容易写错的地方——很多教程默认「所有模块都能自动标定」，实际并非如此。
+        坐标怎么定，取决于你手头有什么、以及模块能不能自己切换成流动站。
+        很多教程默认「所有模块都能自动标定」，实际并非如此。
       </p>
       <div class="table-wrap">
         <table>
@@ -166,7 +165,7 @@
           <tbody>
             <tr>
               <td><strong>走法 A<br>原厂软件先设基准站</strong></td>
-              <td>手头有模块官方配置工具；单频 / 单基准站模块；不想在屋外开电脑</td>
+              <td>手头有模块官方配置工具；单基准站模块（切不了流动站）；不想在屋外开电脑</td>
               <td>
                 在<strong>室内电脑</strong>上把模块接 USB，用模块厂商的配置程序（LG290P 用 Quectel 的工具、u-blox 用 u-center）
                 直接设成 <code>Base</code> 模式并固定坐标。然后再把模块插进盒子，盒子只负责把 RTCM 搬出去。
@@ -184,7 +183,7 @@
               <td><strong>走法 C<br>已知坐标直接写</strong></td>
               <td>这个点位以前测过（控制点、老基站），天线<strong>从来没挪过</strong></td>
               <td>
-                把已知的坐标填进去即可，不用测量。单基准站模块只能这么干，或者退一步用自收敛。
+                把已知的坐标填进去就行，不用测量。也可以在本程序的标定页手动写入，顺便留一条记录。
               </td>
             </tr>
           </tbody>
@@ -370,19 +369,19 @@ sudo apt install -y python3 python3-venv python3-pip</pre>
 
       <h2 id="antenna">第二步：在室外把天线固定好</h2>
       <p>
-        这一步和软件一点关系都没有，但它决定了整套基站能不能成。
-        <strong>盒子那边先跑到「装好程序」就停下来，回来架完天线再继续</strong>——顺序反了，
+        这一步跟软件没关系，但它决定了整套基站能不能成。
+        <strong>盒子那边装完程序就先停下，回来把天线架好再继续</strong>——顺序反了，
         你会在装完、配完、标定卡住的时候才发现天线位置不行，白忙一场。
       </p>
       <div class="tip">
-        <p><b>为什么插在这一步？</b>这四步（架天线 → 测相位中心 → 原厂软件设基准站 → 插回盒子）
-        彼此咬得很紧：天线位置决定了坐标，坐标要由模块在<strong>能看见天空的状态下</strong>测出来。
-        所以它们必须连着做完，中途不要跳去写配置页。</p>
+        <p><b>为什么这四件事要连着做完？</b>架天线、量天线高、用原厂软件设基准站、插回盒子，
+        彼此咬得很紧：天线位置决定坐标，坐标要由模块<strong>在能看见天空的状态下</strong>测出来。
+        所以中途别跳去写配置页。</p>
       </div>
 
       <div class="warn">
         <p>
-          <b>先分清你现在是做临时测试还是永久固定——这两件事的天线装法完全不同。</b>
+          <b>先想清楚是临时测试还是永久固定——这两件事的天线装法完全不同。</b>
         </p>
         <div class="table-wrap compact">
           <table>
@@ -405,9 +404,9 @@ sudo apt install -y python3 python3-venv python3-pip</pre>
           </table>
         </div>
         <p>
-          <strong>临时测试把天线放在窗外是可以的，只要它朝向天空的视野够用。</strong>
-          但别把临时配置当成品用：磁吸底座夹在窗框上，风一吹就挪位置，窗玻璃和墙体还会挡掉一大片低仰角卫星，
-          卫星数上不去、固定解时有时无。<strong>要长期跑，请到楼顶或开阔地带固定。</strong>
+          <strong>临时测试把天线放在窗外是允许的，前提是它朝天的视野够用。</strong>
+          但别把临时配置当成品：磁吸底座夹在窗框上，风一吹就挪位置；窗玻璃和墙体还会挡掉一大片低仰角卫星，
+          卫星数上不去，固定解时有时无。<strong>要长期跑，请到楼顶或开阔地带固定。</strong>
         </p>
         <p>
           另外，两种天线的<strong>相位中心不一样</strong>。你在窗外用螺旋天线标定出来的坐标，
@@ -463,13 +462,12 @@ sudo apt install -y python3 python3-venv python3-pip</pre>
 
       <h3>测天线相位中心：模块要的是这个点</h3>
       <p>
-        这里有个概念必须先说清：RTCM 里的坐标<strong>不是</strong>立杆底部、不是螺丝孔、不是楼顶地面，
+        这里有个概念得先说清：RTCM 里的坐标<strong>不是</strong>立杆底部、不是螺丝孔、也不是楼顶地面，
         而是天线的<strong>相位中心（Antenna Phase Centre，APC）</strong>——一个在天线内部、
-        跟着卫星信号入射角变化的小区域。
+        跟着信号入射角变化的小区域。你填坐标、量天线高，目标点永远是它。
       </p>
       <p>
-        你在测量或者填坐标时，<strong>目标点永远是天线的相位中心</strong>。
-        如果手上的已知坐标是从地面控制点量出来的，就要把「天线高」加上去，换算到相位中心。
+        手上的坐标是从地面控制点量出来的，就把「天线高」加上去，换算到相位中心。
       </p>
       <div class="table-wrap compact">
         <table>
@@ -486,16 +484,10 @@ sudo apt install -y python3 python3-venv python3-pip</pre>
         量两次、换人复核一次，几厘米的差错在 RTK 里就是几厘米的系统误差。</p>
       </div>
 
-      <div class="fig-grid">
-        <figure class="fig">
-          <div class="fig-ph"><b>实物图</b><span>量天线高的位置</span></div>
-          <figcaption>从固定基准面量到天线参考点（ARP），垂直测量</figcaption>
-        </figure>
-        <figure class="fig">
-          <div class="fig-ph"><b>截图占位</b><span>模块原厂软件里的天线高设置</span></div>
-          <figcaption>在厂商配置工具里填写天线高与相位中心偏移</figcaption>
-        </figure>
-      </div>
+      <p>
+        量出来的这个高，一般填在原厂软件里（第三步）；也可以在本程序手动写入坐标时一并写进去。
+        填错了不用慌，坐标本身没坏，改个数字重写一次就行。
+      </p>
 
       <h2 id="preset">第三步：在电脑上用原厂软件，把模块设成基准站</h2>
       <p>
@@ -527,6 +519,13 @@ sudo apt install -y python3 python3-venv python3-pip</pre>
         </table>
       </div>
 
+      <div class="tip">
+        <p><b>这一步不是非做不可。</b>除了用原厂软件，你也可以直接用本程序自带的标定功能，
+        在网页上选「CORS 一键固定」，把模块<strong>一条命令都不用敲</strong>就配成基准站，顺带把坐标定到厘米级。
+        前提是盒子已经装好程序、模块已经插上——也就是先把第四到第七步走完，再回到这篇
+        <a href="#calibrate">一键标定</a>。手头实在没有电脑、或者模块没有好用的官方工具，走这条路更省事。</p>
+      </div>
+
       <div class="note">
         <p>
           <strong>坐标从哪来？</strong>如果这一步你还没有精确坐标，两种做法：
@@ -535,6 +534,7 @@ sudo apt install -y python3 python3-venv python3-pip</pre>
           <strong>建议后一种</strong>：先让模块以自收敛坐标跑起来，等整套系统通了，再用标定把坐标换成厘米级的。
         </p>
       </div>
+
 
       <h3>必须确认模块真的在输出 RTCM</h3>
       <p>设完之后别急着拔，先在电脑上看一眼输出。任何一个串口工具都能看：</p>
@@ -727,16 +727,24 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
           <figcaption>出口卡片：每个出口一个状态灯。</figcaption>
         </figure>
       </div>
-      <figure class="fig ui">
-        <img src="/images/base/web-06-log.png" alt="状态页系统日志：显示最近的事件与错误" loading="lazy" decoding="async" width="2280" height="516" />
+      <figure class="fig ui wide">
+        <img src="/images/base/web-06-log.png" alt="状态页系统日志：显示最近的事件与错误" loading="lazy" decoding="async"  width="2280" height="516" />
         <figcaption>下方是系统日志。出问题先看这里，它按时间顺序写下了每一次连接、断开和报错。</figcaption>
       </figure>
       <p>状态页走 WebSocket 推送，卫星数和位置会持续刷新，不需要手动刷新页面。</p>
 
+      <div class="tip">
+        <p><b>先看一眼这里就行。</b>页面能打开、状态页不报错，说明程序和盒子都正常，
+        接着去做<strong>第七步</strong>。第七步的串口一通，数据就能流动起来，流动站那一刻其实已经能拿到差分。</p>
+        <p>只是这时候基站坐标还很粗。要把它定准，去后面那篇
+        <a href="#calibrate"><strong>再看一个特别功能：一键标定坐标</strong></a>——那是这个程序相比
+        「手工配模块」多出来的东西，不属于主线，随时回来做都行。</p>
+      </div>
+
       <h2 id="serial">第七步：串口配置，让数据流动起来</h2>
       <p>进入 <strong>Settings（运行设置）</strong>，页面是 <code>/config</code>。</p>
-      <figure class="fig">
-        <img src="/images/base/web-05-config-serial.png" alt="运行设置页截图：Mode 与 Serial 两块，此时模式还是 none" loading="lazy" decoding="async" width="1628" height="398" />
+      <figure class="fig wide">
+        <img src="/images/base/web-05-config-serial.png" alt="运行设置页截图：Mode 与 Serial 两块，此时模式还是 none" loading="lazy" decoding="async"  width="1628" height="398" />
         <figcaption>运行设置页最上方就是 Mode 和 Serial 两块。此时模式还是 <code>none</code>。</figcaption>
       </figure>
 
@@ -748,8 +756,8 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         <li>
           <h3>找到串口</h3>
           <p><strong>方式一 —— 扫描。</strong>点「扫描串口」，程序会枚举系统里的串口设备并填进下拉框：</p>
-          <figure class="fig">
-            <img src="/images/base/web-06-scan-ports.png" alt="扫描串口截图：识别到的端口出现在下拉框里" loading="lazy" decoding="async" width="1628" height="398" />
+          <figure class="fig wide">
+            <img src="/images/base/web-06-scan-ports.png" alt="扫描串口截图：识别到的端口出现在下拉框里" loading="lazy" decoding="async"  width="1628" height="398" />
             <figcaption>扫描后，识别到的端口出现在下拉框里。</figcaption>
           </figure>
           <p><strong>方式二 —— 手填。</strong>已经知道端口就直接填 <code>/dev/ttyUSB0</code> 或 <code>/dev/ttyACM0</code>。</p>
@@ -761,8 +769,8 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         </li>
         <li>
           <h3>设置波特率</h3>
-          <figure class="fig">
-            <img src="/images/base/web-07-serial-filled.png" alt="运行设置页截图：串口与波特率已填写" loading="lazy" decoding="async" width="1628" height="398" />
+          <figure class="fig wide">
+            <img src="/images/base/web-07-serial-filled.png" alt="运行设置页截图：串口与波特率已填写" loading="lazy" decoding="async"  width="1628" height="398" />
             <figcaption>端口和波特率填好。本例是 <code>/dev/ttyUSB0</code> 配 115200——模块盒子上插的就是这个口。</figcaption>
           </figure>
           <div class="table-wrap compact">
@@ -815,23 +823,40 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         先不买模块、拿公开流把 Caster / 防火墙 / 流动站这几段链路打通；给已有基站做备份；把一路流分发给多个消费方。
       </p>
 
-      <h2 id="calibrate">第八步：坐标标定（最关键的一步）</h2>
+      <div class="tip">
+        <p><b>到这儿主线就通了。</b>串口在出数据，接下来可以直接去
+        <a href="#caster">第九步</a>把 RTCM 推到 Caster——十、十一、十二步都是这一段的延伸，
+        按你需要挑。
+        后面那篇「一键标定」是这台程序额外的本事：它能把坐标从米级修到厘米级，但它不是通数据的前提，
+        可以先把站跑起来，日后再标。</p>
+      </div>
+
+      <h2 id="calibrate">特别功能：一键标定，把坐标修到厘米级</h2>
       <p>
-        基站只有<strong>非常精确地知道自己的位置</strong>，才能产出有用的差分数据。
-        基站坐标差一米，每个流动站的输出就差一米，而且事后没有任何软件能救回来。
+        到第七步为止，站其实已经在出数据了。但它报出去的坐标多半不准——可能是原厂软件里随手填的，
+        也可能是模块自收敛出来的米级值。坐标差一米，每个流动站的结果就差一米，事后没有软件补救得回来。
+      </p>
+      <p>
+        这是 2RTK Server 比「用原厂软件配好模块就完事」多出来的本事：程序自己驱动模块走完整套命令——
+        切流动站、连 CORS、等固定解、取平均、写回模块、再切回基准站，中间任何一步失败都会把模块恢复原样。
+        你在网页上只做两件事：挑一种方式，点开始。
+      </p>
+      <p>
+        <strong>它不在主线里，什么时候做都行。</strong>急着先用，就让站带着粗坐标跑几天；
+        要做的时候只有一个硬条件——天线已经固定牢，整个过程不能动。
       </p>
 
       <div class="note">
         <p>
-          <strong>先分清两件事。</strong>「把模块设成基准站」是<strong>模式</strong>问题——模块是 Base 还是 Rover；
-          「标定」是<strong>坐标</strong>问题——基准站对外宣称自己站在哪个点上。
-          走法 A 在电脑上已经把模式设好了，但坐标可能只是个粗测值，这一步就是要把坐标弄准。
-          走法 B 则是一次把模式和坐标都办掉。
+          <strong>「把模块设成基准站」和「标定」不是一回事。</strong>前者是<strong>模式</strong>——模块工作在 Base 还是 Rover；
+          后者是<strong>坐标</strong>——基站对外宣称自己站在哪个点上。
+          第三步在原厂软件里已经把模式设好了，但坐标可能只是粗测值，这一步专门修坐标。
+          如果你第三步就是用本程序一键配的，那模式和坐标是一起办掉的。
         </p>
       </div>
 
-      <h3>先确认你要走哪条路</h3>
-      <p>回到前文的三种走法，这里给一个更直接的判断方式：</p>
+      <h3>你的情况对应哪种方式</h3>
+      <p>别急着点下去，先拿自己的情况对一下表：</p>
       <div class="table-wrap">
         <table>
           <colgroup><col style="width:30%" /><col style="width:34%" /><col style="width:36%" /></colgroup>
@@ -862,7 +887,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
       </div>
 
       <div class="tip">
-        <p><b>非 LG290P 模块的建议路径。</b>系统里预留了 u-blox ZED-F9P、Unicore UМ960 / UM980、Quectel LC29H(BS) 等型号档案，
+        <p><b>非 LG290P 模块的建议路径。</b>系统里预留了 u-blox ZED-F9P、Unicore UM960 / UM980、Quectel LC29H(BS) 等型号档案，
         但<strong>只有 LG290P 做过真机验证</strong>。对这些模块，更稳的做法是：先用流动站模式把天线坐标测准（可以用本程序的「仅测量」，
         也可以用手机 / 手簿上的 CORS App），把坐标存进系统；然后再用这个坐标把模块设成基准站模式。
         也就是<strong>先用走法 B 测、再用走法 C 写</strong>。</p>
@@ -1150,7 +1175,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         你的天线如果要重复拆装，做完标定后把立杆位置做上记号，下次装回同一个位置；否则重新标定。
         这一条比选哪种标定方式重要得多。</p>
       </div>
-      <h2 id="trouble-cal">标定失败了怎么排查</h2>
+      <h2 id="trouble-cal">附：标定失败了怎么排查</h2>
       <p>程序失败时话很多——它会告诉你哪一项检查没过、观测到了什么。下面按症状分。</p>
 
       <h3>识别阶段报「模块无应答」</h3>
@@ -1234,8 +1259,7 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
 
     <section id="caster">
       <h2 id="caster">第九步：把 RTCM 推到云端 NTRIP Caster</h2>
-      <p class="lead">基站标定完、模式进了 <code>serial</code>，它才刚刚开始产出 RTCM 数据。这些数据现在只在本机里打转，得有一个出口把它送出去，流动站才收得到。</p>
-
+      <p class="lead">模式进了 <code>serial</code>、串口在出数据，站就已经在产出 RTCM 了。这些数据现在只在本机里打转，得有一个出口把它送出去，流动站才收得到。这一步接着第七步做，不用等标定。</p>
       <p>2RTK Server 设计上给了三个互相独立的出口，可以只开一个，也可以同时开：</p>
 
       <div class="fig-grid">
@@ -1268,8 +1292,8 @@ journalctl -u 2rtkserver -n 50 --no-pager</pre>
         </tbody>
       </table>
 
-      <figure class="fig">
-        <img src="/images/base/web-08-output-caster.png" alt="Settings 页面中的上游 NTRIP Caster 配置区域" loading="lazy" decoding="async" width="1628" height="467" />
+      <figure class="fig wide">
+        <img src="/images/base/web-08-output-caster.png" alt="Settings 页面中的上游 NTRIP Caster 配置区域" loading="lazy" decoding="async"  width="1628" height="467" />
         <figcaption>Settings 页面的出口 ①：上游 Caster。这一块默认是关的，填完记得把开关打开。</figcaption>
       </figure>
 

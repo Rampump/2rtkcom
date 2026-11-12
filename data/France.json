@@ -16014,6 +16014,25 @@
         "password": "centipede"
     },
     {
+        "name": "FRTK18",
+        "format": "RTCM3",
+        "rtcm_types": [
+            "1005"
+        ],
+        "systems": "",
+        "country": "FRA",
+        "latitude": 46.675,
+        "longitude": 2.497,
+        "height": 0.0,
+        "network": "NONE",
+        "ntrip_version": "NTRIP  ",
+        "server_host": "crtk.net",
+        "server_port": 2101,
+        "registration_address": "https://map.centipede-rtk.org/",
+        "username": "centipede",
+        "password": "centipede"
+    },
+    {
         "name": "FRTK31",
         "format": "RTCM3",
         "rtcm_types": [
@@ -24021,6 +24040,28 @@
         "height": 0.0,
         "network": "NONE",
         "ntrip_version": "NTRIP RTKBase U-blox_ZED-F9P 2.4.1 1.13",
+        "server_host": "crtk.net",
+        "server_port": 2101,
+        "registration_address": "https://map.centipede-rtk.org/",
+        "username": "centipede",
+        "password": "centipede"
+    },
+    {
+        "name": "LH41",
+        "format": "RTCM3",
+        "rtcm_types": [
+            "1005",
+            "1008",
+            "1033",
+            "1230"
+        ],
+        "systems": "",
+        "country": "FRA",
+        "latitude": 47.342,
+        "longitude": 1.495,
+        "height": 0.0,
+        "network": "NONE",
+        "ntrip_version": "NTRIP RTKBase u-blox_ZED-F9P 2.7.0 1.32",
         "server_host": "crtk.net",
         "server_port": 2101,
         "registration_address": "https://map.centipede-rtk.org/",
@@ -43538,6 +43579,27 @@
         "height": 0.0,
         "network": "NONE",
         "ntrip_version": "NTRIP RTKBase U-blox_ZED-F9P 2.7.0 1.51",
+        "server_host": "crtk.net",
+        "server_port": 2101,
+        "registration_address": "https://map.centipede-rtk.org/",
+        "username": "centipede",
+        "password": "centipede"
+    },
+    {
+        "name": "YMON",
+        "format": "RTCM3",
+        "rtcm_types": [
+            "1005",
+            "1008",
+            "1033"
+        ],
+        "systems": "",
+        "country": "ENG",
+        "latitude": 53.227,
+        "longitude": -4.437,
+        "height": 0.0,
+        "network": "NONE",
+        "ntrip_version": "NTRIP RTKBase U-blox_ZED-F9P 2.7.0 1.32",
         "server_host": "crtk.net",
         "server_port": 2101,
         "registration_address": "https://map.centipede-rtk.org/",

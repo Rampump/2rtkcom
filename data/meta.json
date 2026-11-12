@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-11-12T00:05:09+00:00",
+  "last_update": "2026-11-12T11:15:17+08:00",
   "igs_network": {
     "ok": true,
     "file": "IGSNetwork.json"
@@ -17,8 +17,16 @@
       "name": "France",
       "file": "France.json",
       "ok": true,
-      "station_count": 1323,
-      "message": "成功处理 1323 个挂载点",
+      "station_count": 1320,
+      "message": "成功处理 1320 个挂载点",
+      "stale": false
+    },
+    {
+      "name": "2rtk",
+      "file": "2rtk.json",
+      "ok": true,
+      "station_count": 1,
+      "message": "成功处理 1 个挂载点",
       "stale": false
     }
   ]

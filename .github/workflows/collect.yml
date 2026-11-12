@@ -36,7 +36,8 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      # 公开源（rtk2go / crtk）写在 ci.ini 里；2rtk.net 的账号密码走 Secrets，不进仓库
+      # rtk2go / crtk / 2rtk.net 三路公开源都写在 ci.ini 里（源表匿名可读）
+      # 若将来 2rtk.net 关闭匿名源表，配 NTRIP_2RTK_* secrets 即可覆盖成带账号的配置
       - name: Prepare config
         env:
           HOST: ${{ secrets.NTRIP_2RTK_HOST }}
@@ -46,20 +47,11 @@ jobs:
         run: |
           cp ntrip_servers.ci.ini ntrip_servers.ini
           if [ -n "$HOST" ] && [ -n "$USER" ]; then
-            cat >> ntrip_servers.ini <<EOF
-
-          [2rtk]
-          host = $HOST
-          port = ${PORT:-2101}
-          enabled = true
-          output_prefix = 2rtk
-          address = https://2rtk.com
-          username = $USER
-          password = $PASS
-          EOF
-            echo "已注入 2rtk.net Caster 配置（$HOST:${PORT:-2101}）"
+            echo "检测到 NTRIP_2RTK_* secrets，用账号覆盖 ci.ini 的 [2rtk] 段"
+            python scripts/patch_2rtk_cfg.py "$HOST" "${PORT:-2101}" "$USER" "$PASS"
+            echo "已注入 2rtk.net 账号（$HOST:${PORT:-2101}）"
           else
-            echo "::warning::未配置 NTRIP_2RTK_* secrets，本轮跳过 2rtk.net 源，data/2rtk.json 保持上一轮内容"
+            echo "未配置 NTRIP_2RTK_* secrets，直接使用 ci.ini 里的匿名 [2rtk] 配置"
           fi
 
       # 1) 三路 NTRIP 源表 + IGS 站点坐标（失败的那一路保留上次文件，不清空）

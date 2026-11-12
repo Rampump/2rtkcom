@@ -15,7 +15,7 @@
   ├─ git push ───────────────► 仓库 main 分支
   │                               │
   │                               ├─ 有代码改动 ──► Cloudflare 构建 ──► 发布上线
-  │                               │                  (python3 scripts/build.py)
+  │                               │                  (sh scripts/cf-build.sh)
   │                               │
   │                               └─ Actions 每 6 小时
   │                                  抓 CRTK / RTK2GO / IGS / TLE
@@ -27,7 +27,7 @@
 **一句话分工**：
 
 - **GitHub 只存源码**（HTML、CSS、JS、Python 脚本、data/*.json），**不存构建产物 `dist/`**
-- **Cloudflare 负责构建和托管**，每次收到 GitHub 推送就自动跑 `python3 scripts/build.py`，把 `dist/` 发布成网站
+- **Cloudflare 负责构建和托管**，每次收到 GitHub 推送就自动跑 `sh scripts/cf-build.sh`，把 `dist/` 发布成网站
 - 站点是**纯静态**的，没有后端 API、没有数据库，前端直接读同域的 `./data/*.json`
 
 ---
@@ -237,7 +237,7 @@ data: auto update 2026-11-11 11:05 UTC    github-actions[bot]
 | **Project name** | `2rtkcom` | 会变成 `2rtkcom.pages.dev`，之后改不了 |
 | **Production branch** | `main` | 必须和你 git 分支一致 |
 | **Framework preset** | `None` | 不是 Next.js/Vite，选 None |
-| **Build command** | `python3 scripts/build.py` | **必须写 `python3`**，Cloudflare 镜像里没有 `python` 这个别名 |
+| **Build command** | `sh scripts/cf-build.sh` | 包装脚本会自动挑选可用的 Python 3，规避镜像里 `python` / `python3` 不一致的问题 |
 | **Build output directory** | `dist` | 注意：不带斜杠，也不是 `site` |
 
 6. 展开 **Environment variables (advanced)**，现在可以先不加，直接点 **Save and Deploy**
@@ -248,9 +248,8 @@ data: auto update 2026-11-11 11:05 UTC    github-actions[bot]
 
 ```
 Cloning repository...
-Detected .python-version: 3.11
-Installing python 3.11...
-Running build command: python3 scripts/build.py
+Repo root: /opt/buildhome/repo
+Using interpreter: python3 (Python 3.11.x)
 [ok] data/files.json 已更新，共 4 个数据文件
 [ok] 已同步 data/tle-gnss.txt（26.5 KB）
 [info] 未配置 Ion 凭证，将使用公共图源
@@ -348,7 +347,8 @@ Cloudflare Pages → **Deployments** → 找到上次好的那次 → 右侧 **�
 | push 报 `403` / 认证失败 | 密码位置填了登录密码 | 换成 Personal Access Token |
 | Actions 报 `Permission denied to github-actions[bot]` | 工作流默认只读 | Settings → Actions → General → Workflow permissions → Read and write |
 | Actions 成功但仓库没有新提交 | 数据本轮无变化 | 正常，日志会写「数据无变化，跳过提交」 |
-| Cloudflare 构建报 `python: command not found` | Build command 写成了 `python` | 改成 `python3 scripts/build.py` |
+| Cloudflare 构建报 `/bin/sh: 3: 3.11: not found` | `.python-version` 里写了注释，整段被当成版本号 | 该文件**只能有一行版本号**，任何 `#` 注释都会导致解析失败 |
+| Cloudflare 构建报 `python: command not found` | Build command 写成了 `python` | 改成 `sh scripts/cf-build.sh` |
 | Cloudflare 构建报 `No such file or directory: dist` | 输出目录填错 | 填 `dist`（无斜杠） |
 | 构建成功但页面 404 | 输出目录指向了 `site` | 改为 `dist` |
 | 页面能开但地图空白 | 浏览器控制台报 Cesium 加载失败 | 检查 `/config.js` 是否 200；或先不配 Token 用公共图源 |
@@ -371,7 +371,7 @@ Cloudflare Pages → **Deployments** → 找到上次好的那次 → 右侧 **�
 **Cloudflare**
 - [ ] 域名 NS 已托管到 Cloudflare（绑自定义域名前必须）
 - [ ] Pages 项目连接 `2rtkcom` 仓库
-- [ ] Build command = `python3 scripts/build.py`
+- [ ] Build command = `sh scripts/cf-build.sh`
 - [ ] Build output directory = `dist`
 - [ ] Framework preset = None
 - [ ] 首次部署成功，`xxx.pages.dev` 能访问
@@ -384,5 +384,5 @@ Cloudflare Pages → **Deployments** → 找到上次好的那次 → 右侧 **�
 ## 9. 三句话总结
 
 1. **放 GitHub 的**：所有源码 + `data/*.json` + `_redirects`/`_headers` + `.python-version` + workflow 文件。不放 `dist/`、不放带密码的 `.ini`。
-2. **放 Cloudflare 的**：只有三样——构建命令 `python3 scripts/build.py`、输出目录 `dist`、以及 `CESIUM_ION_TOKEN` 这个环境变量。其余 Cloudflare 什么都不用配。
+2. **放 Cloudflare 的**：只有三样——构建命令 `sh scripts/cf-build.sh`、输出目录 `dist`、以及 `CESIUM_ION_TOKEN` 这个环境变量。其余 Cloudflare 什么都不用配。
 3. **数据怎么搭上 GitHub 推送**：Actions 每 6 小时抓完直接 commit 到 `data/`，Cloudflare 监听这个仓库的 push 自动重建。不需要任何后端、数据库或 API。

@@ -1,0 +1,33 @@
+# 统一换行符策略
+#
+# 背景：Windows 上 core.autocrlf=true 会在提交时把文本转成 CRLF。
+# shell 脚本一旦是 CRLF，Linux 上首行会变成 "#!/bin/sh\r"，
+# 报 "bad interpreter: No such file or directory"。
+# 因此脚本类文件强制 LF，其余交给各自平台。
+
+* text=auto eol=lf
+
+# shell 脚本必须是 LF，否则 Cloudflare / Linux 无法执行
+*.sh text eol=lf
+
+# Python 脚本在 Linux 构建环境执行，同样用 LF
+*.py text eol=lf
+
+# 静态资源与配置按 LF 统一，避免 diff 噪声
+*.html text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.ini  text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.txt  text eol=lf
+
+# 二进制文件不做任何转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary

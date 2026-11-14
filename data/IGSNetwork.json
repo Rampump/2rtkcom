@@ -35329,9 +35329,9 @@
             "Name": "TRIMBLE BD970",
             "SatelliteSystem": "GPS+GLO+GAL+BDS",
             "SerialNumber": "5644C00061",
-            "FirmwareVersion": "5.21",
+            "FirmwareVersion": "5.68",
             "ElevCutoff": "0.0",
-            "DateInstalled": "2025-03-26T00:00Z"
+            "DateInstalled": "2026-11-12T13:20Z"
         },
         "Antenna": {
             "Name": "TRM105000.10",

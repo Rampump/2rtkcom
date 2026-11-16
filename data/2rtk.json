@@ -3,17 +3,17 @@
         "name": "2RTK",
         "format": "RTCM3.x",
         "rtcm_types": [
-            "1114(2)",
             "1005(2)",
             "1074(2)",
             "1084(2)",
             "1094(2)",
-            "1124(2)"
+            "1124(2)",
+            "1114(2)"
         ],
         "systems": "BDS+GAL+GLO+GPS+IRNSS",
         "country": "CHN",
-        "latitude": 25.2035,
-        "longitude": 110.2776,
+        "latitude": 25.2082,
+        "longitude": 110.2802,
         "height": 0.0,
         "network": "2rtk",
         "ntrip_version": "2RTK_NtirpCaster",

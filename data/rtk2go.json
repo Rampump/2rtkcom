@@ -24,42 +24,6 @@
         "password": "none"
     },
     {
-        "name": "AgPartner_2",
-        "format": "RTCM 3.3",
-        "rtcm_types": [
-            "1004(1)",
-            " 1005(10)",
-            " 1007(30)",
-            " 1008(10)",
-            " 1012(1)",
-            " 1033(10)",
-            " 1042(4)",
-            " 1046(1)",
-            " 1075(1)",
-            " 1077(1)",
-            " 1085(1)",
-            " 1087(1)",
-            " 1095(1)",
-            " 1097(1)",
-            " 1107(1)",
-            " 1125(1)",
-            " 1127(1)",
-            " 1230(30)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou+SBAS",
-        "country": "POL",
-        "latitude": 52.7,
-        "longitude": 19.57,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "AGROORSOLIC",
         "format": "RTCM 3.3",
         "rtcm_types": [
@@ -94,16 +58,11 @@
     },
     {
         "name": "AJanasz",
-        "format": "RTCM 3.2",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)",
-            " 1230(1)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO+GAL+BeiDou",
+        "systems": "",
         "country": "POL",
         "latitude": 53.06,
         "longitude": 20.73,
@@ -273,7 +232,7 @@
             " 1084(1)",
             " 1094(1)",
             " 1124(1)",
-            " 1230(10)"
+            " 1230(12)"
         ],
         "systems": "GPS+GLO+GAL+BeiDou",
         "country": "USA",
@@ -317,15 +276,11 @@
     },
     {
         "name": "AUT_STY_AVL",
-        "format": "RTCM 3.2",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1230(1)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO+GAL",
+        "systems": "",
         "country": "AUT",
         "latitude": 48.08,
         "longitude": 14.43,
@@ -828,14 +783,9 @@
         "name": "baseHEIMER",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(39)",
-            " 1074(150)",
-            " 1084(150)",
-            " 1094(150)",
-            " 1124(150)",
-            " 1230(1)"
+            "1230(1)"
         ],
-        "systems": "GPS+GLO+GAL+BeiDou",
+        "systems": "",
         "country": "BRA",
         "latitude": -9.83,
         "longitude": -47.45,
@@ -864,6 +814,30 @@
         "country": "CHE",
         "latitude": 47.57,
         "longitude": 7.6,
+        "height": 1.0,
+        "network": "SNIP",
+        "ntrip_version": "SNIP",
+        "server_host": "rtk2go.com",
+        "server_port": 2101,
+        "registration_address": "https://www.rtk2go.com/",
+        "username": "mail",
+        "password": "none"
+    },
+    {
+        "name": "Basertk-fogli",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            "1005(10)",
+            " 1077(1)",
+            " 1087(1)",
+            " 1097(1)",
+            " 1127(1)",
+            " 1230(10)"
+        ],
+        "systems": "GPS+GLO+GAL+BeiDou",
+        "country": "ITA",
+        "latitude": 44.71,
+        "longitude": 12.17,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -1023,8 +997,8 @@
             " 1019(3)",
             " 1020(2)",
             " 1033(10)",
-            " 1042(4)",
-            " 1046(1)",
+            " 1042(3)",
+            " 1046(2)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -1409,7 +1383,7 @@
         "name": "BOBASL",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(30)",
+            "1005(31)",
             " 1074(1)",
             " 1084(1)",
             " 1094(1)"
@@ -1776,29 +1750,6 @@
         "password": "none"
     },
     {
-        "name": "BUSKLEIN_BASE",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(10)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "NOR",
-        "latitude": 63.13,
-        "longitude": 10.25,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "CA_SanJose_ML_X5",
         "format": "RTCM 3.2",
         "rtcm_types": [
@@ -2152,6 +2103,31 @@
         "password": "none"
     },
     {
+        "name": "cg3104",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            "1006(5)",
+            " 1033(10)",
+            " 1074(1)",
+            " 1084(1)",
+            " 1094(1)",
+            " 1114(1)",
+            " 1124(1)"
+        ],
+        "systems": "GPS+GLO+GAL+QZSS+BeiDou",
+        "country": "CAN",
+        "latitude": 49.43,
+        "longitude": -97.32,
+        "height": 1.0,
+        "network": "SNIP",
+        "ntrip_version": "SNIP",
+        "server_host": "rtk2go.com",
+        "server_port": 2101,
+        "registration_address": "https://www.rtk2go.com/",
+        "username": "mail",
+        "password": "none"
+    },
+    {
         "name": "chamba",
         "format": "RTCM 3.3",
         "rtcm_types": [
@@ -2215,17 +2191,11 @@
     },
     {
         "name": "chch",
-        "format": "RTCM 3.2",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(30)",
-            " 1033(30)",
-            " 1077(1)",
-            " 1087(1)",
-            " 1097(1)",
-            " 1117(1)",
-            " 1127(1)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO+GAL+QZSS+BeiDou",
+        "systems": "",
         "country": "NZL",
         "latitude": -43.57,
         "longitude": 172.59,
@@ -2432,15 +2402,15 @@
         "name": "CMDC_Shop_B_CAT",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1006(12)",
-            " 1008(14)",
+            "1006(15)",
+            " 1008(13)",
             " 1013(13)",
             " 1033(13)",
             " 1073(2)",
             " 1083(2)",
             " 1093(2)",
             " 1123(1)",
-            " 1230(12)"
+            " 1230(14)"
         ],
         "systems": "GPS+GLO+GAL+BeiDou",
         "country": "USA",
@@ -2783,17 +2753,11 @@
     },
     {
         "name": "CZ_Dohalice_Pachta",
-        "format": "RTCM 3.2",
+        "format": "",
         "rtcm_types": [
-            "1005(1)",
-            " 1033(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)",
-            " 1230(1)"
+            ""
         ],
-        "systems": "GPS+GLO+GAL+BeiDou",
+        "systems": "",
         "country": "CZE",
         "latitude": 50.29,
         "longitude": 15.71,
@@ -2840,11 +2804,17 @@
     },
     {
         "name": "CZChor",
-        "format": "RTCM 3",
+        "format": "RTCM 3.2",
         "rtcm_types": [
-            "PENDING"
+            "1005(30)",
+            " 1077(1)",
+            " 1087(1)",
+            " 1097(1)",
+            " 1117(1)",
+            " 1127(1)",
+            " 1137(1)"
         ],
-        "systems": "",
+        "systems": "GPS+GLO+GAL+QZSS+BeiDou+NavIC",
         "country": "CZE",
         "latitude": 49.67,
         "longitude": 16.75,
@@ -2885,8 +2855,8 @@
         "name": "DailySweetJay",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(30)",
-            " 1033(30)",
+            "1005(31)",
+            " 1033(31)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -3439,11 +3409,11 @@
         "format": "RTCM 3.0",
         "rtcm_types": [
             "1004(2)",
-            " 1006(14)",
+            " 1006(15)",
             " 1008(14)",
             " 1012(2)",
-            " 1013(13)",
-            " 1033(13)"
+            " 1013(15)",
+            " 1033(16)"
         ],
         "systems": "GPS+GLO",
         "country": "USA",
@@ -3599,11 +3569,15 @@
     },
     {
         "name": "DSP_race",
-        "format": "RTCM 3",
+        "format": "RTCM 3.2",
         "rtcm_types": [
-            "PENDING"
+            "1005(1)",
+            " 1074(1)",
+            " 1084(1)",
+            " 1094(1)",
+            " 1230(1)"
         ],
-        "systems": "",
+        "systems": "GPS+GLO+GAL",
         "country": "DEU",
         "latitude": 40.62,
         "longitude": -3.58,
@@ -3984,7 +3958,7 @@
             " 1019(3)",
             " 1020(1)",
             " 1033(10)",
-            " 1042(2)",
+            " 1042(3)",
             " 1046(1)",
             " 1077(1)",
             " 1087(1)",
@@ -5018,13 +4992,13 @@
         "name": "Gem_pimp_RTCM",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1006(14)",
-            " 1008(14)",
-            " 1013(14)",
-            " 1033(13)",
+            "1006(10)",
+            " 1008(10)",
+            " 1013(10)",
+            " 1033(10)",
             " 1073(1)",
             " 1083(1)",
-            " 1230(14)"
+            " 1230(10)"
         ],
         "systems": "GPS+GLO",
         "country": "AUS",
@@ -5929,7 +5903,7 @@
         "name": "HenryFarms",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(31)",
+            "1005(30)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -6557,8 +6531,8 @@
         "name": "IndiaTN02",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(31)",
-            " 1033(31)",
+            "1005(30)",
+            " 1033(30)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -7118,32 +7092,6 @@
         "password": "none"
     },
     {
-        "name": "JOE1",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(5)",
-            " 1019(10)",
-            " 1020(10)",
-            " 1033(5)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1124(1)",
-            " 1230(10)"
-        ],
-        "systems": "GPS+GLO+BeiDou",
-        "country": "KEN",
-        "latitude": -1.0,
-        "longitude": 37.34,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "JoeSeelsGPS",
         "format": "RTCM 3.2",
         "rtcm_types": [
@@ -7202,12 +7150,12 @@
         "rtcm_types": [
             "1005(10)",
             " 1008(30)",
-            " 1019(31)",
-            " 1020(31)",
+            " 1019(30)",
+            " 1020(30)",
             " 1033(30)",
-            " 1042(31)",
-            " 1044(31)",
-            " 1046(31)",
+            " 1042(30)",
+            " 1044(30)",
+            " 1046(30)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -7233,10 +7181,13 @@
         "format": "RTCM 3.2",
         "rtcm_types": [
             "1005(1)",
-            " 1097(4)",
+            " 1077(1)",
+            " 1087(1)",
+            " 1097(1)",
+            " 1127(1)",
             " 1230(1)"
         ],
-        "systems": "GAL",
+        "systems": "GPS+GLO+GAL+BeiDou",
         "country": "JPN",
         "latitude": 36.61,
         "longitude": 138.19,
@@ -8699,7 +8650,7 @@
             " 1005(10)",
             " 1008(10)",
             " 1012(1)",
-            " 1019(2)",
+            " 1019(3)",
             " 1020(2)",
             " 1033(10)",
             " 1042(3)",
@@ -8875,7 +8826,7 @@
         "name": "LayoutbestBase3",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(30)",
+            "1005(31)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -9000,38 +8951,6 @@
         "password": "none"
     },
     {
-        "name": "Lempo",
-        "format": "RTCM 3.3",
-        "rtcm_types": [
-            "1004(45)",
-            " 1005(10)",
-            " 1008(10)",
-            " 1012(45)",
-            " 1019(6)",
-            " 1020(3)",
-            " 1033(10)",
-            " 1042(8)",
-            " 1046(2)",
-            " 1077(45)",
-            " 1087(45)",
-            " 1097(45)",
-            " 1127(45)",
-            " 1230(30)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "FIN",
-        "latitude": 60.55,
-        "longitude": 22.23,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "Lengenfeld_AUT",
         "format": "RTCM 3.3",
         "rtcm_types": [
@@ -9095,13 +9014,13 @@
             " 1019(3)",
             " 1020(2)",
             " 1033(10)",
-            " 1042(4)",
+            " 1042(3)",
             " 1046(1)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
             " 1127(1)",
-            " 1230(31)"
+            " 1230(30)"
         ],
         "systems": "GPS+GLO+GAL+BeiDou",
         "country": "FIN",
@@ -9186,7 +9105,7 @@
         "name": "Litorinanranta2",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(3)",
+            "1005(2)",
             " 1074(1)",
             " 1084(1)",
             " 1094(1)",
@@ -9413,7 +9332,7 @@
             " 1019(3)",
             " 1020(2)",
             " 1033(10)",
-            " 1042(4)",
+            " 1042(3)",
             " 1046(1)",
             " 1077(1)",
             " 1087(1)",
@@ -9519,29 +9438,6 @@
         "country": "FIN",
         "latitude": 60.94,
         "longitude": 22.17,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "m2f_eng",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(10)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "BRA",
-        "latitude": -15.24,
-        "longitude": -40.24,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -9718,43 +9614,14 @@
     },
     {
         "name": "Malik",
-        "format": "RTCM 3.2",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)",
-            " 1230(1)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO+GAL+BeiDou",
+        "systems": "",
         "country": "POL",
         "latitude": 49.89,
         "longitude": 22.95,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "ManchesterHarbor",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)",
-            " 1230(10)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "USA",
-        "latitude": 42.57,
-        "longitude": -70.78,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -9976,11 +9843,16 @@
     },
     {
         "name": "MBGA",
-        "format": "RTCM 3",
+        "format": "RTCM 3.2",
         "rtcm_types": [
-            "PENDING"
+            "1006(10)",
+            " 1033(10)",
+            " 1074(1)",
+            " 1084(1)",
+            " 1094(1)",
+            " 1124(1)"
         ],
-        "systems": "",
+        "systems": "GPS+GLO+GAL+BeiDou",
         "country": "SWE",
         "latitude": 56.54,
         "longitude": 16.17,
@@ -10049,8 +9921,8 @@
             " 1005(10)",
             " 1008(10)",
             " 1012(1)",
-            " 1019(2)",
-            " 1020(2)",
+            " 1019(3)",
+            " 1020(1)",
             " 1033(10)",
             " 1042(4)",
             " 1046(1)",
@@ -10125,20 +9997,11 @@
     },
     {
         "name": "Me4etoagro",
-        "format": "RTCM 3.2",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1077(1)",
-            " 1084(1)",
-            " 1087(1)",
-            " 1094(1)",
-            " 1097(1)",
-            " 1124(1)",
-            " 1127(1)",
-            " 1230(1)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO+GAL+BeiDou",
+        "systems": "",
         "country": "BGR",
         "latitude": 42.59,
         "longitude": 26.48,
@@ -10387,6 +10250,30 @@
         "password": "none"
     },
     {
+        "name": "Miallo_Base",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            "1005(1)",
+            " 1074(1)",
+            " 1084(1)",
+            " 1094(1)",
+            " 1124(1)",
+            " 1230(10)"
+        ],
+        "systems": "GPS+GLO+GAL+BeiDou",
+        "country": "AUS",
+        "latitude": -16.38,
+        "longitude": 145.36,
+        "height": 1.0,
+        "network": "SNIP",
+        "ntrip_version": "SNIP",
+        "server_host": "rtk2go.com",
+        "server_port": 2101,
+        "registration_address": "https://www.rtk2go.com/",
+        "username": "mail",
+        "password": "none"
+    },
+    {
         "name": "MillerFarmsRTK",
         "format": "RTCM 3.2",
         "rtcm_types": [
@@ -10584,16 +10471,11 @@
     },
     {
         "name": "MOAL1",
-        "format": "RTCM 3.2",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(10)",
-            " 1033(12)",
-            " 1074(2)",
-            " 1084(2)",
-            " 1094(2)",
-            " 1124(2)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO+GAL+BeiDou",
+        "systems": "",
         "country": "BRA",
         "latitude": -29.47,
         "longitude": -51.04,
@@ -10748,6 +10630,30 @@
         "password": "none"
     },
     {
+        "name": "MPA_JAJO_RTK_RTCM3_X",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            "1005(10)",
+            " 1074(2)",
+            " 1084(2)",
+            " 1094(2)",
+            " 1124(2)",
+            " 1230(10)"
+        ],
+        "systems": "GPS+GLO+GAL+BeiDou",
+        "country": "CUW",
+        "latitude": 12.17,
+        "longitude": -68.98,
+        "height": 1.0,
+        "network": "SNIP",
+        "ntrip_version": "SNIP",
+        "server_host": "rtk2go.com",
+        "server_port": 2101,
+        "registration_address": "https://www.rtk2go.com/",
+        "username": "mail",
+        "password": "none"
+    },
+    {
         "name": "MPAGTS2",
         "format": "RTCM 3.2",
         "rtcm_types": [
@@ -10850,7 +10756,7 @@
         "name": "MRJNSI",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(31)",
+            "1005(30)",
             " 1074(1)",
             " 1084(1)",
             " 1094(1)"
@@ -10999,7 +10905,7 @@
             " 1019(3)",
             " 1020(1)",
             " 1033(10)",
-            " 1042(3)",
+            " 1042(2)",
             " 1046(1)",
             " 1077(1)",
             " 1087(1)",
@@ -11377,40 +11283,16 @@
         "password": "none"
     },
     {
-        "name": "NLD_DTC",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)",
-            " 1230(1)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "NLD",
-        "latitude": 51.97,
-        "longitude": 6.38,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "NMN_RT",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1006(30)",
-            " 1033(30)",
+            "1006(31)",
+            " 1033(31)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
             " 1127(1)",
-            " 1230(30)"
+            " 1230(31)"
         ],
         "systems": "GPS+GLO+GAL+BeiDou",
         "country": "HRV",
@@ -11442,30 +11324,6 @@
         "country": "TWN",
         "latitude": 24.37,
         "longitude": 120.64,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "NOAH-01",
-        "format": "RTCM 3.3",
-        "rtcm_types": [
-            "1004(1)",
-            " 1005(10)",
-            " 1007(10)",
-            " 1012(1)",
-            " 1033(10)",
-            " 1104(3)"
-        ],
-        "systems": "GPS+GLO+SBAS",
-        "country": "PER",
-        "latitude": -14.06,
-        "longitude": -75.72,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -11803,54 +11661,6 @@
         "password": "none"
     },
     {
-        "name": "NTFPloski",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)",
-            " 1230(1)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "POL",
-        "latitude": 51.53,
-        "longitude": 16.69,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "NTFsajna",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)",
-            " 1230(1)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "POL",
-        "latitude": 54.2,
-        "longitude": 21.09,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "ntripcx",
         "format": "RTCM 3.3",
         "rtcm_types": [
@@ -12072,6 +11882,29 @@
         "password": "none"
     },
     {
+        "name": "OCF-RH55LS-Capel",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            "1005(1)",
+            " 1074(1)",
+            " 1084(1)",
+            " 1094(1)",
+            " 1230(1)"
+        ],
+        "systems": "GPS+GLO+GAL",
+        "country": "GBR",
+        "latitude": 51.15,
+        "longitude": -0.35,
+        "height": 1.0,
+        "network": "SNIP",
+        "ntrip_version": "SNIP",
+        "server_host": "rtk2go.com",
+        "server_port": 2101,
+        "registration_address": "https://www.rtk2go.com/",
+        "username": "mail",
+        "password": "none"
+    },
+    {
         "name": "OCLB",
         "format": "RTCM 3.2",
         "rtcm_types": [
@@ -12173,22 +12006,11 @@
     },
     {
         "name": "oliveiraRTK",
-        "format": "RTCM 3.3",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(1)",
-            " 1019(5)",
-            " 1020(5)",
-            " 1033(30)",
-            " 1042(5)",
-            " 1045(5)",
-            " 1046(5)",
-            " 1077(1)",
-            " 1087(1)",
-            " 1097(1)",
-            " 1127(1)",
-            " 1230(1)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO+GAL+BeiDou",
+        "systems": "",
         "country": "USA",
         "latitude": 40.0,
         "longitude": -75.08,
@@ -12329,31 +12151,6 @@
         "password": "none"
     },
     {
-        "name": "ORLA_0",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1006(10)",
-            " 1033(10)",
-            " 1077(1)",
-            " 1087(1)",
-            " 1097(1)",
-            " 1127(1)",
-            " 1230(10)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "USA",
-        "latitude": 40.47,
-        "longitude": -115.97,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "Ormalingen_Ribi",
         "format": "RTCM 3.3",
         "rtcm_types": [
@@ -12439,11 +12236,11 @@
             " 1005(10)",
             " 1008(10)",
             " 1012(1)",
-            " 1019(2)",
+            " 1019(3)",
             " 1020(2)",
             " 1033(10)",
-            " 1042(4)",
-            " 1046(2)",
+            " 1042(3)",
+            " 1046(1)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -12490,23 +12287,21 @@
         "password": "none"
     },
     {
-        "name": "OvilleOne",
+        "name": "pajakulla",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(13)",
+            "1005(1)",
             " 1074(1)",
-            " 1077(1)",
             " 1084(1)",
             " 1087(1)",
             " 1094(1)",
-            " 1097(1)",
             " 1124(1)",
-            " 1230(6)"
+            " 1230(1)"
         ],
         "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "CAN",
-        "latitude": 43.92,
-        "longitude": -80.09,
+        "country": "FIN",
+        "latitude": 60.16,
+        "longitude": 23.06,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -12550,15 +12345,11 @@
     },
     {
         "name": "PalBase",
-        "format": "RTCM 3.2",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(2)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1230(1)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO+GAL",
+        "systems": "",
         "country": "ATG",
         "latitude": 17.59,
         "longitude": -61.85,
@@ -12884,7 +12675,7 @@
         "name": "Pernik",
         "format": "RTCM 3.3",
         "rtcm_types": [
-            "1005(8)",
+            "1005(10)",
             " 1019(30)",
             " 1020(30)",
             " 1042(30)",
@@ -12940,7 +12731,7 @@
         "name": "PERO",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(31)",
+            "1005(30)",
             " 1074(1)",
             " 1084(1)",
             " 1094(1)"
@@ -13079,35 +12870,6 @@
         "password": "none"
     },
     {
-        "name": "Piggy-BJ-DX2",
-        "format": "RTCM 3.3",
-        "rtcm_types": [
-            "1004(1)",
-            " 1005(1)",
-            " 1008(10)",
-            " 1012(1)",
-            " 1033(10)",
-            " 1077(1)",
-            " 1087(1)",
-            " 1097(1)",
-            " 1107(1)",
-            " 1127(1)",
-            " 1230(30)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou+SBAS",
-        "country": "CHN",
-        "latitude": 39.61,
-        "longitude": 116.33,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "Pilgrim1",
         "format": "RTCM 3.2",
         "rtcm_types": [
@@ -13122,30 +12884,6 @@
         "country": "CAN",
         "latitude": 58.13,
         "longitude": -116.15,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "PINOST1",
-        "format": "RTCM 3.0",
-        "rtcm_types": [
-            "1004(1)",
-            " 1006(10)",
-            " 1008(10)",
-            " 1012(1)",
-            " 1013(10)",
-            " 1033(10)"
-        ],
-        "systems": "GPS+GLO",
-        "country": "ABW",
-        "latitude": 12.5,
-        "longitude": -69.98,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -13198,8 +12936,8 @@
             " 1019(3)",
             " 1020(2)",
             " 1033(30)",
-            " 1042(3)",
-            " 1046(3)",
+            " 1042(4)",
+            " 1046(2)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -13310,30 +13048,6 @@
         "country": "CAN",
         "latitude": 45.7,
         "longitude": -73.87,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "POAS",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(10)",
-            " 1033(10)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "CRI",
-        "latitude": 10.09,
-        "longitude": -84.24,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -13764,6 +13478,28 @@
         "password": "none"
     },
     {
+        "name": "R8_rtk1",
+        "format": "RTCM 3.0",
+        "rtcm_types": [
+            "1004(1)",
+            " 1006(10)",
+            " 1008(10)",
+            " 1013(300)"
+        ],
+        "systems": "GPS",
+        "country": "MEX",
+        "latitude": 17.98,
+        "longitude": -102.23,
+        "height": 1.0,
+        "network": "SNIP",
+        "ntrip_version": "SNIP",
+        "server_host": "rtk2go.com",
+        "server_port": 2101,
+        "registration_address": "https://www.rtk2go.com/",
+        "username": "mail",
+        "password": "none"
+    },
+    {
         "name": "RaabComputer",
         "format": "RTCM 3.2",
         "rtcm_types": [
@@ -13779,29 +13515,6 @@
         "country": "CZE",
         "latitude": 49.4,
         "longitude": 17.68,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "Rafal6020",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1230(1)"
-        ],
-        "systems": "GPS+GLO+GAL",
-        "country": "POL",
-        "latitude": 50.42,
-        "longitude": 17.39,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -13992,7 +13705,7 @@
         "rtcm_types": [
             "1004(1)",
             " 1006(10)",
-            " 1008(45)",
+            " 1008(60)",
             " 1012(1)",
             " 1033(10)"
         ],
@@ -14504,17 +14217,11 @@
     },
     {
         "name": "RTK_BASE-ID_TJ1",
-        "format": "RTCM 3.2",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(30)",
-            " 1033(30)",
-            " 1077(1)",
-            " 1087(1)",
-            " 1097(1)",
-            " 1117(1)",
-            " 1127(1)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO+GAL+QZSS+BeiDou",
+        "systems": "",
         "country": "IDN",
         "latitude": -6.31,
         "longitude": 106.68,
@@ -14812,15 +14519,11 @@
     },
     {
         "name": "RyPeter",
-        "format": "RTCM 3.2",
+        "format": "",
         "rtcm_types": [
-            "1005(2)",
-            " 1077(2)",
-            " 1087(2)",
-            " 1097(2)",
-            " 1127(2)"
+            ""
         ],
-        "systems": "GPS+GLO+GAL+BeiDou",
+        "systems": "",
         "country": "UKR",
         "latitude": 48.4,
         "longitude": 31.44,
@@ -14848,6 +14551,28 @@
         "country": "AUS",
         "latitude": -34.87,
         "longitude": 138.86,
+        "height": 1.0,
+        "network": "SNIP",
+        "ntrip_version": "SNIP",
+        "server_host": "rtk2go.com",
+        "server_port": 2101,
+        "registration_address": "https://www.rtk2go.com/",
+        "username": "mail",
+        "password": "none"
+    },
+    {
+        "name": "SA_AYTO",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            "1005(10)",
+            " 1074(1)",
+            " 1094(1)",
+            " 1124(1)"
+        ],
+        "systems": "GPS+GAL+BeiDou",
+        "country": "ESP",
+        "latitude": 39.01,
+        "longitude": -6.0,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -14969,7 +14694,7 @@
         "name": "SanyiGazda",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(13)",
+            "1005(10)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -15242,25 +14967,6 @@
         "password": "none"
     },
     {
-        "name": "se_skpl_akerholmsv",
-        "format": "RTCM 3",
-        "rtcm_types": [
-            "PENDING"
-        ],
-        "systems": "",
-        "country": "SWE",
-        "latitude": 57.97,
-        "longitude": 12.16,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "SeAMK",
         "format": "RTCM 3.2",
         "rtcm_types": [
@@ -15356,30 +15062,6 @@
         "country": "PRY",
         "latitude": -25.23,
         "longitude": -54.7,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "serra_one",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)",
-            " 1230(10)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "USA",
-        "latitude": 39.71,
-        "longitude": -74.9,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -15519,7 +15201,7 @@
         "name": "SGF1",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1005(4)",
+            "1005(2)",
             " 1074(1)",
             " 1077(1)",
             " 1084(1)",
@@ -15786,9 +15468,9 @@
         "format": "RTCM 3.2",
         "rtcm_types": [
             "1006(225)",
-            " 1033(53)",
-            " 1077(5)",
-            " 1087(4)",
+            " 1033(36)",
+            " 1077(4)",
+            " 1087(5)",
             " 1097(3)",
             " 1127(3)"
         ],
@@ -15943,15 +15625,11 @@
     },
     {
         "name": "Skrzyszow21",
-        "format": "RTCM 3.2",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1230(1)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO+GAL",
+        "systems": "",
         "country": "POL",
         "latitude": 49.94,
         "longitude": 18.48,
@@ -16022,31 +15700,6 @@
         "country": "SWE",
         "latitude": 59.1,
         "longitude": 14.85,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "SndnKly1",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1006(1)",
-            " 1033(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)",
-            " 1230(1)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "DEU",
-        "latitude": 51.92,
-        "longitude": 7.47,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -16281,10 +15934,10 @@
             "1005(1)",
             " 1008(1)",
             " 1019(4)",
-            " 1020(5)",
+            " 1020(4)",
             " 1033(1)",
-            " 1042(10)",
-            " 1045(6)",
+            " 1042(15)",
+            " 1045(7)",
             " 1046(2)",
             " 1074(1)",
             " 1084(1)",
@@ -16423,13 +16076,13 @@
             " 1019(3)",
             " 1020(2)",
             " 1033(10)",
-            " 1042(4)",
+            " 1042(3)",
             " 1046(1)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
             " 1127(1)",
-            " 1230(30)"
+            " 1230(31)"
         ],
         "systems": "GPS+GLO+GAL+BeiDou",
         "country": "GBR",
@@ -16830,11 +16483,11 @@
             " 1033(12)",
             " 1042(3)",
             " 1046(3)",
-            " 1077(2)",
+            " 1077(3)",
             " 1087(3)",
             " 1097(3)",
             " 1107(3)",
-            " 1127(2)",
+            " 1127(1)",
             " 1230(30)"
         ],
         "systems": "GPS+GLO+GAL+BeiDou+SBAS",
@@ -17047,16 +16700,11 @@
     },
     {
         "name": "Szarka",
-        "format": "RTCM 3.2",
+        "format": "RTCM 3",
         "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1077(1)",
-            " 1084(1)",
-            " 1087(1)",
-            " 1230(10)"
+            "PENDING"
         ],
-        "systems": "GPS+GLO",
+        "systems": "",
         "country": "HUN",
         "latitude": 47.37,
         "longitude": 19.22,
@@ -17077,10 +16725,10 @@
             " 1005(10)",
             " 1008(10)",
             " 1012(1)",
-            " 1019(2)",
-            " 1020(2)",
+            " 1019(3)",
+            " 1020(1)",
             " 1033(10)",
-            " 1042(4)",
+            " 1042(3)",
             " 1046(1)",
             " 1077(1)",
             " 1087(1)",
@@ -17321,7 +16969,7 @@
             " 1020(2)",
             " 1033(10)",
             " 1042(4)",
-            " 1046(1)",
+            " 1046(2)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -17714,16 +17362,16 @@
         "name": "TohokuUniv",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1006(13)",
+            "1006(10)",
             " 1008(10)",
-            " 1013(13)",
+            " 1013(10)",
             " 1033(10)",
             " 1074(1)",
             " 1084(1)",
             " 1094(1)",
             " 1114(1)",
             " 1124(1)",
-            " 1230(13)"
+            " 1230(10)"
         ],
         "systems": "GPS+GLO+GAL+QZSS+BeiDou",
         "country": "JPN",
@@ -17815,6 +17463,32 @@
         "longitude": 8.78,
         "height": 1.0,
         "network": "SNIP",
+        "ntrip_version": "SNIP",
+        "server_host": "rtk2go.com",
+        "server_port": 2101,
+        "registration_address": "https://www.rtk2go.com/",
+        "username": "mail",
+        "password": "none"
+    },
+    {
+        "name": "TOPO-AGUERO",
+        "format": "RTCM 3.2",
+        "rtcm_types": [
+            "1006(10)",
+            " 1008(10)",
+            " 1033(10)",
+            " 1074(1)",
+            " 1084(1)",
+            " 1094(1)",
+            " 1124(1)",
+            " 1230(10)"
+        ],
+        "systems": "GPS+GLO+GAL+BeiDou",
+        "country": "CRI",
+        "latitude": 9.36,
+        "longitude": -83.72,
+        "height": 1.0,
+        "network": "",
         "ntrip_version": "SNIP",
         "server_host": "rtk2go.com",
         "server_port": 2101,
@@ -17991,41 +17665,18 @@
         "password": "none"
     },
     {
-        "name": "Trzebieszow",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1230(1)"
-        ],
-        "systems": "GPS+GLO+GAL",
-        "country": "POL",
-        "latitude": 52.0,
-        "longitude": 22.56,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "TSCorsPMB",
         "format": "RTCM 3.2",
         "rtcm_types": [
-            "1006(13)",
-            " 1013(13)",
+            "1006(15)",
+            " 1013(10)",
             " 1033(10)",
-            " 1073(2)",
+            " 1073(3)",
             " 1083(2)",
             " 1093(2)",
             " 1123(1)",
-            " 1230(12)",
-            " 4094(13)"
+            " 1230(13)",
+            " 4094(15)"
         ],
         "systems": "GPS+GLO+GAL+BeiDou",
         "country": "SUR",
@@ -18386,7 +18037,7 @@
             " 1020(2)",
             " 1033(10)",
             " 1042(4)",
-            " 1046(2)",
+            " 1046(1)",
             " 1074(1)",
             " 1084(1)",
             " 1094(1)",
@@ -18514,11 +18165,18 @@
     },
     {
         "name": "uuhia",
-        "format": "RTCM 3",
+        "format": "RTCM 3.2",
         "rtcm_types": [
-            "PENDING"
+            "1006(10)",
+            " 1033(10)",
+            " 1074(1)",
+            " 1084(1)",
+            " 1094(1)",
+            " 1114(60)",
+            " 1124(2)",
+            " 1230(10)"
         ],
-        "systems": "",
+        "systems": "GPS+GLO+GAL+QZSS+BeiDou",
         "country": "FIN",
         "latitude": 61.05,
         "longitude": 24.21,
@@ -18997,34 +18655,6 @@
         "password": "none"
     },
     {
-        "name": "VLFarms",
-        "format": "RTCM 3.3",
-        "rtcm_types": [
-            "1006(1)",
-            " 1033(1)",
-            " 1077(1)",
-            " 1087(1)",
-            " 1097(1)",
-            " 1107(1)",
-            " 1117(1)",
-            " 1127(1)",
-            " 1137(1)",
-            " 1230(1)"
-        ],
-        "systems": "GPS+GLO+GAL+QZSS+BeiDou+SBAS+NavIC",
-        "country": "CAN",
-        "latitude": 49.21,
-        "longitude": -111.98,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
         "name": "VMAX-LAND-1",
         "format": "RTCM 3.2",
         "rtcm_types": [
@@ -19138,54 +18768,6 @@
         "country": "CAN",
         "latitude": 44.32,
         "longitude": -77.0,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "vorosko",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(1)",
-            " 1077(1)",
-            " 1087(1)",
-            " 1097(1)",
-            " 1127(1)",
-            " 1230(1)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "HUN",
-        "latitude": 46.99,
-        "longitude": 17.95,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "VRMETS",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(1)",
-            " 1074(1)",
-            " 1084(1)",
-            " 1094(1)",
-            " 1124(1)",
-            " 1230(1)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "EST",
-        "latitude": 58.74,
-        "longitude": 25.35,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -19492,9 +19074,9 @@
         "format": "RTCM 3.2",
         "rtcm_types": [
             "1006(10)",
-            " 1008(13)",
+            " 1008(10)",
             " 1013(10)",
-            " 1033(13)",
+            " 1033(10)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -19578,7 +19160,7 @@
             " 1020(2)",
             " 1033(10)",
             " 1042(4)",
-            " 1046(1)",
+            " 1046(2)",
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
@@ -19607,7 +19189,7 @@
             " 1084(1)",
             " 1094(1)",
             " 1124(1)",
-            " 1230(10)"
+            " 1230(12)"
         ],
         "systems": "GPS+GLO+GAL+BeiDou",
         "country": "USA",
@@ -19793,31 +19375,6 @@
         "country": "GBR",
         "latitude": 50.74,
         "longitude": -2.48,
-        "height": 1.0,
-        "network": "SNIP",
-        "ntrip_version": "SNIP",
-        "server_host": "rtk2go.com",
-        "server_port": 2101,
-        "registration_address": "https://www.rtk2go.com/",
-        "username": "mail",
-        "password": "none"
-    },
-    {
-        "name": "WWU_KB",
-        "format": "RTCM 3.2",
-        "rtcm_types": [
-            "1005(10)",
-            " 1033(10)",
-            " 1077(2)",
-            " 1087(2)",
-            " 1097(2)",
-            " 1127(2)",
-            " 1230(10)"
-        ],
-        "systems": "GPS+GLO+GAL+BeiDou",
-        "country": "USA",
-        "latitude": 48.73,
-        "longitude": -122.48,
         "height": 1.0,
         "network": "SNIP",
         "ntrip_version": "SNIP",
@@ -20041,6 +19598,36 @@
         "password": "none"
     },
     {
+        "name": "yoshin_kurotake",
+        "format": "RTCM 3.3",
+        "rtcm_types": [
+            "1005(10)",
+            " 1019(1)",
+            " 1020(1)",
+            " 1042(1)",
+            " 1044(1)",
+            " 1045(1)",
+            " 1046(1)",
+            " 1077(1)",
+            " 1087(1)",
+            " 1097(1)",
+            " 1117(1)",
+            " 1127(1)"
+        ],
+        "systems": "GPS+GLO+GAL+QZSS+BeiDou",
+        "country": "JPN",
+        "latitude": 34.14,
+        "longitude": 132.46,
+        "height": 1.0,
+        "network": "",
+        "ntrip_version": "SNIP",
+        "server_host": "rtk2go.com",
+        "server_port": 2101,
+        "registration_address": "https://www.rtk2go.com/",
+        "username": "mail",
+        "password": "none"
+    },
+    {
         "name": "young_f9p",
         "format": "RTCM 3.2",
         "rtcm_types": [
@@ -20117,7 +19704,9 @@
             " 1077(1)",
             " 1087(1)",
             " 1097(1)",
-            " 1127(1)"
+            " 1127(1)",
+            " 1230(1)",
+            " 4072(1)"
         ],
         "systems": "GPS+GLO+GAL+BeiDou",
         "country": "MEX",

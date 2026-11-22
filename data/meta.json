@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-11-22T03:45:48+00:00",
+  "last_update": "2026-11-22T13:41:43+00:00",
   "igs_network": {
     "ok": true,
     "file": "IGSNetwork.json"
@@ -9,8 +9,8 @@
       "name": "rtk2go",
       "file": "rtk2go.json",
       "ok": true,
-      "station_count": 761,
-      "message": "成功处理 761 个挂载点",
+      "station_count": 760,
+      "message": "成功处理 760 个挂载点",
       "stale": false
     },
     {

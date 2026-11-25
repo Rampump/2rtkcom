@@ -2,6 +2,7 @@ import socket
 import json
 import configparser
 import os
+import sys
 import base64
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Tuple, Optional
@@ -205,28 +206,51 @@ def parse_mountpoint_data(content: str, server_info: Dict[str, Any]) -> List[Dic
     return mountpoints
 
 def download_igs_network():
-    """下载IGS网络信息并保存为本地JSON文件"""
-    url = "https://files.igs.org/pub/station/general/IGSNetworkWithFormer.json"
+    """刷新 IGS 现网站点表 data/IGSNetwork.json
+
+    优先走 network.igs.org 的公共 API（scripts/fetch_igs.py）：只取现网 535 站，
+    还带城市/州、所属网络、运营机构、DOMES、实时系统等字段。
+    接口不可用时退回 files.igs.org 的官方站志汇总，同样是现网列表。
+
+    注意：不能再拉 IGSNetworkWithFormer.json —— 那份含 241 个已退役站点，
+    前端点进去官方接口一律 404，只能显示"已不在 IGS 现网"。
+    """
     output_dir = "data"
     output_file = os.path.join(output_dir, "IGSNetwork.json")
-    
-    # 创建目录
     os.makedirs(output_dir, exist_ok=True)
-    
-    print("正在下载IGS网络信息...")
-    
+
+    print("正在刷新IGS现网站点表...")
+
+    # 1) 公共 API
+    try:
+        scripts_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts')
+        if scripts_dir not in sys.path:
+            sys.path.insert(0, scripts_dir)
+        import fetch_igs
+        if fetch_igs.refresh(output_file):
+            print(f"IGS站点表已刷新（API）-> {output_file}")
+            return True
+        print("API 刷新未成功，尝试退回 files.igs.org 站志")
+    except Exception as e:
+        print(f"API 刷新异常: {e}，尝试退回 files.igs.org 站志")
+
+    # 2) 官方站志汇总（无 former 版）
+    url = "https://files.igs.org/pub/station/general/IGSNetwork.json"
     try:
         response = requests.get(url, timeout=30)
-        
         if response.status_code != 200:
             raise Exception(f"请求失败，状态码: {response.status_code}")
-            
+
+        payload = response.json()
+        if not payload:
+            raise Exception("站志内容为空")
+
         with open(output_file, 'w', encoding='utf-8') as f:
-            f.write(response.text)
-            
-        print(f"IGS网络信息已保存至 {output_file}")
+            json.dump(payload, f, ensure_ascii=False, indent=2, sort_keys=True)
+            f.write('\n')
+
+        print(f"IGS站点表已刷新（files.igs.org，{len(payload)} 站）-> {output_file}")
         return True
-        
     except requests.RequestException as e:
         print(f"下载失败: {str(e)}")
         return False

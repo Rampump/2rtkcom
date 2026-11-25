@@ -223,4 +223,9 @@ def refresh(path=DATA_PATH, dry_run=False):
 
 
 def main():
-    refresh(DATA_PATH, dry_run='--dry-run' in sys.argv)
+    return refresh(DATA_PATH, dry_run='--dry-run' in sys.argv)
+
+
+if __name__ == '__main__':
+    # 直接命令行运行时才执行；被 lary.py 导入时由调用方决定是否刷新
+    sys.exit(0 if main() else 1)

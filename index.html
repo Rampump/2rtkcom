@@ -645,6 +645,7 @@ Free RTK Base Station Map</p>
     <button id="loadRtkButton" type="button">2RTK</button>
     <button id="loadCrtkButton" type="button">CRTK</button>
     <button id="loadRtk2goButton" type="button">RTK2</button>
+    <button id="loadAuscorsButton" type="button">AUSCORS</button>
     <button id="loadIgsButton" type="button">IGS</button>
   </div>
 
@@ -728,6 +729,8 @@ Free RTK Base Station Map</p>
         netError: '网络异常',
         rtkNotReady: '2RTK 数据源暂时为空',
         rtkNotReadyHint: '还没抓到 2rtk.net 上的挂载点。每 6 小时自动同步一次，加好站点后等下一轮即可',
+        auscorsNotReady: 'AUSCORS 数据源暂时为空',
+        auscorsNotReadyHint: '还没抓到 ntrip.data.gnss.ga.gov.au 上的挂载点。每 6 小时自动同步一次，等下一轮即可',
         tableName: '名称',
         tableFormat: '数据格式',
         tableRtcm: 'RTCM 电文',
@@ -818,6 +821,8 @@ Free RTK Base Station Map</p>
         netError: 'Network error',
         rtkNotReady: '2RTK data source is empty for now',
         rtkNotReadyHint: 'No mountpoint collected from 2rtk.net yet. It syncs every 6 hours — check again next round',
+        auscorsNotReady: 'AUSCORS data source is empty for now',
+        auscorsNotReadyHint: 'No mountpoint collected from ntrip.data.gnss.ga.gov.au yet. It syncs every 6 hours — check again next round',
         tableName: 'Name',
         tableFormat: 'Format',
         tableRtcm: 'RTCM Types',
@@ -1582,7 +1587,7 @@ Free RTK Base Station Map</p>
         rows.push('<tr><td><b>' + label + '</b></td><td>' + (value === undefined || value === null || value === '' ? 'N/A' : value) + '</td></tr>');
       }
 
-      if (['isRtk', 'isRtk2go', 'isCrtk', 'isCustom', 'isWorld'].indexOf(stationType) !== -1) {
+      if (['isRtk', 'isRtk2go', 'isCrtk', 'isAuscors', 'isCustom', 'isWorld'].indexOf(stationType) !== -1) {
         var rtcm = Array.isArray(station.rtcm_types)
           ? (station.rtcm_types.filter(Boolean).join(', ') || 'N/A')
           : 'N/A';
@@ -1877,6 +1882,21 @@ Free RTK Base Station Map</p>
           addRtkEntities(normalizeIgsStations(raw), Cesium.Color.LIME, 'isIgs');
         })
         .catch(function (err) { console.warn('[2RTK] IGS 数据加载失败:', err && err.message); });
+    });
+
+    document.getElementById('loadAuscorsButton').addEventListener('click', function () {
+      setActiveButton('loadAuscorsButton');
+      removeAllStations();
+      fetch('./data/auscors.json')
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) { addRtkEntities(data, Cesium.Color.GOLD, 'isAuscors'); })
+        .catch(function (err) {
+          console.warn('[2RTK] AUSCORS 数据加载失败:', err && err.message);
+          showInfoError(t('auscorsNotReady'), t('auscorsNotReadyHint'));
+        });
     });
 
     /* ==========================================================

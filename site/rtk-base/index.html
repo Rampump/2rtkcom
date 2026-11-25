@@ -143,7 +143,7 @@
       <div class="note">
         <p>
           <strong>唯一的前置条件：盒子里得先有 Linux。</strong>出厂安卓是跑不了这个程序的。
-          如果你的盒子还是原厂系统，先看<a href="#host">附篇一：把盒子刷成 Armbian</a>，刷完回来接着做①（材料和接线不冲突，可以同时干）。
+          如果你的盒子还是原厂系统，先看<a href="#host">附篇二：把盒子刷成 Armbian</a>，刷完回来接着做①（材料和接线不冲突，可以同时干）。
         </p>
       </div>
 
@@ -166,7 +166,7 @@
               <tr><td>机顶盒</td><td>能刷 Armbian 的型号，1 GB 内存、8 GB 存储（TF 卡或 eMMC）就够。树莓派、香橙派也一样</td></tr>
               <tr><td>RTK 模块</td><td>必须能设成基准站模式。<strong>LG290P 是本程序唯一做过真机验证的型号</strong></td></tr>
               <tr><td>USB 线</td><td><strong>必须是数据线</strong>，只供电的充电线插上去系统里看不到串口</td></tr>
-              <tr><td>天线</td><td>临时测试：四臂螺旋 + 磁吸底座。永久固定：换 GNSS 测量蘑菇头 + 立杆，见<a href="#antenna-outdoor">天线怎么固定</a></td></tr>
+              <tr><td>天线</td><td>临时测试：四臂螺旋 + 磁吸底座。永久固定：换 GNSS 测量蘑菇头 + 立杆，怎么挑见<a href="#antenna-outdoor">附篇一：天线怎么选</a></td></tr>
               <tr><td>供电</td><td>5 V 稳压电源。劣质电源会让盒子反复重启，模块跟着重新搜星</td></tr>
             </tbody>
           </table>
@@ -259,7 +259,7 @@
             </p>
             <p>
               <strong>临时测试：</strong>磁吸底座吸在窗外，或者伸出去的窗台、空调外机上，四周别有大面积墙体反光。<br />
-              <strong>要长期跑：</strong>到楼顶或开阔地带立杆固定，具体做法见<a href="#antenna-outdoor">附篇：天线怎么固定在室外</a>。
+              <strong>要长期跑：</strong>到楼顶或开阔地带立杆固定，具体做法见<a href="#antenna-outdoor">附篇一：天线怎么选、怎么固定</a>。
             </p>
           </li>
           <li>
@@ -490,12 +490,86 @@
       </div>
 
       <section id="s-antenna-outdoor">
-        <h2 id="antenna-outdoor">附篇一：天线怎么固定在室外</h2>
+        <h2 id="antenna-outdoor">附篇一：天线怎么选、怎么固定、怎么验收</h2>
+        <p>
+          天线是这套系统里最容易被糊弄过去的零件：它不上屏幕、不报错、也不进日志，
+          但基站能收到几颗星、坐标稳到什么程度，八成由它决定。这一节按顺序讲三件事——
+          <strong>买之前怎么挑</strong>、<strong>装的时候注意什么</strong>、<strong>装完怎么判断合不合格</strong>。
+        </p>
+
+        <h3>买之前：有源还是无源</h3>
+        <p>
+          无源天线只有振子，信号从天线到模块这一路的损耗，全算在接收机头上；
+          有源天线在天线壳子里加了一级低噪声放大器（LNA），信号先在原地放大，再走那段长线。
+          差别就在这：<strong>放大器放在馈线之前，后面的线损就不再直接恶化整机的噪声系数。</strong>
+        </p>
+        <p>
+          换成买天线时的判断标准，就一句话：<strong>馈线超过 10 cm，就该上有源天线。</strong>
+          基站的天线在楼顶、盒子在屋里，中间十几米线，这条没什么可犹豫的——必须是有源。
+          代价是多喂一点电（3～20 mA），这口电由模块 RF 口顺着同轴送上去，不用另外拉线。
+        </p>
+
+        <figure class="fig">
+          <img src="/images/base/ant-01-active-chain.webp" alt="示意图：有源天线内部的 LNA 位于馈线之前，接收机端还有第二级 LNA" loading="lazy" decoding="async" width="1400" height="492" />
+          <figcaption>
+            有源天线的信号链：振子 → LNA（在天线壳子里）→ 同轴 → 接收机端的 LNA。
+            整机噪声由第一级说了算，所以把放大器挪到天线壳子里，比在接收机那头做任何补救都管用。
+            （图源：u-blox UBX-15030289 R03）
+          </figcaption>
+        </figure>
+
+        <p>
+          第二个坑是增益怎么读。<strong>厂商只标一个「总增益 40 dB」，这个数没法用。</strong>
+          有源天线的增益是两段相加：天线本体增益（dBic）＋ 放大器增益（dB）。
+          「放大器猛、振子烂」的组合，总数字照样漂亮，但源头收到的能量本来就少，后面补不回来。
+          挑的时候要这三个数：
+        </p>
+
+        <div class="table-wrap compact">
+          <table>
+            <colgroup><col style="width:32%" /><col style="width:30%" /><col style="width:38%" /></colgroup>
+            <thead><tr><th>要看</th><th>合格线</th><th>为什么</th></tr></thead>
+            <tbody>
+              <tr><td>天线本体增益（dBic）</td><td>4 dBic 以上算好</td><td>这是振子真正收进多少能量，放大器补不了这一项</td></tr>
+              <tr><td>LNA 增益（dB）</td><td>15 dB 就够，不必超过 26 dB</td><td>15 dB 推到 5 米馈线已经够用；再高对模块没有意义</td></tr>
+              <tr><td>LNA 噪声系数（NF）</td><td>2 dB 以下</td><td>整机噪声由第一级决定，这项比增益更值钱</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          放大器也不是越猛越好：短馈线配 35 dB 以上的增益，可能把模块前端顶到饱和，
+          表现是「星都在、C/N0 上不去」，严重的干脆搜不到星。
+        </p>
+
+        <h3>四种天线，挑一种</h3>
+        <div class="table-wrap compact">
+          <table>
+            <colgroup><col style="width:26%" /><col style="width:36%" /><col style="width:38%" /></colgroup>
+            <thead><tr><th>类型</th><th>强在哪</th><th>弱在哪 / 用在哪</th></tr></thead>
+            <tbody>
+              <tr><td><strong>四臂螺旋</strong><br />（你手上那根）</td><td>全向，不用对准方向；便宜、皮实</td><td>增益低，还会把四周的反射信号一起收进来。临时测试用它，长期站不用</td></tr>
+              <tr><td><strong>陶瓷贴片 / 测量蘑菇头</strong></td><td>上半球增益高，低仰角的星也收得住；配好金属地盘后很稳</td><td>必须水平放置，性能依赖脚下地盘。长期跑的基站默认选它</td></tr>
+              <tr><td><strong>扼流圈天线</strong><br />（带圆盘或多环）</td><td>压掉地面反射的多路径，相位中心稳</td><td>贵、重、大。要厘米级重复性的测绘站才值这个钱</td></tr>
+              <tr><td><strong>模块自带的小陶瓷块</strong></td><td>极小、极便宜</td><td>线性极化白丢 3 dB，星少、漂移大。别用在基站上</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          关于螺旋天线有个反直觉的点，值得单独说：在遮挡多的环境里，螺旋往往「看到的星更多」，
+          因为它四面八方都收。但多出来的那些多半是<strong>反射信号</strong>，路径不确定，
+          解算时反而把结果拖坏——<strong>星多不等于解好</strong>。
+          永久基站要的是干净的上半球视野，所以最后落到蘑菇头上：不是因为它星多，是因为它收得干净。
+        </p>
+
+        <h3>放哪儿：先看这几条</h3>
         <p>
           RTK 基站的天线跟电视天线不一样：它要的是<strong>整片天空</strong>，不是某个方向。
-          所以判断位置好不好，只看三条：
+          所以判断位置好不好，只看这几条：
         </p>
         <ul>
+          <li><strong>天线面是「躺着」的，不是「看着」的。</strong>贴片和蘑菇头的天线面必须<strong>平行于地平线</strong>、朝正上方；歪着装，等于自己砍掉一半天空。</li>
           <li><strong>仰角 10° 以上没有遮挡。</strong>墙、树、广告牌、光伏板都算遮挡。</li>
           <li><strong>装上之后不会动。</strong>天线挪一厘米，基站的坐标就错一厘米，而且是永久的。</li>
           <li><strong>离金属和大功率设备远一点。</strong>屋顶水箱、空调外机、避雷针都会影响信号。</li>
@@ -547,6 +621,68 @@
           </li>
         </ol>
 
+        <h3>脚下那块金属：地盘有多大才算够</h3>
+        <p>
+          贴片天线不是独立工作的，它得「骑」在一块金属上——这块金属叫地平面。它不只是接地，
+          还直接决定天线的增益、极化干不干净、后瓣有多强。所以蘑菇头出厂自带的那块圆底盘不是装饰件，
+          是天线的一部分：<strong>别拆、别换小的</strong>。
+        </p>
+
+        <figure class="fig">
+          <img src="/images/base/ant-02-patch-placement.webp" alt="示意图：贴片天线摆在地盘正中、略偏、贴边三种情况的对比" loading="lazy" decoding="async" width="1400" height="517" />
+          <figcaption>
+            同一块贴片，摆在地盘正中最好，稍微偏一点还能接受，贴到边上就等于把天线劈成两半——
+            增益掉、方向图歪、后瓣变强。（图源：u-blox UBX-15030289 R03）
+          </figcaption>
+        </figure>
+
+        <figure class="fig">
+          <img src="/images/base/ant-03-groundplane.webp" alt="曲线图：地平面尺寸与天线增益、轴比的关系" loading="lazy" decoding="async" width="1371" height="556" />
+          <figcaption>
+            横轴是底盘边长。左图：增益随地盘变大先涨、很快趋平；右图：轴比（衡量极化有多接近理想圆极化）
+            在 50 mm 附近最低，再大反而变差。所以底盘不是越大越好，<strong>50×50 到 70×70 mm 是裸贴片的甜点区</strong>。
+            （原文这页横轴末格印成 200 mm，按正文应为 110 mm，是文档的笔误，不影响结论。）
+          </figcaption>
+        </figure>
+
+        <p>
+          底盘太小还有个副作用：后瓣变强，朝下的那半边也开始收东西，收进来的正是地面和墙面反射的多路径。
+          这就解释了为什么长期站愿意用带扼流圈的大家伙——那一圈环槽干的活，就是把下半球「堵死」。
+        </p>
+
+        <h3>干扰：什么会让它失聪</h3>
+        <p>
+          GPS 信号落地时，功率比热噪声还低十几 dB，所以它对旁边的强信号极其敏感。
+          下面这张图是同一件事的两个视角：上半张放大到 1575 MHz 附近，一根比信号高几十 dB 的干扰柱就立在频点上；
+          下半张把范围拉到 0～2000 MHz，能看到手机基站那几段（850 / 900 / 1800 / 1900）比 GPS 高出好几个数量级。
+        </p>
+
+        <figure class="fig">
+          <img src="/images/base/ant-05-jamming.webp" alt="频谱示意图：上为落在 GPS 频点上的带内干扰，下为手机基站等带外强信号" loading="lazy" decoding="async" width="1400" height="819" />
+          <figcaption>
+            上：带内干扰，频率直接压在 1575 MHz 上。下：带外干扰，手机基站、WiFi 这类，靠得够近也能把前端压饱和。
+            注意 GPS 信号那根蓝色小柱子有多矮。（图源：u-blox UBX-15030289 R03）
+          </figcaption>
+        </figure>
+
+        <p>具体到你家楼顶，要提防的是这几类：</p>
+        <div class="table-wrap compact">
+          <table>
+            <colgroup><col style="width:34%" /><col style="width:66%" /></colgroup>
+            <thead><tr><th>干扰源</th><th>为什么要提防</th></tr></thead>
+            <tbody>
+              <tr><td>手机 / 4G 基站天线</td><td>发射功率能到 2 W，而模块 RF 口最多只吃 −5 dBm。挨太近，加滤波器都救不回来</td></tr>
+              <tr><td>屋顶路由器、监控、对讲机</td><td>频率不在 GPS 频段，但强信号一样会让前端饱和，表现是整体掉星</td></tr>
+              <tr><td>开关电源、逆变器、太阳能控制器</td><td>宽谱噪声，天线越近越糟，属于「看不见但一直扣分」</td></tr>
+              <tr><td>盒子本体、USB 3.0 硬盘</td><td>CPU 时钟的谐波能拉到 1.5 GHz，还可能压过噪声底</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          量化一点的原则：<strong>天线离这些设备 1 米以上，基本就不算问题了</strong>。
+          做不到 1 米，就把立杆再抬高一点——抬高比加滤波器便宜得多，也更靠得住。
+        </p>
+
         <h3>天线高：量的是什么</h3>
         <p>
           这里有个必须搞清楚的概念：RTCM 里的坐标<strong>不是</strong>立杆底部、不是楼顶地面，
@@ -566,6 +702,55 @@
           <p>
             <b>量垂直高，别量斜高。</b>量斜高再乘余弦，多一步换算就多一个出错的机会。
             量两次、换个人复核一次——几厘米的差错，在 RTK 里就是几厘米的系统误差，而且事后补救不回来。
+          </p>
+        </div>
+
+        <h3>装完怎么验收：只看 C/N0</h3>
+        <p>
+          全部装完，先别急着看坐标——先看 <strong>C/N0</strong>（载噪比，单位 dBHz）。
+          它是唯一能直接告诉你「这根天线行不行」的数字，模块上报的每颗星报文里都带着。
+          本程序的状态页能看到卫星<strong>数量</strong>，但看不到每颗星的强度；要逐颗看，用模块原厂工具
+          （u-center、QGNSS 这类）连上，打开卫星信噪比列表。
+        </p>
+        <div class="table-wrap compact">
+          <table>
+            <colgroup><col style="width:38%" /><col style="width:62%" /></colgroup>
+            <thead><tr><th>最强那几颗星的平均 C/N0</th><th>说明</th></tr></thead>
+            <tbody>
+              <tr><td>50 dBHz 以上</td><td>优秀。天线、位置、馈线都到位了</td></tr>
+              <tr><td>47 左右</td><td>现成有源天线的正常水平，合格</td></tr>
+              <tr><td>44 以上</td><td>合格线。低于这个数，模块达不到标称性能</td></tr>
+              <tr><td>40～44</td><td>勉强能用，但要查：遮挡、接头有没有拧紧、天线是不是歪的</td></tr>
+              <tr><td>40 以下</td><td>有问题。这时先怀疑天线和馈线，别怀疑模块</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          比的是<strong>高仰角强星的平均值</strong>，别拿全天空平均去套——低仰角那几颗天生就弱，
+          掺进来会把结论带偏。
+        </p>
+        <p>
+          想知道「这个位置到底挡了多少天空」，盯数字看不出来，得画图：用 u-center 的 Sky View 记录
+          <strong>12 小时</strong>，把天线整体<strong>水平转 180°</strong>，再记 12 小时，两次合起来才是完整的南北半球视野。
+          下图是同一天两台设备的记录：
+        </p>
+
+        <figure class="fig">
+          <img src="/images/base/ant-04-skyview.webp" alt="对比图：遮挡重的天线巡天图（大片空洞）与遮挡少的天线巡天图（整圈有信号）" loading="lazy" decoding="async" width="1400" height="503" />
+          <figcaption>
+            左：位置没选好，正北方向一大片是空的，等于那半边天空白扔。右：遮挡少，整圈都有信号，颜色越绿信号越强。
+            （图源：u-blox UBX-15030289 R03）
+          </figcaption>
+        </figure>
+
+        <ul>
+          <li><strong>冷启动 30～40 秒</strong>：天空视野好的话，上电到第一次定位就这么久（多测十几次取平均）。</li>
+          <li><strong>C/N0 忽高忽低</strong>：先查接头。SMA 要拧到底，户外接头全做防水，这比换天线有用。</li>
+        </ul>
+        <div class="tip">
+          <p>
+            <b>一句话总结：装完不合格，先怀疑天线和馈线。</b>接收机再贵，也救不回一根差天线——
+            这是 u-blox 那份文档开篇的原话，也是楼顶施工时最该记住的一句。
           </p>
         </div>
       </section>

@@ -293,6 +293,114 @@
       padding-right: 8px;
     }
 
+    /* ============ IGS 站点详情增强（状态 / 照片 / 设备历史 / 通告） ============ */
+    .igs-block { margin-top: 10px; }
+
+    .igs-status {
+      display: inline-block;
+      font-size: 11px;
+      line-height: 1.6;
+      padding: 2px 9px;
+      border-radius: 999px;
+      margin: 2px 0 4px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .igs-status.ok { color: #7dffb7; background: rgba(0, 255, 136, 0.12); border-color: rgba(0, 255, 136, 0.38); }
+    .igs-status.warn { color: #ffd479; background: rgba(255, 190, 60, 0.12); border-color: rgba(255, 190, 60, 0.38); }
+    .igs-status.bad { color: #ff9a8a; background: rgba(255, 90, 70, 0.12); border-color: rgba(255, 90, 70, 0.38); }
+    .igs-status.former { color: #b9c4c0; background: rgba(185, 196, 192, 0.12); border-color: rgba(185, 196, 192, 0.32); }
+
+    .igs-sec-title {
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #9fd8b6;
+      margin: 12px 0 6px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .igs-photos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .igs-photo {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      border-radius: 6px;
+      background: #0d141a;
+      line-height: 0;
+      cursor: zoom-in;
+    }
+
+    .igs-photo img {
+      width: 100%;
+      height: 96px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .igs-photo span {
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      font-size: 10px;
+      line-height: 1.4;
+      padding: 0 4px;
+      border-radius: 3px;
+      color: #eaf6ee;
+      background: rgba(0, 0, 0, 0.62);
+    }
+
+    .igs-loading { font-size: 12px; color: #9fd8b6; padding: 6px 0; }
+
+    .igs-note { font-size: 11px; line-height: 1.55; color: rgba(206, 226, 216, 0.62); margin: 6px 0; }
+
+    .igs-adv { margin: 0; padding-left: 16px; font-size: 12px; line-height: 1.6; }
+    .igs-adv li { margin-bottom: 4px; }
+    .igs-adv a { color: #7dffb7; }
+    .igs-adv em { color: rgba(206, 226, 216, 0.5); font-style: normal; font-size: 10px; }
+
+    .igs-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .igs-links a {
+      font-size: 11px;
+      line-height: 1.5;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 136, 0.28);
+      color: #7dffb7;
+      text-decoration: none;
+    }
+    .igs-links a:hover { background: rgba(0, 255, 136, 0.12); }
+
+    /* 天线照片灯箱（点缩略图看原图） */
+    .igs-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.88);
+      cursor: zoom-out;
+    }
+    .igs-lightbox img { max-width: 92vw; max-height: 82vh; border-radius: 6px; }
+    .igs-lightbox .cap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: #cfe7da;
+      padding: 0 24px;
+    }
+
     /* ============ 左侧数据源 ============ */
     .data-source-buttons {
       position: absolute;
@@ -637,6 +745,40 @@ Free RTK Base Station Map</p>
         tableReceiver: '接收机',
         tableAntenna: '天线',
         tableInstallDate: '安装日期',
+        igsFetching: '正在向 IGS 拉取站志…',
+        igsPhotos: '天线照片',
+        igsNoPhotos: '该站暂无公开照片，可到 IGS 官方页面查看',
+        igsOverview: '站点概览',
+        igsEquipment: '设备历史',
+        igsAdvisories: '站点通告',
+        igsLinks: '更多资料',
+        igsOpenOfficial: 'IGS 官方页面',
+        igsLog: '站志 .log',
+        igsLogXml: '站志 .xml',
+        igsItrf: 'ITRF 坐标',
+        igsStActive: '正常观测',
+        igsStOutage: '数据中断',
+        igsStDormant: '长期无数据',
+        igsStFormer: '已退役',
+        igsDaysAgo: '天前',
+        igsTableDomes: 'DOMES 编号',
+        igsTableCity: '城市 / 州',
+        igsTableAgency: '运营机构',
+        igsTableDc: '数据中心',
+        igsTableSerial: '序列号',
+        igsTableRadome: '天线罩',
+        igsTableAntcal: '天线标定',
+        igsTableFreq: '频率标准',
+        igsTableRealtime: '实时系统',
+        igsTableJoin: '加入 IGS',
+        igsTableLast: '最后观测',
+        igsTableRinex: '最后 RINEX',
+        igsTableTide: '验潮站',
+        igsTableDate: '日期',
+        igsSrcNote: '站点信息与天线照片来自 network.igs.org 公共接口，点缩略图看原图',
+        igsFail: 'IGS 接口暂时不可用，仅显示本地缓存信息',
+        igsGone: '该站已不在 IGS 现网名单中（官方接口无记录），仅显示本地站志历史信息',
+        igsPhotoAlt: '天线照片',
         satName: '卫星名称',
         satNorad: 'NORAD 编号',
         satAlt: '轨道高度',
@@ -693,6 +835,40 @@ Free RTK Base Station Map</p>
         tableReceiver: 'Receiver',
         tableAntenna: 'Antenna',
         tableInstallDate: 'Installed',
+        igsFetching: 'Fetching station log from IGS…',
+        igsPhotos: 'Antenna photos',
+        igsNoPhotos: 'No public photo for this site — check the IGS station page',
+        igsOverview: 'Overview',
+        igsEquipment: 'Equipment history',
+        igsAdvisories: 'Advisories',
+        igsLinks: 'More',
+        igsOpenOfficial: 'IGS station page',
+        igsLog: 'Site log .log',
+        igsLogXml: 'Site log .xml',
+        igsItrf: 'ITRF coordinates',
+        igsStActive: 'Active',
+        igsStOutage: 'Outage',
+        igsStDormant: 'Dormant',
+        igsStFormer: 'Former',
+        igsDaysAgo: 'days ago',
+        igsTableDomes: 'DOMES',
+        igsTableCity: 'City / State',
+        igsTableAgency: 'Agency',
+        igsTableDc: 'Data center',
+        igsTableSerial: 'Serial',
+        igsTableRadome: 'Radome',
+        igsTableAntcal: 'Antenna cal',
+        igsTableFreq: 'Frequency std',
+        igsTableRealtime: 'Real-time',
+        igsTableJoin: 'Joined IGS',
+        igsTableLast: 'Last data',
+        igsTableRinex: 'Last RINEX',
+        igsTableTide: 'Tide gauge',
+        igsTableDate: 'Date',
+        igsSrcNote: 'Station data and antenna photos come from the public network.igs.org API — click a thumbnail for the full frame',
+        igsFail: 'IGS API unreachable — showing locally cached fields only',
+        igsGone: 'This site is no longer in the live IGS network (no record in the official API) — showing the local site-log fields only',
+        igsPhotoAlt: 'Antenna photo',
         satName: 'Satellite',
         satNorad: 'NORAD ID',
         satAlt: 'Altitude',
@@ -1395,7 +1571,12 @@ Free RTK Base Station Map</p>
       toRemove.forEach(function (e) { viewer.entities.remove(e); });
     }
 
-    function buildStationDescription(station, stationType) {
+    /**
+     * 站点描述 HTML。
+     * entity 可选：IGS 站点会把异步拉到的站志/照片挂在 entity._igs 上，
+     * 这里顺带拼出增强区块（描述会在拿到接口数据后重建一次）。
+     */
+    function buildStationDescription(station, stationType, entity) {
       var rows = [];
       function row(label, value) {
         rows.push('<tr><td><b>' + label + '</b></td><td>' + (value === undefined || value === null || value === '' ? 'N/A' : value) + '</td></tr>');
@@ -1431,7 +1612,8 @@ Free RTK Base Station Map</p>
         row(t('tableInstallDate'), station.receiverInstallDate);
       }
 
-      return '<table>' + rows.join('') + '</table>';
+      return '<table>' + rows.join('') + '</table>'
+        + (stationType === 'isIgs' ? buildIgsExtras(entity) : '');
     }
 
     /**
@@ -1445,7 +1627,7 @@ Free RTK Base Station Map</p>
 
       viewer.entities.values.forEach(function (entity) {
         if (entity._station) {
-          entity.description = buildStationDescription(entity._station, entity._stationType);
+          entity.description = buildStationDescription(entity._station, entity._stationType, entity);
         } else if (entity.isSatellite && entity._satInfo) {
           entity.description = buildSatelliteDescription(entity);
         }
@@ -1556,77 +1738,27 @@ Free RTK Base Station Map</p>
     }
 
     /**
-     * 按站点分布取景：
-     * 1. 先找最密集的 20°×20° 网格，作为“主区域”（避免法国海外省这类离群点把视野拉到全球）
-     * 2. 主区域占多数时贴合主区域外接矩形
-     * 3. 数据本身就是全球分布时退回整颗地球视角
+     * 切换数据源后统一回到整球视角，并强制打开自转。
+     * 早期版本会按站点分布贴合区域：2RTK / CRTK 的站大多在中国，
+     * 于是镜头被拉近到区域、还顺手把自转关掉，跟 RTK2 / IGS 的观感不一致。
+     * 现在四个数据源行为统一：都显示整颗地球，切换后默认开始自转。
      */
     function fitToStations(points) {
       if (!points.length) return;
 
-      var cells = {};
-      var bestKey = null;
-      var bestCount = 0;
-
-      points.forEach(function (p) {
-        var key = Math.floor(p[0] / 20) + ',' + Math.floor(p[1] / 20);
-        cells[key] = (cells[key] || 0) + 1;
-        if (cells[key] > bestCount) {
-          bestCount = cells[key];
-          bestKey = key;
-        }
-      });
-
-      var isGlobal = bestCount / points.length < 0.45;
-      var scope = points;
-
-      if (!isGlobal) {
-        var parts = bestKey.split(',');
-        var centerLon = parseFloat(parts[0]) * 20 + 10;
-        var centerLat = parseFloat(parts[1]) * 20 + 10;
-        var dense = points.filter(function (p) {
-          var dLon = Math.abs(p[0] - centerLon);
-          if (dLon > 180) dLon = 360 - dLon;
-          return dLon <= 20 && Math.abs(p[1] - centerLat) <= 15;
-        });
-        if (dense.length) scope = dense;
-      }
-
-      var minLon = 180, maxLon = -180, minLat = 90, maxLat = -90;
-      scope.forEach(function (p) {
-        if (p[0] < minLon) minLon = p[0];
-        if (p[0] > maxLon) maxLon = p[0];
-        if (p[1] < minLat) minLat = p[1];
-        if (p[1] > maxLat) maxLat = p[1];
-      });
-
-      var lonSpan = maxLon - minLon;
-      var latSpan = maxLat - minLat;
-
-      if (isGlobal || lonSpan > 120 || latSpan > 80) {
-        viewer.camera.flyTo({
-          destination: Cesium.Cartesian3.fromDegrees(10, 18, 22000000),
-          duration: 1.6
-        });
-        return;
-      }
-
-      var padLon = Math.max(lonSpan * 0.25, 0.8);
-      var padLat = Math.max(latSpan * 0.25, 0.8);
-
-      // 贴合到区域后停掉自转，否则镜头会自己转走
-      if (rotationEnabled) {
-        rotationEnabled = false;
+      // 先开自转再飞镜头：flyTo 结束后相机停在整球位置，由 onTick 接着转
+      if (!rotationEnabled) {
+        rotationEnabled = true;
         refreshControlLabels();
       }
 
       viewer.camera.flyTo({
-        destination: Cesium.Rectangle.fromDegrees(
-          Math.max(-179.9, minLon - padLon),
-          Math.max(-84, minLat - padLat),
-          Math.min(179.9, maxLon + padLon),
-          Math.min(84, maxLat + padLat)
-        ),
+        destination: Cesium.Cartesian3.fromDegrees(10, 18, 22000000),
+        orientation: {
+          heading: 0,
+          pitch: -Cesium.Math.toRadians(90),
+          roll: 0
+        },
         duration: 1.6
       });
     }
@@ -1645,6 +1777,8 @@ Free RTK Base Station Map</p>
         viewer.selectedEntity = entity;
       } else if (picked.id.stationType) {
         viewer.selectedEntity = picked.id;
+        // selectedEntityChanged 是主触发点，这里再兜一次，防止版本差异
+        if (picked.id._isIgs) igsEnrich(picked.id);
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
@@ -1746,6 +1880,440 @@ Free RTK Base Station Map</p>
     });
 
     /* ==========================================================
+     * 13b. IGS 站点详情增强（network.igs.org 公共 API）
+     *
+     * network.igs.org 前端调的是自家 Django REST 的 /api/public/*，
+     * 实测对任意 Origin 都回显 Access-Control-Allow-Origin，
+     * OPTIONS 预检也放行（Max-Age 86400），所以静态页面可以直接
+     * fetch，不需要自建代理。若将来对方收紧 CORS，只需把 IGS_API
+     * 改成自建代理前缀（如 Pages Functions 的 /api/igs-proxy），
+     * 其余逻辑不用动。
+     *
+     * 用到的接口（均已实测）：
+     *   /stations/{SITE9}/               站点概览
+     *   /equipment/{SITE9}/              设备历史 [[日期, {receiver, antenna}], …]
+     *   /files/?site=&length=100         照片列表（image/jpeg，带方位 direction）
+     *   /files/{id}/?thumbnail=1         缩略图（去掉 query 即原图）
+     *   /advisories/?station=&length=5   站点通告
+     *   /download/{SITE9}.log|.xml       站志下载
+     * ========================================================== */
+    var IGS_API = 'https://network.igs.org/api/public';
+    var IGS_OFFICIAL = 'https://network.igs.org/';
+    var IGS_TIMEOUT_MS = 9000;
+    var IGS_CACHE_TTL = 6 * 60 * 60 * 1000;   // 对齐数据源 6 小时更新周期
+    var IGS_CACHE_PREFIX = '2rtk-igs:';
+
+    function igsEscape(value) {
+      if (value === undefined || value === null) return '';
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function igsCacheRead(key) {
+      try {
+        var raw = window.localStorage.getItem(IGS_CACHE_PREFIX + key);
+        if (!raw) return null;
+        var box = JSON.parse(raw);
+        if (!box || typeof box.t !== 'number') return null;
+        if (Date.now() - box.t > IGS_CACHE_TTL) return null;
+        return box.d;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function igsCacheWrite(key, data) {
+      try {
+        window.localStorage.setItem(IGS_CACHE_PREFIX + key, JSON.stringify({ t: Date.now(), d: data }));
+      } catch (e) {
+        /* 隐身模式 / 配额满：忽略，退化成每次请求 */
+      }
+    }
+
+    /** 单次请求：先读缓存，9 秒超时，失败抛错（由调用方降级） */
+    function igsRequest(path, cacheKey) {
+      var cached = igsCacheRead(cacheKey);
+      if (cached) return Promise.resolve(cached);
+
+      var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+      var timer = window.setTimeout(function () {
+        if (ctrl) ctrl.abort();
+      }, IGS_TIMEOUT_MS);
+
+      var opts = ctrl ? { mode: 'cors', signal: ctrl.signal } : { mode: 'cors' };
+
+      return fetch(IGS_API + path, opts)
+        .then(function (res) {
+          if (!res.ok) {
+            var e = new Error('IGS HTTP ' + res.status);
+            e.status = res.status;
+            throw e;
+          }
+          return res.json();
+        })
+        .then(function (data) {
+          window.clearTimeout(timer);
+          igsCacheWrite(cacheKey, data);
+          return data;
+        })
+        .catch(function (err) {
+          window.clearTimeout(timer);
+          throw err;
+        });
+    }
+
+    /** 官方 status 字段是内部枚举 id，语义不可靠，改用 last_data 天数分档 */
+    function igsStatus(days) {
+      if (days === null || days === undefined || days === '' || isNaN(days)) {
+        return { cls: 'former', text: t('igsStFormer') };
+      }
+      var n = Number(days);
+      if (n <= 10) return { cls: 'ok', text: t('igsStActive') };
+      if (n <= 30) return { cls: 'warn', text: t('igsStOutage') };
+      return { cls: 'bad', text: t('igsStDormant') };
+    }
+
+    /** 表格行：空值整行跳过，不出现 undefined */
+    function igsRow(label, value) {
+      var text = Array.isArray(value)
+        ? value.filter(function (v) { return v !== undefined && v !== null && v !== ''; }).join(' · ')
+        : value;
+      if (text === undefined || text === null || text === '') return '';
+      return '<tr><td><b>' + igsEscape(label) + '</td><td>' + igsEscape(text) + '</td></tr>';
+    }
+
+    /** 底部外链：官方页面 / 站志 / ITRF */
+    function igsLinksHtml(site, detail) {
+      if (!site) return '';
+      var links = [];
+      links.push('<a href="' + igsEscape(IGS_OFFICIAL + encodeURIComponent(site)) + '" target="_blank" rel="noopener">'
+        + igsEscape(t('igsOpenOfficial')) + '</a>');
+      links.push('<a href="' + igsEscape(IGS_API + '/download/' + site + '.log') + '" target="_blank" rel="noopener">'
+        + igsEscape(t('igsLog')) + '</a>');
+      links.push('<a href="' + igsEscape(IGS_API + '/download/' + site + '.xml') + '" target="_blank" rel="noopener">'
+        + igsEscape(t('igsLogXml')) + '</a>');
+
+      var domes = detail && detail.domes_number;
+      if (domes) {
+        var itrf = 'https://itrf.ign.fr/en/station/'
+          + encodeURIComponent(String(site).slice(0, 4).toUpperCase()) + '-' + encodeURIComponent(domes);
+        links.push('<a href="' + igsEscape(itrf) + '" target="_blank" rel="noopener">'
+          + igsEscape(t('igsItrf')) + '</a>');
+      }
+      return '<div class="igs-links">' + links.join('') + '</div>';
+    }
+
+    /**
+     * Cesium 的 InfoBox 把 description 渲染在 sandbox iframe（.cesium-infoBox-iframe）里，
+     * 页面级 CSS 不会继承进去，所以这段样式必须随描述文本一起下发。
+     */
+    var IGS_PANEL_CSS = '<style>'
+      + '.cesium-infoBox-description{margin:0;padding:10px 12px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}'
+      + '.cesium-infoBox-description table{width:100%;border-collapse:collapse;font-size:12px;}'
+      + '.cesium-infoBox-description td{padding:3px 4px;vertical-align:top;word-break:break-word;}'
+      + '.cesium-infoBox-description td:first-child{white-space:nowrap;color:#9fd8b6;padding-right:8px;}'
+      + '.igs-block{margin-top:10px;}'
+      + '.igs-status{display:inline-block;font-size:11px;line-height:1.6;padding:2px 9px;border-radius:999px;margin:2px 0 4px;border:1px solid transparent;white-space:nowrap;}'
+      + '.igs-status.ok{color:#7dffb7;background:rgba(0,255,136,.12);border-color:rgba(0,255,136,.38);}'
+      + '.igs-status.warn{color:#ffd479;background:rgba(255,190,60,.14);border-color:rgba(255,190,60,.38);}'
+      + '.igs-status.bad{color:#ff9a8a;background:rgba(255,90,70,.14);border-color:rgba(255,90,70,.38);}'
+      + '.igs-status.former{color:#b9c4c0;background:rgba(185,196,192,.14);border-color:rgba(185,196,192,.32);}'
+      + '.igs-sec-title{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#9fd8b6;margin:12px 0 6px;padding-top:8px;border-top:1px solid rgba(255,255,255,.12);}'
+      + '.igs-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;}'
+      + '.igs-photo{position:relative;display:block;overflow:hidden;border-radius:6px;background:#0d141a;line-height:0;cursor:zoom-in;}'
+      + '.igs-photo img{width:100%;height:96px;object-fit:cover;display:block;}'
+      + '.igs-photo span{position:absolute;right:4px;bottom:4px;font-size:10px;line-height:1.4;padding:0 4px;border-radius:3px;color:#eaf6ee;background:rgba(0,0,0,.62);}'
+      + '.igs-loading{font-size:12px;color:#9fd8b6;padding:6px 0;}'
+      + '.igs-note{font-size:11px;line-height:1.55;color:rgba(206,226,216,.62);margin:6px 0;}'
+      + '.igs-adv{margin:0;padding-left:16px;font-size:12px;line-height:1.6;}'
+      + '.igs-adv li{margin-bottom:4px;}'
+      + '.igs-adv a{color:#7dffb7;}'
+      + '.igs-adv em{color:rgba(206,226,216,.5);font-style:normal;font-size:10px;}'
+      + '.igs-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}'
+      + '.igs-links a{font-size:11px;line-height:1.5;padding:2px 8px;border-radius:999px;border:1px solid rgba(0,255,136,.28);color:#7dffb7;text-decoration:none;}'
+      + '</style>';
+
+    /** 增强区块：状态徽标 + 照片 + 概览 + 设备历史 + 通告 + 外链 */
+    function buildIgsExtras(entity) {
+      var igs = entity && entity._igs;
+      var site = (entity && entity._station && (entity._station.id || entity._station.name)) || '';
+
+      if (!igs) return '';
+
+      if (igs.loading) {
+        return IGS_PANEL_CSS + '<div class="igs-block"><div class="igs-loading">'
+          + igsEscape(t('igsFetching')) + '</div></div>';
+      }
+
+      if (igs.missing) {
+        return IGS_PANEL_CSS + '<div class="igs-block"><div class="igs-note">' + igsEscape(t('igsGone')) + '</div>'
+          + igsLinksHtml(site, null) + '</div>';
+      }
+
+      if (igs.error || !igs.detail) {
+        return IGS_PANEL_CSS + '<div class="igs-block"><div class="igs-note">' + igsEscape(t('igsFail')) + '</div>'
+          + igsLinksHtml(site, null) + '</div>';
+      }
+
+      var d = igs.detail;
+      var parts = [];
+
+      var st = igsStatus(d.last_data);
+      var badge = '<span class="igs-status ' + st.cls + '">' + igsEscape(st.text);
+      if (d.last_data !== null && d.last_data !== undefined && d.last_data !== '' && !isNaN(d.last_data)) {
+        badge += ' · ' + igsEscape(String(d.last_data)) + ' ' + igsEscape(t('igsDaysAgo'));
+      }
+      badge += '</span>';
+      parts.push(badge);
+
+      // ---- 天线照片 ----
+      var photos = (igs.photos && Array.isArray(igs.photos.data)) ? igs.photos.data : [];
+      photos = photos.filter(function (p) {
+        return p && p.mimetype && String(p.mimetype).indexOf('image/') === 0;
+      });
+
+      parts.push('<div class="igs-sec-title">' + igsEscape(t('igsPhotos')) + ' · ' + photos.length + '</div>');
+
+      if (photos.length) {
+        var thumbs = ['<div class="igs-photos">'];
+        photos.forEach(function (p) {
+          var full = IGS_API + '/files/' + p.id + '/';
+          var thumb = full + '?thumbnail=1';
+          var cap = (p.description || p.name || '') + (p.direction ? ' · ' + p.direction : '');
+          thumbs.push('<a class="igs-photo" href="' + igsEscape(full) + '"'
+            + ' data-full="' + igsEscape(full) + '"'
+            + ' data-cap="' + igsEscape(cap) + '"'
+            + ' target="_blank" rel="noopener">'
+            + '<img loading="lazy" src="' + igsEscape(thumb) + '" alt="' + igsEscape(t('igsPhotoAlt')) + '">'
+            + (p.direction ? '<span>' + igsEscape(p.direction) + '</span>' : '')
+            + '</a>');
+        });
+        thumbs.push('</div>');
+        parts.push(thumbs.join(''));
+      } else {
+        parts.push('<div class="igs-note">' + igsEscape(t('igsNoPhotos')) + '</div>');
+      }
+
+      // ---- 站点概览（本地表已展示的字段不重复）----
+      var rows = [];
+      rows.push(igsRow(t('igsTableDomes'), d.domes_number));
+      rows.push(igsRow(t('igsTableCity'), [d.city, d.state].filter(Boolean).join(', ')));
+      rows.push(igsRow(t('tableCountry'), d.country));
+      if (Array.isArray(d.networks)) {
+        rows.push(igsRow(t('tableNetwork'), d.networks.map(function (n) { return n && n.name; }).filter(Boolean)));
+      }
+      if (Array.isArray(d.agencies)) {
+        rows.push(igsRow(t('igsTableAgency'), d.agencies.map(function (a) {
+          return a && (a.shortname || a.name);
+        }).filter(Boolean)));
+      }
+      rows.push(igsRow(t('igsTableDc'), d.data_center));
+      rows.push(igsRow(t('igsTableRadome'), d.radome_type));
+      rows.push(igsRow(t('igsTableSerial'), [d.antenna_serial_number, d.serial_number].filter(Boolean).join(' / ')));
+      rows.push(igsRow(t('igsTableAntcal'), d.antcal));
+      rows.push(igsRow(t('igsTableFreq'), d.frequency_standard));
+      if (Array.isArray(d.real_time_systems) && d.real_time_systems.length) {
+        rows.push(igsRow(t('igsTableRealtime'), d.real_time_systems));
+      }
+      rows.push(igsRow(t('igsTableJoin'), d.join_date));
+      rows.push(igsRow(t('igsTableLast'), d.last_data_time));
+
+      var rinex = [];
+      if (d.last_rinex2) rinex.push('2: ' + d.last_rinex2);
+      if (d.last_rinex3) rinex.push('3: ' + d.last_rinex3);
+      if (d.last_rinex4) rinex.push('4: ' + d.last_rinex4);
+      rows.push(igsRow(t('igsTableRinex'), rinex));
+
+      if (Array.isArray(d.tide_gauges) && d.tide_gauges.length) {
+        var gauges = [];
+        d.tide_gauges.forEach(function (g) {
+          if (!g || !g.name) return;
+          gauges.push(String(g.name) + (g.distance ? ' (' + g.distance + ' m)' : ''));
+        });
+        rows.push(igsRow(t('igsTableTide'), gauges));
+      }
+
+      parts.push('<div class="igs-sec-title">' + igsEscape(t('igsOverview')) + '</div>'
+        + '<table>' + rows.join('') + '</table>');
+
+      // ---- 设备历史（最多 6 条，接口按时间倒序）----
+      var equip = Array.isArray(igs.equipment) ? igs.equipment : [];
+      if (equip.length) {
+        var erows = ['<tr><td><b>' + igsEscape(t('igsTableDate')) + '</b></td>'
+          + '<td><b>' + igsEscape(t('tableReceiver')) + '</b></td>'
+          + '<td><b>' + igsEscape(t('tableAntenna')) + '</b></td></tr>'];
+        equip.slice(0, 6).forEach(function (item) {
+          if (!item || !item[1]) return;
+          var rcv = item[1].receiver || {};
+          var ant = item[1].antenna || {};
+          var rcvText = [(rcv.receiver_type || {}).model, rcv.firmware].filter(Boolean).join(' · ');
+          var antText = [(ant.antenna_type || {}).model, (ant.radome_type || {}).model].filter(Boolean).join(' · ');
+          erows.push('<tr><td>' + igsEscape(item[0] || '') + '</td><td>' + igsEscape(rcvText)
+            + '</td><td>' + igsEscape(antText) + '</td></tr>');
+        });
+        parts.push('<div class="igs-sec-title">' + igsEscape(t('igsEquipment')) + '</div>'
+          + '<table>' + erows.join('') + '</table>');
+      }
+
+      // ---- 站点通告（最多 5 条）----
+      var adv = (igs.advisories && Array.isArray(igs.advisories.data)) ? igs.advisories.data : [];
+      if (adv.length) {
+        var items = ['<ul class="igs-adv">'];
+        adv.slice(0, 5).forEach(function (a) {
+          if (!a) return;
+          var date = a.timestamp ? String(a.timestamp).slice(0, 10) : '';
+          var subj = a.subject || a.link || '';
+          var body = a.link
+            ? '<a href="' + igsEscape(a.link) + '" target="_blank" rel="noopener">' + igsEscape(subj) + '</a>'
+            : igsEscape(subj);
+          items.push('<li>' + body + (date ? ' <em>' + igsEscape(date) + '</em>' : '') + '</li>');
+        });
+        items.push('</ul>');
+        parts.push('<div class="igs-sec-title">' + igsEscape(t('igsAdvisories')) + '</div>' + items.join(''));
+      }
+
+      parts.push(igsLinksHtml(site, d));
+      parts.push('<div class="igs-note">' + igsEscape(t('igsSrcNote')) + '</div>');
+
+      return IGS_PANEL_CSS + '<div class="igs-block">' + parts.join('') + '</div>';
+    }
+
+    /** 重写描述并强制刷新 InfoBox（它只在选中项变化时重绘） */
+    function igsRefreshDescription(entity) {
+      if (!entity || !entity._station) return;
+      entity.description = buildStationDescription(entity._station, entity._stationType, entity);
+      if (viewer.selectedEntity === entity) {
+        viewer.selectedEntity = undefined;
+        viewer.selectedEntity = entity;
+      }
+      // InfoBox 的描述在独立 iframe 里重建，点击要绑到那个 document 上
+      window.setTimeout(igsBindIframeClicks, 0);
+    }
+
+    /**
+     * 点击 IGS 站点后拉取官方数据。
+     * 四个请求并行，任一失败只降级该区块；token 用于丢弃连点造成的过期响应。
+     */
+    function igsEnrich(entity) {
+      if (!entity || !entity._isIgs || !entity._station) return;
+      if (entity._igsState === 'loading' || entity._igsState === 'done' || entity._igsState === 'error') return;
+
+      var site = entity._station.id || entity._station.name;
+      if (!site) return;
+
+      var token = (entity._igsToken || 0) + 1;
+      entity._igsToken = token;
+      entity._igsState = 'loading';
+      entity._igs = { loading: true };
+      igsRefreshDescription(entity);
+
+      var jobs = [
+        igsRequest('/stations/' + site + '/', site + ':station'),
+        igsRequest('/equipment/' + site + '/', site + ':equipment'),
+        igsRequest('/files/?site=' + site + '&length=100', site + ':photos'),
+        igsRequest('/advisories/?station=' + site + '&length=5', site + ':advisories')
+      ];
+
+      Promise.all(jobs.map(function (job) {
+        return job.then(function (v) { return { ok: true, data: v }; },
+          function (err) { return { ok: false, status: err && err.status }; });
+      })).then(function (results) {
+        if (entity._igsToken !== token) return;   // 已切到别的站点，丢弃
+
+        var detailEntry = results[0];
+        if (!detailEntry.ok) {
+          // 404 = 该站已退出 IGS 现网（本地站志是历史存档，站点数比现网多）
+          var gone = detailEntry.status === 404;
+          entity._igsState = gone ? 'missing' : 'error';
+          entity._igs = { missing: gone };
+        } else {
+          entity._igsState = 'done';
+          entity._igs = {
+            detail: detailEntry.data,
+            equipment: results[1].ok ? results[1].data : null,
+            photos: results[2].ok ? results[2].data : null,
+            advisories: results[3].ok ? results[3].data : null
+          };
+        }
+        igsRefreshDescription(entity);
+      });
+    }
+
+    if (viewer.selectedEntityChanged && viewer.selectedEntityChanged.addEventListener) {
+      viewer.selectedEntityChanged.addEventListener(function (entity) {
+        if (entity && entity._isIgs) igsEnrich(entity);
+      });
+    }
+
+    /* ---- 照片灯箱：点缩略图看原图 ---- */
+    var igsLightbox = null;
+
+    function igsShowPhoto(src, caption) {
+      if (!igsLightbox) {
+        igsLightbox = document.createElement('div');
+        igsLightbox.className = 'igs-lightbox';
+        igsLightbox.innerHTML = '<img alt=""><div class="cap"></div>';
+        igsLightbox.addEventListener('click', function () {
+          igsLightbox.style.display = 'none';
+        });
+        document.body.appendChild(igsLightbox);
+      }
+      var img = igsLightbox.querySelector('img');
+      var cap = igsLightbox.querySelector('.cap');
+      img.src = src;
+      img.alt = caption || '';
+      cap.textContent = caption || '';
+      igsLightbox.style.display = 'flex';
+    }
+
+    // 捕获阶段拦下缩略图的点击，避免被 Cesium 的画布事件吃掉
+    document.addEventListener('click', function (e) {
+      var target = e.target;
+      var link = target && target.closest ? target.closest('.igs-photo') : null;
+      if (!link) return;
+      var full = link.getAttribute('data-full');
+      if (!full) return;
+      e.preventDefault();
+      e.stopPropagation();
+      igsShowPhoto(full, link.getAttribute('data-cap') || '');
+    }, true);
+
+    /**
+     * InfoBox 的 description 在 sandbox iframe（allow-same-origin）里，
+     * 弹窗内的点击不会冒泡到父文档，所以每次重绘后往 iframe 的 document 上补一次监听。
+     */
+    function igsBindIframeClicks() {
+      var ifr = document.querySelector('.cesium-infoBox-iframe');
+      if (!ifr) return;
+      try {
+        var doc = ifr.contentDocument;
+        if (!doc || doc.__rtkIgsBound) return;
+        doc.__rtkIgsBound = true;
+        doc.addEventListener('click', function (e) {
+          var link = e.target && e.target.closest ? e.target.closest('.igs-photo') : null;
+          if (!link) return;
+          var full = link.getAttribute('data-full');
+          if (!full) return;
+          e.preventDefault();
+          e.stopPropagation();
+          igsShowPhoto(full, link.getAttribute('data-cap') || '');
+        }, true);
+      } catch (err) {
+        /* 取不到 iframe 文档就退回锚点新标签打开原图 */
+      }
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && igsLightbox && igsLightbox.style.display === 'flex') {
+        igsLightbox.style.display = 'none';
+      }
+    });
+
+    /* ==========================================================
      * 14. 自动旋转
      * ========================================================== */
     viewer.clock.onTick.addEventListener(function () {
@@ -1805,8 +2373,8 @@ Free RTK Base Station Map</p>
     loadMetaInfo();
     loadSatellites();
 
-    // 默认展示 rtk2go（数据量最大、覆盖最广）
-    document.getElementById('loadRtk2goButton').click();
+    // 默认展示 IGS 全球大地测量网（坐标权威、带接收机/天线站志，可点开看天线照片）
+    document.getElementById('loadIgsButton').click();
   })();
   </script>
 </body>

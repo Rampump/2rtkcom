@@ -6673,7 +6673,7 @@
     "Receiver": {
       "DateInstalled": "2025-08-12T09:13Z",
       "ElevCutoff": "0.0",
-      "FirmwareVersion": "6.40",
+      "FirmwareVersion": "6.60",
       "Name": "TRIMBLE ALLOY",
       "SatelliteSystem": "GPS+GLO+GAL+BDS+QZSS+IRNSS+SBAS",
       "SerialNumber": "6023R40127"

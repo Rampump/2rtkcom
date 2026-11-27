@@ -1851,13 +1851,17 @@ Free RTK Base Station Map</p>
         var stationId = stationType + '_' + station.name;
         var isIgs = stationType === 'isIgs';
 
-        // IGS 是大地测量网（坐标权威、带接收机/天线信息），
-        // 点画大一点以便在整球视角也能看见，且不画覆盖圈
+        // 所有数据源统一基础点径 5 px；远处按距离自动放大，
+        // 既让稀疏的 IGS 在整球视角看得见，又不让密集源糊成一片
         var marker = viewer.entities.add({
           id: stationId,
           name: station.name,     // InfoBox 标题用 name，不设的话会显示 id 前缀 isIgs_xxx
           position: Cesium.Cartesian3.fromDegrees(lon, lat, height),
-          point: { pixelSize: isIgs ? 8 : 5, color: color },
+          point: {
+            pixelSize: 5,
+            color: color,
+            scaleByDistance: new Cesium.NearFarScalar(1.0e6, 1.0, 4.0e7, 1.8)
+          },
           label: {
             text: station.name,
             font: '10px sans-serif',

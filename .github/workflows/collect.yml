@@ -66,6 +66,12 @@ jobs:
         continue-on-error: true
         run: python scripts/fetch_tle.py
 
+      # 3) IGS 卫星静态元数据（SVN/PRN、型号、发射日期、轨道面、质量、功率）
+      #    变化很慢，脚本内部 48 小时内跳过
+      - name: Collect GNSS satellite metadata
+        continue-on-error: true
+        run: python scripts/fetch_satmeta.py
+
       - name: Refresh files.json
         run: python scripts/build.py --files-json
 

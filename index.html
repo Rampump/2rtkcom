@@ -790,6 +790,23 @@ Free RTK Base Station Map</p>
         satTleAge: 'TLE 数据龄期',
         days: '天',
         hours: '小时',
+        satSvnPrn: 'SVN / PRN',
+        satBlock: '卫星型号',
+        satCospar: 'COSPAR 编号',
+        satLaunch: '发射日期',
+        satPlaneSlot: '轨道面 / 槽位',
+        satMass: '卫星质量',
+        satTxPower: '发射功率',
+        satFreqCh: 'GLONASS 频点',
+        satPeriod: '轨道周期',
+        satApogee: '远地点高度',
+        satPerigee: '近地点高度',
+        satEcc: '偏心率',
+        satSma: '半长轴',
+        satSpeed: '当前速度',
+        satRevs: '每日圈数',
+        satFootprint: '地面覆盖半径',
+        satOrbitType: '轨道类型',
         switchLang: 'EN'
       },
       en: {
@@ -883,6 +900,23 @@ Free RTK Base Station Map</p>
         satTleAge: 'TLE Age',
         days: 'days',
         hours: 'h',
+        satSvnPrn: 'SVN / PRN',
+        satBlock: 'Satellite Block',
+        satCospar: 'COSPAR ID',
+        satLaunch: 'Launch Date',
+        satPlaneSlot: 'Plane / Slot',
+        satMass: 'Mass',
+        satTxPower: 'TX Power',
+        satFreqCh: 'GLONASS Channel',
+        satPeriod: 'Orbital Period',
+        satApogee: 'Apogee',
+        satPerigee: 'Perigee',
+        satEcc: 'Eccentricity',
+        satSma: 'Semi-major Axis',
+        satSpeed: 'Speed',
+        satRevs: 'Revs / Day',
+        satFootprint: 'Ground Footprint',
+        satOrbitType: 'Orbit Type',
         switchLang: '中文'
       }
     };
@@ -1165,6 +1199,7 @@ Free RTK Base Station Map</p>
      * 3. 状态变量
      * ========================================================== */
     var tleTimestamp = new Date();
+    var satMeta = {};                     // IGS 卫星静态元数据，按 NORAD 号索引
     var rotationEnabled = true;
     var satellitesVisible = true;         // 卫星图层整体显隐
     var satelliteLabelsVisible = false;
@@ -1594,6 +1629,31 @@ Free RTK Base Station Map</p>
         });
     }
 
+    /* IGS 卫星元数据（scripts/fetch_satmeta.py 生成），只补 TLE 里没有的静态字段：
+       SVN/PRN、卫星型号、COSPAR、发射日期、轨道面/槽位、质量、发射功率、GLONASS 频点 */
+    function loadSatMeta() {
+      return fetch('./data/sat-meta.json', { cache: 'no-cache' })
+        .then(function (res) {
+          if (!res.ok) throw new Error('sat-meta HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          satMeta = data || {};
+          var n = 0;
+          for (var k in satMeta) {
+            if (satMeta.hasOwnProperty(k) && k.charAt(0) !== '_') n++;
+          }
+          console.log('[2RTK] 卫星元数据加载完成 ' + n + ' 条');
+          // 元数据是异步到的，若面板已经打开就重建一次描述
+          if (viewer.selectedEntity && viewer.selectedEntity.isSatellite) {
+            refreshStationDescriptions();
+          }
+        })
+        .catch(function (err) {
+          console.warn('[2RTK] 卫星元数据不可用（' + (err && err.message) + '），仅显示 TLE 推算字段');
+        });
+    }
+
     /* ==========================================================
      * 10. 基准站点
      * ========================================================== */
@@ -1690,19 +1750,88 @@ Free RTK Base Station Map</p>
           : ageDays + ' ' + t('days');
       }
 
+      /* ---- 由 TLE 六根数直接推算的轨道参数（不依赖任何外部接口） ---- */
+      var MU = 398600.4418;   // 地球引力常数 km^3/s^2
+      var RE = 6378.137;      // 赤道半径 km
+      var noRadMin = entity.satrec.no || 0;             // 平均角速度 rad/min
+      var periodMin = noRadMin ? (2 * Math.PI) / noRadMin : 0;   // 轨道周期 min
+      var nRadS = noRadMin / 60;
+      var aKm = nRadS ? Math.pow(MU / (nRadS * nRadS), 1 / 3) : 0; // 半长轴 km
+      var ecc = entity.satrec.ecco || 0;
+      var rKm = geo.height + RE;                        // 当前地心距 km
+      var vKmS = aKm ? Math.sqrt(MU * (2 / rKm - 1 / aKm)) : 0;   // 当前轨道速度 km/s
+      var deg = Cesium.Math.toDegrees;
+      var inclDeg = deg(entity.satrec.inclo || 0);
+
+      var periodText = periodMin
+        ? Math.floor(periodMin / 60) + ' h ' + Math.round(periodMin % 60) + ' m'
+        : 'N/A';
+      var orbitType = 'N/A';
+      if (periodMin) {
+        if (Math.abs(periodMin - 1436.1) < 30) {
+          orbitType = inclDeg < 10 ? 'GEO' : 'IGSO';
+        } else if (periodMin > 600) {
+          orbitType = 'MEO';
+        } else {
+          orbitType = 'LEO';
+        }
+      }
+
+      // IGS 静态元数据（scripts/fetch_satmeta.py 生成），按 NORAD 号查
+      var meta = satMeta && satMeta[String(info.norad)] ? satMeta[String(info.norad)] : null;
+
       function row(label, value) {
         return '<tr><td><b>' + label + '</b></td><td>' + value + '</td></tr>';
       }
+      function num(v, digits) {
+        return v === undefined || v === null || v === '' || isNaN(v)
+          ? null : Number(v).toFixed(digits);
+      }
 
-      return '<table>'
-        + row(t('satName'), entity.name)
-        + row(t('satNorad'), info.norad)
-        + row(t('tableCountry'), info.country)
-        + row(t('satAlt'), geo.height.toFixed(1) + ' km')
-        + row(t('satPlane'), Cesium.Math.toDegrees(entity.satrec.nodeo).toFixed(2) + '°')
-        + row(t('satIncl'), Cesium.Math.toDegrees(entity.satrec.inclo).toFixed(2) + '°')
-        + row(t('satTleAge'), ageText)
-        + '</table>';
+      var rows = '';
+      rows += row(t('satName'), entity.name);
+      rows += row(t('satNorad'), info.norad);
+      if (meta && (meta.svn || meta.prn)) {
+        rows += row(t('satSvnPrn'), (meta.svn || '-') + ' / ' + (meta.prn || '-'));
+      }
+      if (meta && meta.block) {
+        rows += row(t('satBlock'), meta.block);
+      }
+      if (meta && meta.cospar) {
+        rows += row(t('satCospar'), meta.cospar);
+      }
+      if (meta && meta.launch) {
+        rows += row(t('satLaunch'), meta.launch);
+      }
+      rows += row(t('tableCountry'), info.country);
+      rows += row(t('satOrbitType'), orbitType);
+      rows += row(t('satAlt'), num(geo.height, 1) + ' km');
+      if (meta && meta.plane) {
+        rows += row(t('satPlaneSlot'), meta.plane + (meta.slot ? ' / ' + meta.slot : ''));
+      }
+      rows += row(t('satPeriod'), periodText);
+      rows += row(t('satPerigee'), aKm ? num(aKm * (1 - ecc) - RE, 0) + ' km' : 'N/A');
+      rows += row(t('satApogee'), aKm ? num(aKm * (1 + ecc) - RE, 0) + ' km' : 'N/A');
+      rows += row(t('satEcc'), ecc ? ecc.toFixed(5) : '0.00000');
+      rows += row(t('satSma'), aKm ? num(aKm, 1) + ' km' : 'N/A');
+      rows += row(t('satIncl'), inclDeg.toFixed(2) + '°');
+      rows += row(t('satPlane'), deg(entity.satrec.nodeo || 0).toFixed(2) + '°');
+      rows += row(t('satSpeed'), vKmS ? num(vKmS * 3600, 0) + ' km/h' : 'N/A');
+      rows += row(t('satRevs'), periodMin ? (1440 / periodMin).toFixed(2) : 'N/A');
+      rows += row(t('satFootprint'), geo.height > 0
+        ? num(RE * Math.acos(RE / (RE + geo.height)), 0) + ' km' : 'N/A');
+      if (meta && meta.mass_kg) {
+        rows += row(t('satMass'), num(meta.mass_kg, 0) + ' kg');
+      }
+      if (meta && meta.tx_power_w) {
+        rows += row(t('satTxPower'), num(meta.tx_power_w, 0) + ' W');
+      }
+      if (meta && meta.freq_ch) {
+        rows += row(t('satFreqCh'), meta.freq_ch);
+      }
+      rows += row(t('satTleAge'), ageText);
+
+      return '<table>' + rows + '</table>';
     }
 
     function addRtkEntities(baseStations, color, stationType) {
@@ -2426,6 +2555,7 @@ Free RTK Base Station Map</p>
     initBasemapAvailability();
     loadMetaInfo();
     loadSatellites();
+    loadSatMeta();
 
     // 默认展示 IGS 全球大地测量网（坐标权威、带接收机/天线站志，可点开看天线照片）
     document.getElementById('loadIgsButton').click();

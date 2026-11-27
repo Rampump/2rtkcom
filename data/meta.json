@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-11-27T01:14:00+00:00",
+  "last_update": "2026-11-27T15:44:06+00:00",
   "igs_network": {
     "ok": true,
     "file": "IGSNetwork.json"
@@ -9,32 +9,32 @@
       "name": "rtk2go",
       "file": "rtk2go.json",
       "ok": true,
-      "station_count": 756,
-      "message": "成功处理 756 个挂载点",
+      "station_count": 764,
+      "message": "成功处理 764 个挂载点",
       "stale": false
     },
     {
       "name": "France",
       "file": "France.json",
       "ok": true,
-      "station_count": 1316,
-      "message": "成功处理 1316 个挂载点",
+      "station_count": 1317,
+      "message": "成功处理 1317 个挂载点",
       "stale": false
     },
     {
       "name": "2rtk",
       "file": "2rtk.json",
       "ok": true,
-      "station_count": 1191,
-      "message": "成功处理 1191 个挂载点",
+      "station_count": 1192,
+      "message": "成功处理 1192 个挂载点",
       "stale": false
     },
     {
       "name": "auscors",
       "file": "auscors.json",
       "ok": true,
-      "station_count": 943,
-      "message": "成功处理 943 个挂载点",
+      "station_count": 951,
+      "message": "成功处理 951 个挂载点",
       "stale": false
     }
   ]

@@ -23,6 +23,7 @@ import datetime as dt
 import io
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -49,6 +50,23 @@ GNSS_NAME_HINTS = (
     "QZS", "MICHIBIKI", "IRNSS", "NVS-",
 )
 
+# 反选名单：CelesTrak 的 gnss 组里混进了赤道静止轨道的通信/增强星，
+# 直接画出来会挂在 3.6 万公里高度上，误导用户，必须剔除
+NON_GNSS_PATTERN = re.compile(
+    r"(EUTELSAT|ASTRA|SES-|SES \d|INMARSAT|GALAXY|INTELSAT|TELSTAR|"
+    r"METEOSAT|GOES|TURKSAT|ANIK|OPTUS|VIASAT)",
+    re.IGNORECASE,
+)
+
+# 文件头里的真实生成时间，用于判断新鲜度（不能用 mtime：
+# CI 每次 actions/checkout 都会重写文件，mtime 永远等于「刚刚」，
+# 结果 fetch_tle 每次都误判为刚更新过而跳过，导致 TLE 长期不刷新）
+HEADER_STAMP_RE = re.compile(r"生成时间\s+(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)")
+
+
+def is_gnss_name(name):
+    return bool(name) and not NON_GNSS_PATTERN.search(name)
+
 
 def http_get(url, timeout=TIMEOUT):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
@@ -66,8 +84,20 @@ def fetch_celestrak():
     # 校验 3 行一组
     if len(lines) % 3 != 0:
         raise RuntimeError("CelesTrak TLE 行数不是 3 的倍数：%d" % len(lines))
-    print("[tle] CelesTrak 成功：%d 颗" % (len(lines) // 3))
-    return lines
+
+    # 剔除混进来的通信 / 静止轨道星
+    kept = []
+    dropped = []
+    for i in range(0, len(lines), 3):
+        name = lines[i]
+        if is_gnss_name(name):
+            kept.extend(lines[i:i + 3])
+        else:
+            dropped.append(name)
+    if dropped:
+        print("[tle] 剔除非 GNSS 目标 %d 个：%s" % (len(dropped), ", ".join(dropped[:8])))
+    print("[tle] CelesTrak 成功：%d 颗" % (len(kept) // 3))
+    return kept
 
 
 def fetch_mirror():
@@ -94,6 +124,8 @@ def fetch_mirror():
                 if not name or not l1.startswith("1 ") or not l2.startswith("2 "):
                     continue
                 if not any(h in name.upper() for h in GNSS_NAME_HINTS):
+                    continue
+                if not is_gnss_name(name):
                     continue
                 seen[m.get("satelliteId") or name] = (name, l1, l2)
 
@@ -124,7 +156,32 @@ def write_tle(lines):
     print("[tle] 已写入 %s（%d 行，%.1f KB）" % (OUT, len(lines), size / 1024.0))
 
 
+def header_stamp():
+    """读取文件头里记录的生成时间（UTC），读不到返回 None。"""
+    if not os.path.exists(OUT):
+        return None
+    try:
+        with io.open(OUT, "r", encoding="utf-8") as fh:
+            for _ in range(5):
+                line = fh.readline()
+                if not line:
+                    break
+                m = HEADER_STAMP_RE.search(line)
+                if m:
+                    return dt.datetime.strptime(
+                        m.group(1), "%Y-%m-%dT%H:%M:%SZ"
+                    ).replace(tzinfo=dt.timezone.utc)
+    except Exception:
+        return None
+    return None
+
+
 def local_age_hours():
+    # 优先用文件头记录的生成时间：checkout 会把 mtime 变成「刚刚」，
+    # 用 mtime 判断会让 CI 每次都误以为文件是新的。
+    stamp = header_stamp()
+    if stamp is not None:
+        return (dt.datetime.now(dt.timezone.utc) - stamp).total_seconds() / 3600.0
     if not os.path.exists(OUT):
         return None
     mtime = dt.datetime.fromtimestamp(os.path.getmtime(OUT), dt.timezone.utc)

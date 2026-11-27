@@ -789,6 +789,7 @@ Free RTK Base Station Map</p>
         satIncl: '轨道倾角',
         satTleAge: 'TLE 数据龄期',
         days: '天',
+        hours: '小时',
         switchLang: 'EN'
       },
       en: {
@@ -881,6 +882,7 @@ Free RTK Base Station Map</p>
         satIncl: 'Inclination',
         satTleAge: 'TLE Age',
         days: 'days',
+        hours: 'h',
         switchLang: '中文'
       }
     };
@@ -1346,6 +1348,10 @@ Free RTK Base Station Map</p>
       'Other': './images/2rtk.png'
     };
 
+    // CelesTrak 的 gnss 组里偶尔混进静止轨道的通信/增强星，
+    // 必须在前端也挡一道，避免本地 TLE 文件没刷新时它们被画出来
+    var NON_GNSS_RE = /(EUTELSAT|ASTRA|SES-|INMARSAT|GALAXY|INTELSAT|TELSTAR|METEOSAT|GOES|TURKSAT|ANIK|OPTUS|VIASAT)/i;
+
     /* ==========================================================
      * 7. 通用工具
      * ========================================================== */
@@ -1462,18 +1468,36 @@ Free RTK Base Station Map</p>
     var TLE_REMOTE = 'https://celestrak.org/NORAD/elements/gp.php?GROUP=gnss&FORMAT=tle';
 
     function parseTLE(tleText) {
+      // TLE 生成时间从文件头注释里取（"# 2RTK GNSS TLE  生成时间 2026-11-11T11:00:59Z"）。
+      // 之前用的是页面加载时刻，导致 InfoBox 里的「TLE 数据龄期」永远显示 0.0 天。
+      var stampMatch = /生成时间\s+(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)/.exec(tleText);
+      if (stampMatch) {
+        var stampDate = new Date(stampMatch[1]);
+        tleTimestamp = isNaN(stampDate.getTime()) ? new Date() : stampDate;
+      } else {
+        // 回退到 CelesTrak 实时接口时没有文件头，就用当前时刻
+        tleTimestamp = new Date();
+      }
+
       // 去掉 # 注释行与空行，按 3 行一组（名称 / 1 行 / 2 行）解析
       var lines = tleText.split('\n')
         .map(function (l) { return l.replace(/\r$/, '').trim(); })
         .filter(function (l) { return l && l.charAt(0) !== '#'; });
 
       var added = 0;
+      var dropped = 0;
 
       for (var i = 0; i + 2 < lines.length; i += 3) {
         var name = lines[i];
         var tle1 = lines[i + 1];
         var tle2 = lines[i + 2];
         if (tle1.charAt(0) !== '1' || tle2.charAt(0) !== '2') continue;
+
+        // 剔除非 GNSS 目标（静止轨道通信/增强星）
+        if (NON_GNSS_RE.test(name)) {
+          dropped++;
+          continue;
+        }
 
         try {
           var satrec = satellite.twoline2satrec(tle1, tle2);
@@ -1535,7 +1559,9 @@ Free RTK Base Station Map</p>
         }
       }
 
-      console.log('[2RTK] 卫星加载完成 ' + added + ' 颗');
+      console.log('[2RTK] TLE 生成时间 ' + tleTimestamp.toISOString()
+        + '，卫星加载完成 ' + added + ' 颗'
+        + (dropped ? '（剔除非 GNSS ' + dropped + ' 颗）' : ''));
       return added;
     }
 
@@ -1655,6 +1681,14 @@ Free RTK Base Station Map</p>
       var ageDays = info.tleDate
         ? ((now - new Date(info.tleDate)) / 86400000).toFixed(1)
         : 'N/A';
+      // 龄期不足 1 天时按小时显示，否则 TLE 刚刷新时永远显示 0.0 天，看不出新鲜度
+      var ageText = ageDays;
+      if (info.tleDate) {
+        var ageHours = (now - new Date(info.tleDate)) / 3600000;
+        ageText = ageHours < 24
+          ? ageHours.toFixed(1) + ' ' + t('hours')
+          : ageDays + ' ' + t('days');
+      }
 
       function row(label, value) {
         return '<tr><td><b>' + label + '</b></td><td>' + value + '</td></tr>';
@@ -1667,7 +1701,7 @@ Free RTK Base Station Map</p>
         + row(t('satAlt'), geo.height.toFixed(1) + ' km')
         + row(t('satPlane'), Cesium.Math.toDegrees(entity.satrec.nodeo).toFixed(2) + '°')
         + row(t('satIncl'), Cesium.Math.toDegrees(entity.satrec.inclo).toFixed(2) + '°')
-        + row(t('satTleAge'), ageDays + ' ' + t('days'))
+        + row(t('satTleAge'), ageText)
         + '</table>';
     }
 

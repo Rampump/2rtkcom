@@ -610,6 +610,214 @@
         min-width: auto;
         box-sizing: border-box;
       }
+
+      .tool-panel {
+        right: 8px;
+        left: 8px;
+        width: auto;
+        max-height: 56vh;
+      }
+      .tool-panel canvas { max-width: 100%; }
+    }
+
+    /* ============ 工具面板（最近基站 / 天空视图 / 搜索导出） ============ */
+    .tool-panel {
+      position: absolute;
+      right: 20px;
+      bottom: 118px;
+      width: 340px;
+      max-height: calc(100vh - 186px);
+      overflow-y: auto;
+      z-index: 999;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      backdrop-filter: blur(6px);
+      color: #fff;
+      font-size: 13px;
+      padding: 10px 12px 12px;
+      box-sizing: border-box;
+      display: none;
+    }
+
+    .tool-panel.is-open { display: block; }
+
+    .tool-panel h4 {
+      margin: 0 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #9fd8b6;
+    }
+
+    .tool-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .tool-tabs button {
+      flex: 1 1 0;
+      box-sizing: border-box;
+      background: rgba(0, 0, 0, 0.55);
+      color: #e8e8e8;
+      border: 1px solid rgba(204, 204, 204, 0.5);
+      border-radius: 4px;
+      padding: 5px 4px;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .tool-tabs button:hover { border-color: var(--accent); }
+
+    .tool-tabs button.is-active {
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      padding: 4px 3px;
+      font-weight: 600;
+    }
+
+    .tool-section { display: none; }
+    .tool-section.is-active { display: block; }
+
+    .tool-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tool-row label { font-size: 12px; color: #9fd8b6; }
+
+    .tool-panel input[type="text"],
+    .tool-panel input[type="number"] {
+      flex: 1 1 90px;
+      min-width: 0;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(204, 204, 204, 0.5);
+      color: #fff;
+      border-radius: 4px;
+      padding: 5px 7px;
+      font-size: 12px;
+      box-sizing: border-box;
+      transition: border-color 0.15s;
+    }
+
+    .tool-panel input[type="text"]:focus,
+    .tool-panel input[type="number"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .tool-panel .tool-btn {
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      border: 1px solid rgba(204, 204, 204, 0.5);
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.15s;
+    }
+
+    .tool-panel .tool-btn:hover { border-color: var(--accent); }
+
+    .tool-panel .tool-hint {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.6;
+      margin: 6px 0;
+    }
+
+    .tool-list {
+      max-height: 240px;
+      overflow-y: auto;
+      margin: 6px 0 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .tool-list li {
+      padding: 7px 2px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      cursor: pointer;
+      line-height: 1.5;
+    }
+
+    .tool-list li:hover { background: rgba(255, 255, 255, 0.08); }
+
+    .tool-list .tm-name { color: #fff; font-weight: 600; }
+
+    .tool-list .tm-meta { color: rgba(255, 255, 255, 0.55); font-size: 11px; }
+
+    .tool-list .tm-bad { color: #ff9a8a; font-size: 11px; }
+
+    .tool-empty { color: rgba(255, 255, 255, 0.55); font-size: 12px; padding: 8px 0; }
+
+    .tool-plot-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-panel canvas.skyplot {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .tool-panel canvas.pdop {
+      width: 284px;
+      height: 84px;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 4px;
+    }
+
+    .tool-panel .sky-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 3px 10px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    .tool-panel .sky-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .tool-panel .sky-legend i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .tool-metrics {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .tool-metrics b { color: var(--accent); }
+
+    #toolExportStatus {
+      word-break: break-all;
+      margin-top: 8px;
     }
   </style>
 </head>
@@ -649,8 +857,79 @@ Free RTK Base Station Map</p>
     <button id="loadIgsButton" type="button">IGS</button>
   </div>
 
+  <aside class="tool-panel" id="toolPanel" aria-label="Site selection tools">
+    <h4 data-i18n="toolTitle">选址工具</h4>
+
+    <div class="tool-tabs" role="tablist">
+      <button type="button" data-tool-tab="near" class="is-active" data-i18n="tabNear">最近基站</button>
+      <button type="button" data-tool-tab="sky" data-i18n="tabSky">天空视图</button>
+      <button type="button" data-tool-tab="search" data-i18n="tabSearch">搜索</button>
+      <button type="button" data-tool-tab="export" data-i18n="tabExport">导出</button>
+    </div>
+
+    <div class="tool-row">
+      <label data-i18n="toolLat">纬度</label>
+      <input id="toolLat" type="number" step="0.000001" placeholder="25.2736">
+      <label data-i18n="toolLon">经度</label>
+      <input id="toolLon" type="number" step="0.000001" placeholder="110.2900">
+    </div>
+    <div class="tool-row">
+      <button id="toolUseCenter" class="tool-btn" type="button" data-i18n="toolUseCenter">用地图中心</button>
+      <button id="toolUseGeo" class="tool-btn" type="button" data-i18n="toolUseGeo">用浏览器定位</button>
+    </div>
+
+    <div class="tool-section is-active" data-tool-section="near">
+      <div class="tool-row">
+        <label data-i18n="toolRadius">半径</label>
+        <input id="toolRadius" type="number" value="50" min="1" max="3000" step="1">
+        <span class="tool-hint" style="margin:0">km</span>
+        <button id="toolFindNear" class="tool-btn" type="button" data-i18n="toolFind">查询</button>
+      </div>
+      <div class="tool-hint" id="toolNearHint" data-i18n="toolNearHint">首次查询会按需加载全部数据源（约 3 MB），之后走内存缓存。</div>
+      <ul class="tool-list" id="toolNearList"></ul>
+    </div>
+
+    <div class="tool-section" data-tool-section="sky">
+      <div class="tool-row">
+        <label data-i18n="toolMask">截止高度角</label>
+        <input id="toolMask" type="number" value="10" min="0" max="45" step="5">
+        <span class="tool-hint" style="margin:0">°</span>
+        <button id="toolSkyRun" class="tool-btn" type="button" data-i18n="toolCompute">计算</button>
+      </div>
+      <div class="tool-metrics" id="toolSkyMetrics"></div>
+      <div class="tool-plot-wrap">
+        <canvas class="skyplot" id="skyplotCanvas" width="520" height="520"></canvas>
+        <div class="sky-legend" id="skyLegend"></div>
+        <canvas class="pdop" id="pdopCanvas" width="600" height="180"></canvas>
+      </div>
+      <div class="tool-hint" data-i18n="toolSkyHint">可用卫星与 PDOP 均由本地 TLE 推算，未来 24 小时，不调用任何外部接口。</div>
+    </div>
+
+    <div class="tool-section" data-tool-section="search">
+      <div class="tool-row">
+        <input id="toolSearchInput" type="text" data-i18n-ph="toolSearchPh" placeholder="站名 / 国家码 / 网络">
+        <button id="toolSearchBtn" class="tool-btn" type="button" data-i18n="toolSearchBtn">搜索</button>
+      </div>
+      <div class="tool-hint" data-i18n="toolSearchHint">支持站名、国家码（CHN/USA）、caster 域名、network 名。</div>
+      <ul class="tool-list" id="toolSearchList"></ul>
+    </div>
+
+    <div class="tool-section" data-tool-section="export">
+      <div class="tool-hint" data-i18n="toolExportHint">导出「当前数据源图层」里落在地图视野内的站点。</div>
+      <div class="tool-row">
+        <button id="toolExportCsv" class="tool-btn" type="button" data-i18n="toolExportCsv">导出 CSV</button>
+        <button id="toolExportGeo" class="tool-btn" type="button" data-i18n="toolExportGeo">导出 GeoJSON</button>
+      </div>
+      <div class="tool-row">
+        <button id="toolCopyLink" class="tool-btn" type="button" data-i18n="toolCopyLink">复制视角链接</button>
+      </div>
+      <div class="tool-hint" id="toolExportStatus"></div>
+    </div>
+  </aside>
+
   <div class="bottom-stack">
     <div class="function-controls">
+      <button id="toggleToolPanel" type="button" data-i18n="toolToggle">显示工具</button>
       <button id="toggleButton" type="button">暂停旋转</button>
       <button id="toggleSatellites" type="button">隐藏卫星</button>
       <button id="toggleSatelliteLabels" type="button">显示卫星标签</button>
@@ -807,6 +1086,49 @@ Free RTK Base Station Map</p>
         satRevs: '每日圈数',
         satFootprint: '地面覆盖半径',
         satOrbitType: '轨道类型',
+        toolToggle: '工具',
+        toolTitle: '选址工具',
+        tabNear: '最近基站',
+        tabSky: '天空视图',
+        tabSearch: '搜索',
+        tabExport: '导出',
+        toolLat: '纬度',
+        toolLon: '经度',
+        toolUseCenter: '用地图中心',
+        toolUseGeo: '用浏览器定位',
+        toolRadius: '半径',
+        toolFind: '查询',
+        toolNearHint: '首次查询会按需加载全部数据源（约 3 MB），之后走内存缓存。',
+        toolMask: '截止高度角',
+        toolCompute: '计算',
+        toolSkyHint: '可用卫星与 PDOP 均由本地 TLE 推算，未来 24 小时，不调用任何外部接口。',
+        toolSearchPh: '站名 / 国家码 / 网络',
+        toolSearchBtn: '搜索',
+        toolSearchHint: '支持站名、国家码（CHN/USA）、caster 域名、network 名。',
+        toolExportHint: '导出「当前数据源图层」里落在地图视野内的站点。',
+        toolExportCsv: '导出 CSV',
+        toolExportGeo: '导出 GeoJSON',
+        toolCopyLink: '复制视角链接',
+        tDist: '距离',
+        tBearing: '方位角',
+        tSrc: '数据源',
+        tNoResult: '没有匹配结果',
+        tLoadingSrc: '正在加载数据源…',
+        tNeedCoord: '请先填写经纬度',
+        tNeedLayer: '当前没有可导出的图层，先点一个数据源',
+        tExportNone: '视野内没有可导出的站点',
+        tExportOk: '已导出',
+        tCopied: '链接已复制',
+        tCopyFail: '复制失败，请手动复制地址栏',
+        tSatVisible: '可见卫星',
+        tPdopNow: '当前 PDOP',
+        tPdopMax: '24h 最大 PDOP',
+        tPdopAvg: '24h 平均 PDOP',
+        tGeoFail: '浏览器定位失败，请手动输入坐标',
+        vG1: '2 cm 可靠',
+        vG2: '2 cm 可用（需良好观测条件）',
+        vG3: '10 cm 可用',
+        vG4: '距离过远，不建议单基站',
         switchLang: 'EN'
       },
       en: {
@@ -917,6 +1239,49 @@ Free RTK Base Station Map</p>
         satRevs: 'Revs / Day',
         satFootprint: 'Ground Footprint',
         satOrbitType: 'Orbit Type',
+        toolToggle: 'Tools',
+        toolTitle: 'Site Selection Tools',
+        tabNear: 'Nearest',
+        tabSky: 'Sky View',
+        tabSearch: 'Search',
+        tabExport: 'Export',
+        toolLat: 'Lat',
+        toolLon: 'Lon',
+        toolUseCenter: 'Map Center',
+        toolUseGeo: 'My Location',
+        toolRadius: 'Radius',
+        toolFind: 'Find',
+        toolNearHint: 'The first query loads all sources on demand (about 3 MB), then it is cached in memory.',
+        toolMask: 'Elevation mask',
+        toolCompute: 'Compute',
+        toolSkyHint: 'Visible satellites and PDOP are computed from the local TLE for the next 24 hours, with no external service.',
+        toolSearchPh: 'Name / country / network',
+        toolSearchBtn: 'Search',
+        toolSearchHint: 'Matches station name, country code (CHN/USA), caster host and network name.',
+        toolExportHint: 'Export stations of the active source layer that fall inside the current view.',
+        toolExportCsv: 'Export CSV',
+        toolExportGeo: 'Export GeoJSON',
+        toolCopyLink: 'Copy view link',
+        tDist: 'Distance',
+        tBearing: 'Bearing',
+        tSrc: 'Source',
+        tNoResult: 'No match',
+        tLoadingSrc: 'Loading data sources…',
+        tNeedCoord: 'Enter latitude and longitude first',
+        tNeedLayer: 'No active layer to export — pick a data source first',
+        tExportNone: 'No station inside the current view',
+        tExportOk: 'Exported',
+        tCopied: 'Link copied',
+        tCopyFail: 'Copy failed — copy the address bar manually',
+        tSatVisible: 'Visible satellites',
+        tPdopNow: 'Current PDOP',
+        tPdopMax: 'Max PDOP (24h)',
+        tPdopAvg: 'Mean PDOP (24h)',
+        tGeoFail: 'Geolocation failed — type coordinates manually',
+        vG1: '2 cm reliable',
+        vG2: '2 cm usable (needs a clean sky)',
+        vG3: '10 cm usable',
+        vG4: 'Too far — single base not recommended',
         switchLang: '中文'
       }
     };
@@ -1200,7 +1565,11 @@ Free RTK Base Station Map</p>
      * ========================================================== */
     var tleTimestamp = new Date();
     var satMeta = {};                     // IGS 卫星静态元数据，按 NORAD 号索引
+    var gnssSatRecords = [];              // 卫星的 satrec 集合，供天空视图 / PDOP 计算
+    var activeStationType = null;         // 当前图层类型（导出、搜索定位用）
     var rotationEnabled = true;
+    var suppressFitView = false;          // 深链定位时禁止切源后自动拉回整球视角
+    var suppressFitUntil = 0;             // 深链视角保护截止时间戳
     var satellitesVisible = true;         // 卫星图层整体显隐
     var satelliteLabelsVisible = false;
     var stationLabelsVisible = false;
@@ -1438,6 +1807,9 @@ Free RTK Base Station Map</p>
       document.querySelectorAll('[data-i18n]').forEach(function (el) {
         el.textContent = t(el.getAttribute('data-i18n'));
       });
+      document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+        el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph')));
+      });
 
       renderUpdateInfo();
       refreshStationDescriptions();
@@ -1588,6 +1960,7 @@ Free RTK Base Station Map</p>
             tleDate: tleTimestamp.toISOString(),
             country: country
           };
+          gnssSatRecords.push({ name: name, satrec: satrec, country: country });
           added++;
         } catch (e) {
           console.warn('[2RTK] 卫星 ' + name + ' 处理失败:', e && e.message);
@@ -1655,6 +2028,755 @@ Free RTK Base Station Map</p>
     }
 
     /* ==========================================================
+     * 12. 工具面板：最近基站 / 天空视图 / 搜索 / 导出
+     *     全部在浏览器本地完成，不新增任何后端接口
+     * ========================================================== */
+    var TOOL_SOURCES = [
+      { file: '2rtk.json',       label: '2RTK',    type: 'isRtk',     btn: 'loadRtkButton',    key: '2rtk' },
+      { file: 'France.json',     label: 'CRTK',    type: 'isCrtk',    btn: 'loadCrtkButton',   key: 'crtk' },
+      { file: 'rtk2go.json',     label: 'RTK2',    type: 'isRtk2go',  btn: 'loadRtk2goButton', key: 'rtk2' },
+      { file: 'auscors.json',    label: 'AUSCORS', type: 'isAuscors', btn: 'loadAuscorsButton', key: 'auscors' },
+      { file: 'IGSNetwork.json', label: 'IGS',     type: 'isIgs',     btn: 'loadIgsButton',    key: 'igs' }
+    ];
+
+    var SAT_COLORS = {
+      China: '#ff6b6b', Russia: '#7fd4ff', India: '#ffb066', Japan: '#ffffff',
+      EU: '#ffe066', USA: '#6fa8ff', UK: '#ff7bd5', Other: '#9fd8b6'
+    };
+
+    var toolIndex = null;          // 全部数据源的站点索引（惰性加载）
+    var toolIndexLoading = null;
+    var toolCoord = { lat: null, lon: null };
+    var skyLast = null;            // 最近一次天空图结果（悬停重绘用）
+    var skyHover = null;           // 当前悬停的卫星点
+
+    function loadToolIndex() {
+      if (toolIndex) return Promise.resolve(toolIndex);
+      if (toolIndexLoading) return toolIndexLoading;
+      toolIndexLoading = Promise.all(TOOL_SOURCES.map(function (src) {
+        return fetch('./data/' + src.file, { cache: 'force-cache' })
+          .then(function (res) { return res.ok ? res.json() : []; })
+          .then(function (rows) {
+            var out = [];
+            // IGSNetwork.json 是以站点号为键的对象（字段还是大写 Latitude/Longitude），
+            // 其余数据源是数组，这里先统一成数组
+            var list = Array.isArray(rows)
+              ? rows
+              : (src.type === 'isIgs' ? normalizeIgsStations(rows) : []);
+            list.forEach(function (st) {
+              var lon = parseFloat(st.longitude);
+              var lat = parseFloat(st.latitude);
+              if (!st.name || isNaN(lon) || isNaN(lat)) return;
+              if (lon < -180 || lon > 180 || lat < -90 || lat > 90) return;
+              out.push({
+                name: st.name, lon: lon, lat: lat,
+                height: st.height,
+                source: src.label, type: src.type, btn: src.btn, key: src.key,
+                country: st.country || '', network: st.network || (src.type === 'isIgs' ? 'IGS' : ''),
+                format: st.format || '', systems: st.systems || '',
+                host: st.server_host || '', port: st.server_port || ''
+              });
+            });
+            return out;
+          })
+          .catch(function () { return []; });
+      })).then(function (parts) {
+        var all = [];
+        parts.forEach(function (p) { all = all.concat(p); });
+        toolIndex = all;
+        return all;
+      });
+      return toolIndexLoading;
+    }
+
+    function haversineKm(lat1, lon1, lat2, lon2) {
+      var R = 6371.0088;      // 平均地球半径 km
+      var p1 = Cesium.Math.toRadians(lat1);
+      var p2 = Cesium.Math.toRadians(lat2);
+      var dp = Cesium.Math.toRadians(lat2 - lat1);
+      var dl = Cesium.Math.toRadians(lon2 - lon1);
+      var a = Math.sin(dp / 2) * Math.sin(dp / 2)
+        + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) * Math.sin(dl / 2);
+      return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
+    }
+
+    function bearingDeg(lat1, lon1, lat2, lon2) {
+      var p1 = Cesium.Math.toRadians(lat1);
+      var p2 = Cesium.Math.toRadians(lat2);
+      var dl = Cesium.Math.toRadians(lon2 - lon1);
+      var y = Math.sin(dl) * Math.cos(p2);
+      var x = Math.cos(p1) * Math.sin(p2) - Math.sin(p1) * Math.cos(p2) * Math.cos(dl);
+      var deg = Cesium.Math.toDegrees(Math.atan2(y, x));
+      return (deg + 360) % 360;
+    }
+
+    // 距离 → 单基站 RTK 可用性判据（经验值，非严格保证）
+    function distanceVerdict(km) {
+      if (km <= 10) return { key: 'vG1', cls: '' };
+      if (km <= 20) return { key: 'vG2', cls: '' };
+      if (km <= 40) return { key: 'vG3', cls: '' };
+      return { key: 'vG4', cls: 'tm-bad' };
+    }
+
+    function pickCenterCoord() {
+      var scene = viewer.scene;
+      if (!scene.globe) return null;
+      var c = new Cesium.Cartesian2(
+        Math.floor(scene.canvas.clientWidth / 2),
+        Math.floor(scene.canvas.clientHeight / 2)
+      );
+      var cart = viewer.camera.pickEllipsoid(c, scene.globe.ellipsoid);
+      if (!cart) return null;
+      var carto = Cesium.Cartographic.fromCartesian(cart);
+      return { lat: Cesium.Math.toDegrees(carto.latitude), lon: Cesium.Math.toDegrees(carto.longitude) };
+    }
+
+    function viewCenter() {
+      // 视野矩形中心；整球视角下矩形接近全球，改用屏幕中心点取椭球交点
+      var rect = viewer.camera.computeViewRectangle(viewer.scene.globe.ellipsoid);
+      if (!rect) return pickCenterCoord();
+      var lonSpan = Cesium.Math.toDegrees(rect.east - rect.west);
+      var latSpan = Cesium.Math.toDegrees(rect.north - rect.south);
+      var lon = Cesium.Math.toDegrees((rect.west + rect.east) / 2);
+      if (lon > 180) lon -= 360;
+      if (lon < -180) lon += 360;
+      var rectCenter = {
+        lat: Cesium.Math.toDegrees((rect.south + rect.north) / 2),
+        lon: lon
+      };
+      if (lonSpan > 180 || latSpan > 120) {
+        var alt = pickCenterCoord();
+        if (alt) return alt;
+      }
+      return rectCenter;
+    }
+
+    function mapCenterCoord() {
+      return viewCenter();
+    }
+
+    function readToolCoord() {
+      var lat = parseFloat(document.getElementById('toolLat').value);
+      var lon = parseFloat(document.getElementById('toolLon').value);
+      if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) return null;
+      return { lat: lat, lon: lon };
+    }
+
+    function fillToolCoord(lat, lon) {
+      document.getElementById('toolLat').value = lat.toFixed(5);
+      document.getElementById('toolLon').value = lon.toFixed(5);
+      toolCoord = { lat: lat, lon: lon };
+    }
+
+    function focusStation(rec) {
+      // 定位到站点：垂直俯视、150 km 高度，站点和覆盖圈居中，还能看到整片城区与山形；
+      // 原来写死 30 km，等于把镜头贴到地面上，地球直接被放到最大（底图也没有更细的瓦片）
+      var dest = Cesium.Cartesian3.fromDegrees(rec.lon, rec.lat, 150000);
+      var fly = function () {
+        // 近距离视角里自转等于在飞，定位前先停转
+        if (rotationEnabled) {
+          rotationEnabled = false;
+          refreshControlLabels();
+        }
+        viewer.camera.flyTo({
+          destination: dest,
+          orientation: {
+            heading: 0,
+            pitch: -Cesium.Math.toRadians(90),
+            roll: 0
+          },
+          duration: 1.4
+        });
+      };
+      if (activeStationType !== rec.type) {
+        var btn = document.getElementById(rec.btn);
+        if (btn) btn.click();
+        var tries = 0;
+        var timer = setInterval(function () {
+          tries++;
+          var ent = viewer.entities.getById(rec.type + '_' + rec.name);
+          if (ent) {
+            clearInterval(timer);
+            viewer.selectedEntity = ent;
+            fly();
+          } else if (tries > 40) {
+            clearInterval(timer);
+            fly();
+          }
+        }, 200);
+        fly();
+      } else {
+        var ent2 = viewer.entities.getById(rec.type + '_' + rec.name);
+        if (ent2) viewer.selectedEntity = ent2;
+        fly();
+      }
+    }
+
+    function renderNearList(items, radiusKm) {
+      var ul = document.getElementById('toolNearList');
+      ul.innerHTML = '';
+      if (!items.length) {
+        ul.innerHTML = '<div class="tool-empty">' + t('tNoResult') + '</div>';
+        return;
+      }
+      items.forEach(function (it) {
+        var v = distanceVerdict(it.km);
+        var li = document.createElement('li');
+        li.innerHTML = '<div class="tm-name">' + it.rec.name + '</div>'
+          + '<div class="tm-meta">' + it.rec.source + ' · ' + t('tDist') + ' ' + it.km.toFixed(1) + ' km · '
+          + t('tBearing') + ' ' + it.brg.toFixed(0) + '° · ' + (it.rec.format || '—') + '</div>'
+          + '<div class="' + (v.cls ? v.cls : 'tm-meta') + '">' + t(v.key) + '</div>';
+        li.addEventListener('click', function () { focusStation(it.rec); });
+        ul.appendChild(li);
+      });
+    }
+
+    function runNearQuery() {
+      var coord = readToolCoord();
+      if (!coord) { alert(t('tNeedCoord')); return; }
+      var radius = parseFloat(document.getElementById('toolRadius').value) || 50;
+      var hint = document.getElementById('toolNearHint');
+      hint.textContent = t('tLoadingSrc');
+      loadToolIndex().then(function (all) {
+        hint.textContent = t('toolNearHint');
+        var items = [];
+        all.forEach(function (rec) {
+          var km = haversineKm(coord.lat, coord.lon, rec.lat, rec.lon);
+          if (km > radius) return;
+          items.push({ rec: rec, km: km, brg: bearingDeg(coord.lat, coord.lon, rec.lat, rec.lon) });
+        });
+        items.sort(function (a, b) { return a.km - b.km; });
+        renderNearList(items.slice(0, 15), radius);
+      });
+    }
+
+    /* ---------- 天空视图 / PDOP ---------- */
+    function invert3(m) {
+      var det = m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+        - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+        + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+      if (!isFinite(det) || Math.abs(det) < 1e-12) return null;
+      var k = 1 / det;
+      return [
+        [(m[1][1] * m[2][2] - m[1][2] * m[2][1]) * k,
+         (m[0][2] * m[2][1] - m[0][1] * m[2][2]) * k,
+         (m[0][1] * m[1][2] - m[0][2] * m[1][1]) * k],
+        [(m[1][2] * m[2][0] - m[1][0] * m[2][2]) * k,
+         (m[0][0] * m[2][2] - m[0][2] * m[2][0]) * k,
+         (m[0][2] * m[1][0] - m[0][0] * m[1][2]) * k],
+        [(m[1][0] * m[2][1] - m[1][1] * m[2][0]) * k,
+         (m[0][1] * m[2][0] - m[0][0] * m[2][1]) * k,
+         (m[0][0] * m[1][1] - m[0][1] * m[1][0]) * k]
+      ];
+    }
+
+    function lookAnglesAt(rec, date, obsGd) {
+      var pv = satellite.propagate(rec.satrec, date);
+      if (!pv || !pv.position) return null;
+      var gmst = satellite.gstime(date);
+      var ecf = satellite.eciToEcf(pv.position, gmst);
+      return satellite.ecfToLookAngles(obsGd, ecf);
+    }
+
+    function pdopAt(date, obsGd, maskDeg) {
+      var m = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+      var n = 0;
+      for (var i = 0; i < gnssSatRecords.length; i++) {
+        var la = lookAnglesAt(gnssSatRecords[i], date, obsGd);
+        if (!la) continue;
+        var el = Cesium.Math.toDegrees(la.elevation);
+        if (el <= maskDeg) continue;
+        var az = la.azimuth;
+        var e = Math.cos(la.elevation) * Math.sin(az);
+        var nn = Math.cos(la.elevation) * Math.cos(az);
+        var u = Math.sin(la.elevation);
+        m[0][0] += e * e; m[0][1] += e * nn; m[0][2] += e * u;
+        m[1][1] += nn * nn; m[1][2] += nn * u; m[2][2] += u * u;
+        n++;
+      }
+      m[1][0] = m[0][1]; m[2][0] = m[0][2]; m[2][1] = m[1][2];
+      if (n < 4) return { pdop: Infinity, count: n };
+      var inv = invert3(m);
+      if (!inv) return { pdop: Infinity, count: n };
+      var tr = inv[0][0] + inv[1][1] + inv[2][2];
+      return { pdop: Math.sqrt(Math.max(tr, 0)), count: n };
+    }
+
+    function drawSkyplot(sats, maskDeg) {
+      var cv = document.getElementById('skyplotCanvas');
+      if (!cv || !cv.getContext) return;
+      var ctx = cv.getContext('2d');
+      var W = cv.width;
+      var cx = W / 2, cy = W / 2, R = W / 2 - 26;
+      ctx.clearRect(0, 0, W, W);
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.lineWidth = 1.5;
+      [0, 30, 60].forEach(function (el) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, R * (90 - el) / 90, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+      ctx.strokeStyle = 'rgba(0,255,136,0.5)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, R * (90 - maskDeg) / 90, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - R); ctx.lineTo(cx, cy + R);
+      ctx.moveTo(cx - R, cy); ctx.lineTo(cx + R, cy);
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(232,245,238,0.75)';
+      ctx.font = '15px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('N', cx, cy - R - 6);
+      ctx.fillText('S', cx, cy + R + 20);
+      ctx.fillText('E', cx + R + 14, cy + 5);
+      ctx.fillText('W', cx - R - 14, cy + 5);
+
+      // 只画点：60 多颗卫星的台名全铺上去会叠成一团，改成悬停看具体是哪颗
+      var hits = [];
+      sats.forEach(function (s) {
+        var r = R * (90 - s.el) / 90;
+        var az = Cesium.Math.toRadians(s.az);
+        var px = cx + r * Math.sin(az);
+        var py = cy - r * Math.cos(az);
+        hits.push({ sat: s, x: px, y: py });
+        ctx.beginPath();
+        ctx.fillStyle = SAT_COLORS[s.country] || SAT_COLORS.Other;
+        ctx.arc(px, py, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      if (skyHover) {
+        ctx.beginPath();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.arc(skyHover.x, skyHover.y, 9, 0, Math.PI * 2);
+        ctx.stroke();
+        var label = skyHover.sat.short + ' · el ' + skyHover.sat.el.toFixed(0) + '° / az ' + skyHover.sat.az.toFixed(0) + '°';
+        cv.setAttribute('data-hover', skyHover.sat.short);
+        ctx.font = '17px sans-serif';
+        var tw = ctx.measureText(label).width;
+        var tx = Math.max(tw / 2 + 4, Math.min(W - tw / 2 - 4, skyHover.x));
+        var ty = skyHover.y < 40 ? skyHover.y + 26 : skyHover.y - 18;
+        ctx.fillStyle = 'rgba(0,0,0,0.78)';
+        ctx.fillRect(tx - tw / 2 - 6, ty - 14, tw + 12, 22);
+        ctx.fillStyle = '#eaf6ef';
+        ctx.textAlign = 'center';
+        ctx.fillText(label, tx, ty + 2);
+      } else {
+        cv.removeAttribute('data-hover');
+      }
+
+      skyLast = { sats: sats, maskDeg: maskDeg, hits: hits };
+      renderSkyLegend(sats);
+    }
+
+    /* 图例：只列当前可见的星座 */
+    function renderSkyLegend(sats) {
+      var box = document.getElementById('skyLegend');
+      if (!box) return;
+      var names = { China: 'BDS', USA: 'GPS', EU: 'GAL', Russia: 'GLO', Japan: 'QZSS', India: 'NavIC', UK: 'UK', Other: '其他' };
+      var seen = {};
+      var order = ['China', 'USA', 'EU', 'Russia', 'Japan', 'India', 'Other'];
+      sats.forEach(function (s) { seen[s.country] = (seen[s.country] || 0) + 1; });
+      box.innerHTML = order.filter(function (k) { return seen[k]; }).map(function (k) {
+        return '<span><i style="background:' + (SAT_COLORS[k] || SAT_COLORS.Other) + '"></i>' +
+          (names[k] || k) + ' ' + seen[k] + '</span>';
+      }).join('');
+    }
+
+    /* 悬停 → 高亮卫星点并显示台名 */
+    function bindSkyHover() {
+      var cv = document.getElementById('skyplotCanvas');
+      if (!cv || cv._hoverBound) return;
+      cv._hoverBound = true;
+      var move = function (ev) {
+        if (!skyLast) return;
+        var rect = cv.getBoundingClientRect();
+        var scale = cv.width / (rect.width || cv.width);
+        var mx = (ev.clientX - rect.left) * scale;
+        var my = (ev.clientY - rect.top) * scale;
+        var best = null, bestD = 26;
+        skyLast.hits.forEach(function (h) {
+          var d = Math.abs(h.x - mx) + Math.abs(h.y - my);
+          if (d < bestD) { bestD = d; best = h; }
+        });
+        if ((best || null) === skyHover) return;
+        skyHover = best;
+        drawSkyplot(skyLast.sats, skyLast.maskDeg);
+      };
+      cv.addEventListener('mousemove', move);
+      cv.addEventListener('mouseleave', function () {
+        if (!skyHover) return;
+        skyHover = null;
+        if (skyLast) drawSkyplot(skyLast.sats, skyLast.maskDeg);
+      });
+    }
+
+    function drawPdopSeries(series) {
+      var cv = document.getElementById('pdopCanvas');
+      if (!cv || !cv.getContext) return;
+      var ctx = cv.getContext('2d');
+      var W = cv.width, H = cv.height, padL = 34, padR = 16, padT = 12, padB = 22;
+      ctx.clearRect(0, 0, W, H);
+      // y 轴按实际数据自适应：多系统合算 PDOP 常年在 0.5 上下，固定 12 的刻度会把曲线压到贴底
+      var vals = series.map(function (p) { return isFinite(p.pdop) ? p.pdop : 0; });
+      var peak = Math.max.apply(null, vals.concat([0.5]));
+      var steps = [1, 2, 3, 4, 6, 8, 12, 20, 40, 100];
+      var top = steps[steps.length - 1];
+      for (var i = 0; i < steps.length; i++) { if (peak * 1.12 <= steps[i]) { top = steps[i]; break; } }
+      var ticks = [0, top / 4, top / 2, top * 3 / 4, top];
+      function fmt(v) { return v < 10 ? (Math.round(v * 10) / 10).toFixed(v === 0 ? 0 : 1) : String(Math.round(v)); }
+      ctx.lineWidth = 1;
+      ticks.forEach(function (v, idx) {
+        var y = H - padB - (v / top) * (H - padT - padB);
+        ctx.strokeStyle = idx === 0 ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.12)';
+        ctx.beginPath();
+        ctx.moveTo(padL, y); ctx.lineTo(W - padR, y);
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.font = '13px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(fmt(v), padL - 4, y + 4);
+      });
+      // 超过 12 的时段用红色虚线段提示（几何极差的窗口）
+      ctx.strokeStyle = '#00ff88';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      series.forEach(function (p, i) {
+        var x = padL + (i / (series.length - 1)) * (W - padL - padR);
+        var v = isFinite(p.pdop) ? Math.min(p.pdop, top) : top;
+        var y = H - padB - (v / top) * (H - padT - padB);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      // 当前点标记
+      var first = series[0];
+      if (first && isFinite(first.pdop)) {
+        var fx = padL, fy = H - padB - (Math.min(first.pdop, top) / top) * (H - padT - padB);
+        ctx.beginPath();
+        ctx.fillStyle = '#00ff88';
+        ctx.arc(fx, fy, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = 'rgba(255,255,255,0.4)';
+      ctx.font = '12px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('now', padL, H - 6);
+      ctx.textAlign = 'right';
+      ctx.fillText('+24h', W - padR, H - 6);
+    }
+
+    function runSkyView() {
+      var coord = readToolCoord();
+      if (!coord) { alert(t('tNeedCoord')); return; }
+      if (!gnssSatRecords.length) { alert(t('tNoResult')); return; }
+      var maskDeg = parseFloat(document.getElementById('toolMask').value);
+      if (isNaN(maskDeg)) maskDeg = 10;
+      var obsGd = {
+        longitude: Cesium.Math.toRadians(coord.lon),
+        latitude: Cesium.Math.toRadians(coord.lat),
+        height: 0
+      };
+      var now = new Date();
+      var sats = [];
+      gnssSatRecords.forEach(function (rec) {
+        var la = lookAnglesAt(rec, now, obsGd);
+        if (!la) return;
+        var el = Cesium.Math.toDegrees(la.elevation);
+        if (el <= maskDeg) return;
+        sats.push({
+          name: rec.name,
+          short: rec.name.split(' ')[0],
+          country: rec.country,
+          el: el,
+          az: Cesium.Math.toDegrees(la.azimuth)
+        });
+      });
+      drawSkyplot(sats, maskDeg);
+
+      var cur = pdopAt(now, obsGd, maskDeg);
+      var series = [];
+      var sum = 0, cnt = 0, maxPdop = 0;
+      for (var k = 0; k <= 72; k++) {
+        var tk = new Date(now.getTime() + k * 20 * 60000);
+        var p = pdopAt(tk, obsGd, maskDeg);
+        series.push(p);
+        if (isFinite(p.pdop)) {
+          sum += p.pdop;
+          cnt++;
+          if (p.pdop > maxPdop) maxPdop = p.pdop;
+        }
+      }
+      drawPdopSeries(series);
+
+      document.getElementById('toolSkyMetrics').innerHTML =
+        '<span>' + t('tSatVisible') + ' <b>' + sats.length + '</b></span>'
+        + '<span>' + t('tPdopNow') + ' <b>' + (isFinite(cur.pdop) ? cur.pdop.toFixed(2) : '∞') + '</b></span>'
+        + '<span>' + t('tPdopMax') + ' <b>' + (cnt ? maxPdop.toFixed(2) : '∞') + '</b></span>'
+        + '<span>' + t('tPdopAvg') + ' <b>' + (cnt ? (sum / cnt).toFixed(2) : '∞') + '</b></span>';
+    }
+
+    /* ---------- 搜索 ---------- */
+    function runSearch() {
+      var q = (document.getElementById('toolSearchInput').value || '').trim().toLowerCase();
+      var ul = document.getElementById('toolSearchList');
+      ul.innerHTML = '';
+      if (!q) return;
+      loadToolIndex().then(function (all) {
+        var hits = all.filter(function (rec) {
+          var hay = (rec.name + ' ' + rec.country + ' ' + rec.network + ' ' + rec.host + ' ' + rec.source).toLowerCase();
+          return hay.indexOf(q) !== -1;
+        });
+        if (!hits.length) {
+          ul.innerHTML = '<div class="tool-empty">' + t('tNoResult') + '</div>';
+          return;
+        }
+        hits.slice(0, 30).forEach(function (rec) {
+          var li = document.createElement('li');
+          li.innerHTML = '<div class="tm-name">' + rec.name + '</div>'
+            + '<div class="tm-meta">' + rec.source + ' · ' + (rec.country || '—') + ' · ' + (rec.host || '—')
+            + (rec.port ? ':' + rec.port : '') + '</div>';
+          li.addEventListener('click', function () { focusStation(rec); });
+          ul.appendChild(li);
+        });
+      });
+    }
+
+    /* ---------- 导出 ---------- */
+    function downloadText(filename, text, mime) {
+      var blob = new Blob([text], { type: mime || 'text/plain;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        URL.revokeObjectURL(url);
+        a.remove();
+      }, 1200);
+    }
+
+    function viewStations() {
+      var rect = viewer.camera.computeViewRectangle(viewer.scene.globe.ellipsoid);
+      var list = [];
+      viewer.entities.values.forEach(function (e) {
+        if (!e.stationType || e.stationType !== activeStationType || !e._station) return;
+        var st = e._station;
+        var lon = parseFloat(st.longitude);
+        var lat = parseFloat(st.latitude);
+        if (isNaN(lon) || isNaN(lat)) return;
+        if (rect) {
+          var w = Cesium.Math.toDegrees(rect.west);
+          var eDeg = Cesium.Math.toDegrees(rect.east);
+          var s = Cesium.Math.toDegrees(rect.south);
+          var n = Cesium.Math.toDegrees(rect.north);
+          if (w < eDeg) {
+            if (lon < w || lon > eDeg) return;
+          } else if (lon < w && lon > eDeg) {
+            return;
+          }
+          if (lat < s || lat > n) return;
+        }
+        list.push({ st: st, lon: lon, lat: lat });
+      });
+      return list;
+    }
+
+    function exportCurrent(format) {
+      var status = document.getElementById('toolExportStatus');
+      if (!activeStationType) { status.textContent = t('tNeedLayer'); return; }
+      var list = viewStations();
+      if (!list.length) { status.textContent = t('tExportNone'); return; }
+      var stamp = new Date().toISOString().slice(0, 10);
+      if (format === 'csv') {
+        var head = ['name', 'lon', 'lat', 'height', 'country', 'network', 'format', 'systems', 'host', 'port'];
+        var rows = [head.join(',')];
+        list.forEach(function (it) {
+          var v = [
+            it.st.name, it.lon, it.lat,
+            it.st.height === undefined ? '' : it.st.height,
+            it.st.country || '', it.st.network || '', it.st.format || '',
+            it.st.systems || '', it.st.server_host || '', it.st.server_port || ''
+          ];
+          rows.push(v.map(function (x) {
+            var s = String(x === undefined || x === null ? '' : x);
+            return s.indexOf(',') !== -1 || s.indexOf('"') !== -1 ? '"' + s.replace(/"/g, '""') + '"' : s;
+          }).join(','));
+        });
+        downloadText('2rtk-stations-' + stamp + '.csv', '\ufeff' + rows.join('\r\n'), 'text/csv;charset=utf-8');
+      } else {
+        var hit = TOOL_SOURCES.filter(function (s) { return s.type === activeStationType; })[0];
+        var features = list.map(function (it) {
+          return {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [it.lon, it.lat] },
+            properties: {
+              name: it.st.name,
+              height: it.st.height,
+              country: it.st.country || null,
+              network: it.st.network || null,
+              format: it.st.format || null,
+              systems: it.st.systems || null,
+              host: it.st.server_host || null,
+              port: it.st.server_port || null,
+              source: hit ? hit.label : null
+            }
+          };
+        });
+        downloadText('2rtk-stations-' + stamp + '.geojson',
+          JSON.stringify({ type: 'FeatureCollection', features: features }, null, 2),
+          'application/geo+json;charset=utf-8');
+      }
+      status.textContent = t('tExportOk') + ' ' + list.length + ' × ' + format.toUpperCase();
+    }
+
+    /* ---------- 深链 ---------- */
+    function currentSourceKey() {
+      var hit = TOOL_SOURCES.filter(function (s) { return s.type === activeStationType; })[0];
+      return hit ? hit.key : null;
+    }
+
+    function viewParams() {
+      var center = mapCenterCoord();
+      if (!center) return null;
+      var h = Math.round(viewer.camera.positionCartographic.height);
+      var q = 'lat=' + center.lat.toFixed(5) + '&lon=' + center.lon.toFixed(5) + '&h=' + h;
+      var key = currentSourceKey();
+      if (key) q += '&source=' + key;
+      return q;
+    }
+
+    function syncUrlView() {
+      var q = viewParams();
+      if (!q) return;
+      try {
+        if (location.search === '?' + q) return;
+        history.replaceState(null, '', location.pathname + '?' + q);
+      } catch (e) { /* file:// 或受限环境忽略 */ }
+    }
+
+    function viewUrl() {
+      var q = viewParams();
+      if (!q) return location.origin + location.pathname;
+      return location.origin + location.pathname + '?' + q;
+    }
+
+    function applyUrlView() {
+      var q;
+      try { q = new URLSearchParams(location.search); } catch (e) { return; }
+      if (!q) return;
+      var lat = parseFloat(q.get('lat'));
+      var lon = parseFloat(q.get('lon'));
+      if (isNaN(lat) || isNaN(lon)) return;
+      var h = parseFloat(q.get('h'));
+      if (isNaN(h) || h < 100) h = 8000000;
+      var srcKey = q.get('source');
+      var srcHit = TOOL_SOURCES.filter(function (s) { return s.key === srcKey; })[0];
+      if (srcHit) {
+        var btn = document.getElementById(srcHit.btn);
+        // 数据源加载完会 fitToStations 把镜头拉回整球，深链要压住它
+        suppressFitView = true;
+        suppressFitUntil = Date.now() + 15000;
+        if (btn) btn.click();
+      }
+      viewer.camera.setView({ destination: Cesium.Cartesian3.fromDegrees(lon, lat, h) });
+      rotationEnabled = false;
+      refreshControlLabels();
+      fillToolCoord(lat, lon);
+    }
+
+    /* ---------- 面板初始化 ---------- */
+    function initToolPanel() {
+      var panel = document.getElementById('toolPanel');
+      if (!panel) return;
+
+      document.getElementById('toggleToolPanel').addEventListener('click', function () {
+        panel.classList.toggle('is-open');
+        this.classList.toggle('active', panel.classList.contains('is-open'));
+        if (panel.classList.contains('is-open') && !readToolCoord()) {
+          var center = mapCenterCoord();
+          if (center) fillToolCoord(center.lat, center.lon);
+        }
+      });
+
+      Array.prototype.forEach.call(panel.querySelectorAll('[data-tool-tab]'), function (btn) {
+        btn.addEventListener('click', function () {
+          var name = btn.getAttribute('data-tool-tab');
+          Array.prototype.forEach.call(panel.querySelectorAll('[data-tool-tab]'), function (b) {
+            b.classList.toggle('is-active', b === btn);
+          });
+          Array.prototype.forEach.call(panel.querySelectorAll('[data-tool-section]'), function (sec) {
+            sec.classList.toggle('is-active', sec.getAttribute('data-tool-section') === name);
+          });
+        });
+      });
+
+      document.getElementById('toolUseCenter').addEventListener('click', function () {
+        var c = mapCenterCoord();
+        if (c) fillToolCoord(c.lat, c.lon);
+      });
+
+      document.getElementById('toolUseGeo').addEventListener('click', function () {
+        if (!navigator.geolocation) { alert(t('tGeoFail')); return; }
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          fillToolCoord(pos.coords.latitude, pos.coords.longitude);
+        }, function () { alert(t('tGeoFail')); }, { timeout: 8000 });
+      });
+
+      // 用户手动切数据源后恢复正常“切源回整球”行为
+      Array.prototype.forEach.call(document.querySelectorAll('.data-source-buttons button'), function (btn) {
+        btn.addEventListener('click', function (ev) {
+          if (ev.isTrusted) { suppressFitView = false; suppressFitUntil = 0; }
+        }, true);
+      });
+
+      document.getElementById('toolFindNear').addEventListener('click', runNearQuery);      document.getElementById('toolSkyRun').addEventListener('click', runSkyView);
+      bindSkyHover();
+      document.getElementById('toolSearchBtn').addEventListener('click', runSearch);
+      document.getElementById('toolSearchInput').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') runSearch();
+      });
+      document.getElementById('toolExportCsv').addEventListener('click', function () { exportCurrent('csv'); });
+      document.getElementById('toolExportGeo').addEventListener('click', function () { exportCurrent('geojson'); });
+      document.getElementById('toolCopyLink').addEventListener('click', function () {
+        var url = viewUrl();
+        var status = document.getElementById('toolExportStatus');
+        // 先把链接展示出来（无头/未聚焦页面里 clipboard 可能一直挂起）
+        status.textContent = url;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(function () {
+            status.textContent = t('tCopied') + ' ' + url;
+          }, function () { /* 保留已展示的链接 */ });
+        }
+      });
+
+      // 相机变动后防抖同步 URL（用逐帧坐标比对，避免依赖 moveEnd 事件）
+      var lastCam = null;
+      var urlTimer = null;
+      function watchCameraUrl() {
+        var cam = viewer.camera;
+        var p = cam.positionWC;
+        var d = cam.directionWC;
+        if (!lastCam) {
+          lastCam = { x: p.x, y: p.y, z: p.z, dx: d.x, dy: d.y, dz: d.z };
+          return;
+        }
+        var moved =
+          Math.abs(p.x - lastCam.x) + Math.abs(p.y - lastCam.y) + Math.abs(p.z - lastCam.z) > 1 ||
+          Math.abs(d.x - lastCam.dx) + Math.abs(d.y - lastCam.dy) + Math.abs(d.z - lastCam.dz) > 1e-6;
+        lastCam.x = p.x; lastCam.y = p.y; lastCam.z = p.z;
+        lastCam.dx = d.x; lastCam.dy = d.y; lastCam.dz = d.z;
+        if (!moved) return;
+        if (urlTimer) clearTimeout(urlTimer);
+        urlTimer = setTimeout(syncUrlView, 900);
+      }
+      viewer.scene.postRender.addEventListener(watchCameraUrl);
+    }
+
+    /* ==========================================================
      * 10. 基准站点
      * ========================================================== */
     function removeAllStations() {
@@ -1703,7 +2825,7 @@ Free RTK Base Station Map</p>
         row(t('tableInstallDate'), station.receiverInstallDate);
       }
 
-      return '<table>' + rows.join('') + '</table>'
+      return STATION_PANEL_CSS + '<table>' + rows.join('') + '</table>'
         + (stationType === 'isIgs' ? buildIgsExtras(entity) : '');
     }
 
@@ -1831,11 +2953,12 @@ Free RTK Base Station Map</p>
       }
       rows += row(t('satTleAge'), ageText);
 
-      return '<table>' + rows + '</table>';
+      return STATION_PANEL_CSS + '<table>' + rows + '</table>';
     }
 
     function addRtkEntities(baseStations, color, stationType) {
       var points = [];
+      activeStationType = stationType;
 
       baseStations.forEach(function (station) {
         if (!station.name || station.longitude === undefined || station.latitude === undefined) return;
@@ -1917,6 +3040,8 @@ Free RTK Base Station Map</p>
      */
     function fitToStations(points) {
       if (!points.length) return;
+      // 带坐标深链进来时不覆盖用户的视角（多个数据源先后加载都会走到这里）
+      if (suppressFitView || Date.now() < suppressFitUntil) return;
 
       // 先开自转再飞镜头：flyTo 结束后相机停在整球位置，由 onTick 接着转
       if (!rotationEnabled) {
@@ -2198,11 +3323,13 @@ Free RTK Base Station Map</p>
      * Cesium 的 InfoBox 把 description 渲染在 sandbox iframe（.cesium-infoBox-iframe）里，
      * 页面级 CSS 不会继承进去，所以这段样式必须随描述文本一起下发。
      */
-    var IGS_PANEL_CSS = '<style>'
+    var STATION_PANEL_CSS = '<style>'
+      + 'html,body{margin:0;background:transparent;color:#eaf6ee;}'
       + '.cesium-infoBox-description{margin:0;padding:10px 12px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;}'
-      + '.cesium-infoBox-description table{width:100%;border-collapse:collapse;font-size:12px;}'
-      + '.cesium-infoBox-description td{padding:3px 4px;vertical-align:top;word-break:break-word;}'
+      + '.cesium-infoBox-description table{width:100%;border-collapse:collapse;font-size:12px;line-height:1.55;}'
+      + '.cesium-infoBox-description td{padding:3px 4px;vertical-align:top;word-break:break-word;color:#eaf6ee;}'
       + '.cesium-infoBox-description td:first-child{white-space:nowrap;color:#9fd8b6;padding-right:8px;}'
+      + '.cesium-infoBox-description td b{font-weight:600;}'
       + '.igs-block{margin-top:10px;}'
       + '.igs-status{display:inline-block;font-size:11px;line-height:1.6;padding:2px 9px;border-radius:999px;margin:2px 0 4px;border:1px solid transparent;white-space:nowrap;}'
       + '.igs-status.ok{color:#7dffb7;background:rgba(0,255,136,.12);border-color:rgba(0,255,136,.38);}'
@@ -2232,17 +3359,17 @@ Free RTK Base Station Map</p>
       if (!igs) return '';
 
       if (igs.loading) {
-        return IGS_PANEL_CSS + '<div class="igs-block"><div class="igs-loading">'
+        return '<div class="igs-block"><div class="igs-loading">'
           + igsEscape(t('igsFetching')) + '</div></div>';
       }
 
       if (igs.missing) {
-        return IGS_PANEL_CSS + '<div class="igs-block"><div class="igs-note">' + igsEscape(t('igsGone')) + '</div>'
+        return '<div class="igs-block"><div class="igs-note">' + igsEscape(t('igsGone')) + '</div>'
           + igsLinksHtml(site, null) + '</div>';
       }
 
       if (igs.error || !igs.detail) {
-        return IGS_PANEL_CSS + '<div class="igs-block"><div class="igs-note">' + igsEscape(t('igsFail')) + '</div>'
+        return '<div class="igs-block"><div class="igs-note">' + igsEscape(t('igsFail')) + '</div>'
           + igsLinksHtml(site, null) + '</div>';
       }
 
@@ -2366,7 +3493,7 @@ Free RTK Base Station Map</p>
       parts.push(igsLinksHtml(site, d));
       parts.push('<div class="igs-note">' + igsEscape(t('igsSrcNote')) + '</div>');
 
-      return IGS_PANEL_CSS + '<div class="igs-block">' + parts.join('') + '</div>';
+      return '<div class="igs-block">' + parts.join('') + '</div>';
     }
 
     /** 重写描述并强制刷新 InfoBox（它只在选中项变化时重绘） */
@@ -2504,9 +3631,15 @@ Free RTK Base Station Map</p>
      * 14. 自动旋转
      * ========================================================== */
     viewer.clock.onTick.addEventListener(function () {
-      if (rotationEnabled) {
-        viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, -Cesium.Math.toRadians(0.02));
+      if (!rotationEnabled) return;
+      // 自转只在整球/大区域视角下有观赏价值；镜头压到 200 km 以内时，
+      // 自转会让画面像贴着地面横飞，还会把刚定位的站点慢慢转出视野，这里自动停掉
+      if (viewer.camera.positionCartographic.height < 200000) {
+        rotationEnabled = false;
+        refreshControlLabels();
+        return;
       }
+      viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, -Cesium.Math.toRadians(0.02));
     });
 
     /* ==========================================================
@@ -2560,9 +3693,13 @@ Free RTK Base Station Map</p>
     loadMetaInfo();
     loadSatellites();
     loadSatMeta();
+    initToolPanel();
 
     // 默认展示 IGS 全球大地测量网（坐标权威、带接收机/天线站志，可点开看天线照片）
     document.getElementById('loadIgsButton').click();
+
+    // 带 lat/lon/h/source 参数的深链会覆盖默认视角与数据源
+    applyUrlView();
   })();
   </script>
 </body>

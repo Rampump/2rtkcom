@@ -33370,5 +33370,33 @@
         "registration_address": "https://2rtk.com",
         "username": null,
         "password": null
+    },
+    {
+        "name": "JME2_RTCM3P3",
+        "format": "RTCM 3.3",
+        "rtcm_types": [
+            "1005(60)",
+            "1007(60)",
+            "1013(1)",
+            "1029(60)",
+            "1033(60)",
+            "1077(1)",
+            "1087(1)",
+            "1097(1)",
+            "1107(1)",
+            "1117(1)"
+        ],
+        "systems": "GPS+GLO+BDS+GAL+SBAS+QZS",
+        "country": "HTI",
+        "latitude": 18.24,
+        "longitude": -72.54,
+        "height": 0.0,
+        "network": "EARTHSCOPE",
+        "ntrip_version": "SEPT POLARX5",
+        "server_host": "2rtk.net",
+        "server_port": 2101,
+        "registration_address": "https://2rtk.com",
+        "username": null,
+        "password": null
     }
 ]
